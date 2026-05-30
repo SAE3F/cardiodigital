@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     const guiasExtraidas = await page.evaluate(() => {
       const links = Array.from(document.querySelectorAll('a'));
       
-      const encontradas = [];
+      const encontradas: any[] = [];
       links.forEach(a => {
         const href = a.href || '';
         
