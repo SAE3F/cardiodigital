@@ -6,11 +6,13 @@ import { notFound } from 'next/navigation'
 export default async function GuiaPdfViewer({ params }: { params: { slug: string } }) {
   const supabase = await getSupabaseServerClient()
   
-  const { data: guia } = await supabase
+  const { data } = await supabase
     .from('guias')
     .select('*')
     .eq('slug', params.slug)
     .single()
+    
+  const guia = data as any
 
   if (!guia) {
     notFound()
