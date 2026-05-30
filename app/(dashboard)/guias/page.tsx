@@ -43,18 +43,24 @@ export default function GuiasPage() {
     }
   }
 
+  const [anioFiltro, setAnioFiltro] = useState<string | number>('Todos')
+
   // Extraer categorías únicas para los tabs
   const categorias = ['Todas', ...Array.from(new Set(guias.map(g => g.categoria))).filter(Boolean)]
+  const anios = ['Todos', ...Array.from(new Set(guias.map(g => g.anio_publicacion))).filter(Boolean).sort((a, b) => b - a)]
 
-  const guiasFiltradas = guias.filter(g => {
-    const textMatch = g.titulo.toLowerCase().includes(filtro.toLowerCase()) || 
-                      (g.resumen_rapido && g.resumen_rapido.toLowerCase().includes(filtro.toLowerCase())) ||
-                      g.fuente.toLowerCase().includes(filtro.toLowerCase())
-    
-    const catMatch = categoriaFiltro === 'Todas' || g.categoria === categoriaFiltro
-    
-    return textMatch && catMatch
-  })
+  const guiasFiltradas = guias
+    .filter(g => {
+      const textMatch = g.titulo.toLowerCase().includes(filtro.toLowerCase()) || 
+                        (g.resumen_rapido && g.resumen_rapido.toLowerCase().includes(filtro.toLowerCase())) ||
+                        g.fuente.toLowerCase().includes(filtro.toLowerCase())
+      
+      const catMatch = categoriaFiltro === 'Todas' || g.categoria === categoriaFiltro
+      const anioMatch = anioFiltro === 'Todos' || g.anio_publicacion === Number(anioFiltro)
+      
+      return textMatch && catMatch && anioMatch
+    })
+    .sort((a, b) => (b.anio_publicacion || 0) - (a.anio_publicacion || 0))
 
   return (
     <div className="p-4 md:p-6 max-w-3xl mx-auto pb-24">
@@ -80,14 +86,25 @@ export default function GuiasPage() {
         </button>
       </div>
       
-      <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-        <Input
-          placeholder="Buscar guías, sociedades..."
-          value={filtro}
-          onChange={e => setFiltro(e.target.value)}
-          className="pl-10 bg-slate-900 border-slate-700 text-slate-100"
-        />
+      <div className="flex gap-2 mb-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Input
+            placeholder="Buscar guías..."
+            value={filtro}
+            onChange={e => setFiltro(e.target.value)}
+            className="pl-10 bg-slate-900 border-slate-700 text-slate-100 h-11"
+          />
+        </div>
+        <select
+          value={anioFiltro}
+          onChange={e => setAnioFiltro(e.target.value === 'Todos' ? 'Todos' : Number(e.target.value))}
+          className="bg-slate-900 border border-slate-700 text-slate-100 rounded-md px-3 h-11 min-w-[100px] outline-none focus:border-blue-500"
+        >
+          {anios.map(anio => (
+            <option key={anio} value={anio}>{anio === 'Todos' ? 'Año' : anio}</option>
+          ))}
+        </select>
       </div>
 
       {/* Tabs horizontales para categorías */}
