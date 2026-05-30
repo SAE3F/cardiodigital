@@ -17,7 +17,7 @@ export async function syncAllData(): Promise<void> {
     // Sincronizar guías
     const { data: guias } = await supabase
       .from('guias')
-      .select('id,slug,titulo,subtitulo,categoria,fuente,anio_publicacion,contenido_md,resumen_rapido,palabras_clave,destacada,updated_at')
+      .select('id,slug,titulo,subtitulo,categoria,fuente,anio_publicacion,url_fuente,contenido_md,resumen_rapido,palabras_clave,destacada,updated_at')
       .eq('activa', true)
 
     if (guias) await db.guias.bulkPut(guias)

@@ -8,6 +8,7 @@ export interface GuiaLocal {
   categoria: string
   fuente: string
   anio_publicacion: number
+  url_fuente?: string
   contenido_md: string
   resumen_rapido?: string
   palabras_clave?: string[]
