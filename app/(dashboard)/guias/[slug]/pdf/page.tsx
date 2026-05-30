@@ -3,13 +3,14 @@ import { ArrowLeft, ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export default async function GuiaPdfViewer({ params }: { params: { slug: string } }) {
+export default async function GuiaPdfViewer({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
   const supabase = await getSupabaseServerClient()
   
   const { data } = await supabase
     .from('guias')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', slug)
     .limit(1)
     .maybeSingle()
     
@@ -19,7 +20,7 @@ export default async function GuiaPdfViewer({ params }: { params: { slug: string
     return (
       <div className="p-8 text-white">
         <h2>Debug Info</h2>
-        <p>Params Slug: {params.slug}</p>
+        <p>Params Slug: {slug}</p>
         <p>Supabase returned no data. Check RLS or slug mismatch.</p>
       </div>
     )
@@ -31,7 +32,7 @@ export default async function GuiaPdfViewer({ params }: { params: { slug: string
       <div className="p-4 flex items-center justify-between border-b border-slate-800 shrink-0">
         <div className="flex items-center gap-4">
           <Link 
-            href={`/guias/${params.slug}`} 
+            href={`/guias/${slug}`} 
             className="p-2 -ml-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-100 transition-colors"
           >
             <ArrowLeft size={20} />
