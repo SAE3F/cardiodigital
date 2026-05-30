@@ -57,7 +57,7 @@ export async function GET(request: Request) {
             let textoLimpio = '';
             const container = a.closest('.wpb_column') || a.closest('div');
             if (container) {
-              const lines = container.innerText.split('\n').map(l => l.trim()).filter(l => l);
+              const lines = (container as HTMLElement).innerText.split('\n').map((l: string) => l.trim()).filter((l: string) => l);
               const idx = lines.findIndex(l => l.toLowerCase().includes('descargar') || l.toLowerCase().includes('ver consenso'));
               if (idx > 0) {
                 textoLimpio = lines[idx - 1];
