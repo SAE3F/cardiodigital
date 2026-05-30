@@ -19,9 +19,8 @@ export async function buscar(query: string): Promise<ResultadoBusqueda[]> {
       const supabase = getSupabaseBrowserClient()
       // @ts-ignore: Mock type fallback
       const { data, error } = await supabase.rpc('buscar', { query: query.trim() })
-      const resultData = data as any[]
-      if (!error && resultData && resultData.length > 0) {
-        return resultData as ResultadoBusqueda[]
+      if (!error && data && (data as any).length > 0) {
+        return data as unknown as ResultadoBusqueda[]
       }
     } catch {
       // Fallthrough a búsqueda local
