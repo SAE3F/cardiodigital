@@ -19,7 +19,7 @@ export async function buscar(query: string): Promise<ResultadoBusqueda[]> {
       const supabase = getSupabaseBrowserClient()
       // @ts-ignore: Mock type fallback
       const { data, error } = await supabase.rpc('buscar', { query: query.trim() })
-      if (!error && data && data.length > 0) {
+      if (!error && Array.isArray(data) && data.length > 0) {
         return data as ResultadoBusqueda[]
       }
     } catch {
