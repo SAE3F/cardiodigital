@@ -4,7 +4,7 @@
     "fuente": "ESC",
     "anio_publicacion": 2024,
     "categoria": "Arritmias y Fibrilación Auricular",
-    "url_fuente": "https://academic.oup.com/eurheartj/article-pdf/45/39/3932/59942702/ehae176.pdf",
+    "url_fuente": "https://doi.org/10.1093/eurheartj/ehae176",
     "resumen_rapido": "Guía Europea oficial sobre el manejo clínico de la fibrilación auricular (actualización 2024)."
   },
   {
@@ -12,7 +12,7 @@
     "fuente": "ESC",
     "anio_publicacion": 2024,
     "categoria": "Prevención",
-    "url_fuente": "https://academic.oup.com/eurheartj/article-pdf/45/39/3912/59942699/ehae178.pdf",
+    "url_fuente": "https://doi.org/10.1093/eurheartj/ehae178",
     "resumen_rapido": "Guía Europea oficial sobre hipertensión arterial y presión sanguínea elevada."
   },
   {
@@ -20,7 +20,7 @@
     "fuente": "ESC",
     "anio_publicacion": 2024,
     "categoria": "Cardiopatía Isquémica",
-    "url_fuente": "https://academic.oup.com/eurheartj/article-pdf/45/39/3917/59942700/ehae177.pdf",
+    "url_fuente": "https://doi.org/10.1093/eurheartj/ehae177",
     "resumen_rapido": "Guía Europea oficial sobre el manejo de los síndromes coronarios crónicos."
   },
   {
@@ -28,7 +28,7 @@
     "fuente": "ESC",
     "anio_publicacion": 2023,
     "categoria": "Cardiopatía Isquémica",
-    "url_fuente": "https://academic.oup.com/eurheartj/article-pdf/44/38/3720/51965551/ehad191.pdf",
+    "url_fuente": "https://doi.org/10.1093/eurheartj/ehad191",
     "resumen_rapido": "Guía Europea oficial sobre el manejo de síndromes coronarios agudos."
   },
   {
@@ -36,7 +36,7 @@
     "fuente": "ESC",
     "anio_publicacion": 2021,
     "categoria": "Insuficiencia Cardíaca",
-    "url_fuente": "https://academic.oup.com/eurheartj/article-pdf/42/36/3599/40114068/ehab368.pdf",
+    "url_fuente": "https://doi.org/10.1093/eurheartj/ehab368",
     "resumen_rapido": "Guía Europea oficial sobre el diagnóstico y tratamiento de la insuficiencia cardíaca aguda y crónica."
   },
   {
@@ -44,7 +44,7 @@
     "fuente": "AHA",
     "anio_publicacion": 2022,
     "categoria": "Insuficiencia Cardíaca",
-    "url_fuente": "https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000001063",
+    "url_fuente": "https://doi.org/10.1161/CIR.0000000000001063",
     "resumen_rapido": "Guía Americana (AHA/ACC/HFSA) oficial sobre el manejo de la insuficiencia cardíaca."
   },
   {
@@ -52,7 +52,7 @@
     "fuente": "AHA",
     "anio_publicacion": 2023,
     "categoria": "Cardiopatía Isquémica",
-    "url_fuente": "https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000001168",
+    "url_fuente": "https://doi.org/10.1161/CIR.0000000000001168",
     "resumen_rapido": "Guía Americana oficial sobre el manejo de pacientes con enfermedad coronaria crónica."
   },
   {
@@ -60,7 +60,7 @@
     "fuente": "AHA",
     "anio_publicacion": 2023,
     "categoria": "Arritmias y Fibrilación Auricular",
-    "url_fuente": "https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000001193",
+    "url_fuente": "https://doi.org/10.1161/CIR.0000000000001193",
     "resumen_rapido": "Guía Americana oficial sobre el diagnóstico y manejo de la fibrilación auricular."
   }
 ]
