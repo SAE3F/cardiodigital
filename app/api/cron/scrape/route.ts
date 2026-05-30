@@ -18,7 +18,7 @@ export async function GET(request: Request) {
       // En local, usamos el puppeteer completo que descargó su propio Chrome
       const puppeteerModule = (await import('puppeteer')).default || await import('puppeteer');
       browser = await puppeteerModule.launch({
-        headless: 'new',
+        headless: true,
       });
     } else {
       // En producción (Vercel), usamos puppeteer-core + sparticuz para no superar los 50MB
