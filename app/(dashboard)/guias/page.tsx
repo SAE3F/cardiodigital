@@ -12,6 +12,7 @@ export default function GuiasPage() {
   const [guias, setGuias] = useState<GuiaLocal[]>([])
   const [filtro, setFiltro] = useState('')
   const [categoriaFiltro, setCategoriaFiltro] = useState<string>('Todas')
+  const [sociedadFiltro, setSociedadFiltro] = useState<string>('Todas')
   
   // Sincronización
   const [isSyncing, setIsSyncing] = useState(false)
@@ -48,6 +49,7 @@ export default function GuiasPage() {
   // Extraer categorías únicas para los tabs
   const categorias = ['Todas', ...Array.from(new Set(guias.map(g => g.categoria))).filter(Boolean)]
   const anios = ['Todos', ...Array.from(new Set(guias.map(g => g.anio_publicacion))).filter(Boolean).sort((a, b) => b - a)]
+  const sociedades = ['Todas', ...Array.from(new Set(guias.map(g => g.fuente))).filter(Boolean)]
 
   const guiasFiltradas = guias
     .filter(g => {
@@ -57,8 +59,9 @@ export default function GuiasPage() {
       
       const catMatch = categoriaFiltro === 'Todas' || g.categoria === categoriaFiltro
       const anioMatch = anioFiltro === 'Todos' || g.anio_publicacion === Number(anioFiltro)
+      const socMatch = sociedadFiltro === 'Todas' || g.fuente === sociedadFiltro
       
-      return textMatch && catMatch && anioMatch
+      return textMatch && catMatch && anioMatch && socMatch
     })
     .sort((a, b) => (b.anio_publicacion || 0) - (a.anio_publicacion || 0))
 
@@ -103,6 +106,15 @@ export default function GuiasPage() {
         >
           {anios.map(anio => (
             <option key={anio} value={anio}>{anio === 'Todos' ? 'Año' : anio}</option>
+          ))}
+        </select>
+        <select
+          value={sociedadFiltro}
+          onChange={e => setSociedadFiltro(e.target.value)}
+          className="bg-slate-900 border border-slate-700 text-slate-100 rounded-md px-3 h-11 min-w-[120px] outline-none focus:border-blue-500"
+        >
+          {sociedades.map(soc => (
+            <option key={soc} value={soc}>{soc === 'Todas' ? 'Sociedad' : soc}</option>
           ))}
         </select>
       </div>
