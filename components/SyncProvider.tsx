@@ -4,9 +4,6 @@ import { useEffect } from 'react'
 import { initSync } from '@/lib/sync'
 
 export function SyncProvider() {
-  useEffect(() => {
-    initSync()
-  }, [])
-
+  // Syncing is now manual via the Guidelines page
   return null
 }

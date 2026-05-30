@@ -66,8 +66,20 @@ export default function GuiaDetallePage() {
         </div>
 
         {guia.resumen_rapido && (
-          <div className="p-4 rounded-xl bg-slate-900 border-l-4 border-l-red-500 mb-8">
+          <div className="p-4 rounded-xl bg-slate-900 border-l-4 border-l-red-500 mb-6">
             <p className="text-sm text-slate-300 italic">{guia.resumen_rapido}</p>
+          </div>
+        )}
+
+        {guia.url_fuente && (
+          <div className="mb-8">
+            <button 
+              onClick={() => router.push(`/guias/${guia.slug}/pdf`)}
+              className="w-full flex items-center justify-center gap-2 py-4 bg-red-600 hover:bg-red-500 text-white rounded-xl font-medium transition-all shadow-lg shadow-red-900/20"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Ver PDF Completo Nativamente
+            </button>
           </div>
         )}
 

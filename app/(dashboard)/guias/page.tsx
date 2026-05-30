@@ -3,36 +3,84 @@
 import { useEffect, useState } from 'react'
 import { db, type GuiaLocal } from '@/lib/offline-db'
 import Link from 'next/link'
-import { BookOpen, Search } from 'lucide-react'
+import { BookOpen, Search, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
+import { syncAllData } from '@/lib/sync'
 
 export default function GuiasPage() {
   const [guias, setGuias] = useState<GuiaLocal[]>([])
   const [filtro, setFiltro] = useState('')
+  const [categoriaFiltro, setCategoriaFiltro] = useState<string>('Todas')
+  
+  // Sincronización
+  const [isSyncing, setIsSyncing] = useState(false)
+  const [lastSyncDate, setLastSyncDate] = useState<string | null>(null)
+
+  const loadGuias = async () => {
+    const allGuias = await db.guias.toArray()
+    setGuias(allGuias)
+  }
 
   useEffect(() => {
-    // Cargar guías de la base de datos offline (Dexie)
-    const loadGuias = async () => {
-      const allGuias = await db.guias.toArray()
-      setGuias(allGuias)
-    }
     loadGuias()
+    const last = localStorage.getItem('cardioguardia_last_sync')
+    if (last) {
+      setLastSyncDate(new Date(parseInt(last)).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
+    }
   }, [])
 
-  const guiasFiltradas = guias.filter(g => 
-    g.titulo.toLowerCase().includes(filtro.toLowerCase()) || 
-    (g.resumen_rapido && g.resumen_rapido.toLowerCase().includes(filtro.toLowerCase())) ||
-    g.fuente.toLowerCase().includes(filtro.toLowerCase())
-  )
+  const handleManualSync = async () => {
+    setIsSyncing(true)
+    try {
+      await syncAllData()
+      await loadGuias() // Recargar datos locales
+      setLastSyncDate(new Date().toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
+    } catch (e) {
+      console.error(e)
+    } finally {
+      setIsSyncing(false)
+    }
+  }
+
+  // Extraer categorías únicas para los tabs
+  const categorias = ['Todas', ...Array.from(new Set(guias.map(g => g.categoria))).filter(Boolean)]
+
+  const guiasFiltradas = guias.filter(g => {
+    const textMatch = g.titulo.toLowerCase().includes(filtro.toLowerCase()) || 
+                      (g.resumen_rapido && g.resumen_rapido.toLowerCase().includes(filtro.toLowerCase())) ||
+                      g.fuente.toLowerCase().includes(filtro.toLowerCase())
+    
+    const catMatch = categoriaFiltro === 'Todas' || g.categoria === categoriaFiltro
+    
+    return textMatch && catMatch
+  })
 
   return (
-    <div className="p-4 md:p-6 max-w-2xl mx-auto pb-24">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Guías Clínicas</h1>
+    <div className="p-4 md:p-6 max-w-3xl mx-auto pb-24">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Guías y Consensos</h1>
+          <p className="text-sm text-slate-400 mt-1 flex items-center gap-2">
+            {lastSyncDate ? (
+              <><CheckCircle2 size={14} className="text-green-500" /> Sincronizado: {lastSyncDate}</>
+            ) : (
+              <><AlertCircle size={14} className="text-yellow-500" /> Requiere sincronización</>
+            )}
+          </p>
+        </div>
+
+        <button 
+          onClick={handleManualSync}
+          disabled={isSyncing}
+          className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-900 disabled:text-blue-400 text-white rounded-lg text-sm font-medium transition-colors w-full sm:w-auto"
+        >
+          <RefreshCw size={16} className={isSyncing ? "animate-spin" : ""} />
+          {isSyncing ? "Sincronizando..." : "Sincronizar Datos"}
+        </button>
       </div>
       
-      <div className="relative mb-6">
+      <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
         <Input
           placeholder="Buscar guías, sociedades..."
@@ -42,31 +90,52 @@ export default function GuiasPage() {
         />
       </div>
 
+      {/* Tabs horizontales para categorías */}
+      {categorias.length > 1 && (
+        <div className="flex overflow-x-auto pb-2 mb-6 gap-2 snap-x scrollbar-hide">
+          {categorias.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setCategoriaFiltro(cat)}
+              className={`snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
+                categoriaFiltro === cat 
+                ? 'bg-slate-100 text-slate-900 border-slate-100' 
+                : 'bg-slate-900/50 text-slate-400 border-slate-800 hover:bg-slate-800'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="space-y-3">
         {guiasFiltradas.length === 0 ? (
-          <div className="text-center py-12 text-slate-500">
+          <div className="text-center py-12 text-slate-500 bg-slate-900/50 rounded-2xl border border-dashed border-slate-800">
             <BookOpen className="mx-auto mb-3 opacity-20" size={48} />
-            <p>No se encontraron guías en la base de datos local.</p>
-            <p className="text-sm mt-1">Sincronizá con internet para descargar las últimas guías.</p>
+            <p className="text-slate-400">No se encontraron guías con esos filtros.</p>
+            {guias.length === 0 && (
+              <p className="text-sm mt-2 text-blue-400">Tocá "Sincronizar Datos" para descargar la base de datos de guías.</p>
+            )}
           </div>
         ) : (
           guiasFiltradas.map((guia) => (
             <Link
               key={guia.id}
               href={`/guias/${guia.slug}`}
-              className="block p-4 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800 transition-colors"
+              className="block p-4 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800 hover:border-slate-700 transition-all"
             >
-              <div className="flex justify-between items-start mb-2">
-                <Badge variant="outline" className="border-red-500/30 text-red-400 font-mono text-xs">
+              <div className="flex justify-between items-start mb-2 gap-2">
+                <Badge variant="outline" className="border-red-500/30 text-red-400 font-mono text-xs whitespace-nowrap">
                   {guia.fuente} {guia.anio_publicacion}
                 </Badge>
-                <Badge variant="secondary" className="text-[10px] capitalize bg-slate-800 text-slate-400">
+                <Badge variant="secondary" className="text-[10px] capitalize bg-slate-800/80 text-slate-400 border-none text-right">
                   {guia.categoria}
                 </Badge>
               </div>
-              <h2 className="font-semibold text-slate-100 text-lg leading-tight mb-1">{guia.titulo}</h2>
+              <h2 className="font-semibold text-slate-100 text-base sm:text-lg leading-tight mb-1 pr-2">{guia.titulo}</h2>
               {guia.resumen_rapido && (
-                <p className="text-sm text-slate-400 line-clamp-2">{guia.resumen_rapido}</p>
+                <p className="text-sm text-slate-400 line-clamp-2 mt-2">{guia.resumen_rapido}</p>
               )}
             </Link>
           ))
