@@ -10,7 +10,8 @@ export default async function GuiaPdfViewer({ params }: { params: { slug: string
     .from('guias')
     .select('*')
     .eq('slug', params.slug)
-    .single()
+    .limit(1)
+    .maybeSingle()
     
   const guia = data as any
 

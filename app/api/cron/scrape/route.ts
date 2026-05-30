@@ -54,11 +54,23 @@ export async function GET(request: Request) {
             const parts = href.split('/');
             const filename = parts[parts.length - 1].replace('.pdf', '');
             
-            let textoLimpio = filename
-              .replace(/-/g, ' ')
-              .replace(/_/g, '')
-              .replace(/\s\d+$/, '')
-              .trim();
+            let textoLimpio = '';
+            const container = a.closest('.wpb_column') || a.closest('div');
+            if (container) {
+              const lines = container.innerText.split('\n').map(l => l.trim()).filter(l => l);
+              const idx = lines.findIndex(l => l.toLowerCase().includes('descargar') || l.toLowerCase().includes('ver consenso'));
+              if (idx > 0) {
+                textoLimpio = lines[idx - 1];
+              }
+            }
+            
+            if (!textoLimpio || textoLimpio.length < 5) {
+              textoLimpio = filename
+                .replace(/-/g, ' ')
+                .replace(/_/g, '')
+                .replace(/\s\d+$/, '')
+                .trim();
+            }
               
             textoLimpio = textoLimpio.charAt(0).toUpperCase() + textoLimpio.slice(1);
             

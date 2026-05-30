@@ -1,37 +1,29 @@
 const puppeteer = require('puppeteer');
 
-(async () => {
-  const browser = await puppeteer.launch({ headless: 'new' });
+async function run() {
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   
-  await page.goto('https://www.sac.org.ar/consensos/?unidadtematica=consensos-2026', { waitUntil: 'networkidle0' });
+  await page.goto('https://www.sac.org.ar/consensos/?unidadtematica=arritmias-y-fibrilacion-auricular', { waitUntil: 'networkidle2' });
   
-  const results = await page.evaluate(() => {
-    // The consensuses are usually in a grid or list item. Let's find all '.pdf' links and go up to find a title.
-    const pdfLinks = Array.from(document.querySelectorAll('a'))
-      .filter(a => a.href && a.href.includes('.pdf') && (a.innerText.includes('Descargar') || a.innerText.includes('Ver consenso')));
-    
-    return pdfLinks.map(a => {
-      // Find a heading nearby. Let's traverse up to a common container (e.g. 2-3 levels up) and find an h1/h2/h3/h4
-      let container = a.parentElement;
-      for (let i = 0; i < 4; i++) {
-        if (container) container = container.parentElement;
-      }
-      
-      let title = "Desconocido";
-      if (container) {
-        const heading = container.querySelector('h1, h2, h3, h4, h5');
-        if (heading) title = heading.innerText.trim();
-      }
-      
-      return {
-        title,
-        href: a.href,
-        text: a.innerText
-      };
-    });
+  const linksInfo = await page.evaluate(() => {
+    const links = Array.from(document.querySelectorAll('a'));
+    return links
+      .filter(a => a.href && a.href.toLowerCase().includes('.pdf'))
+      .map(a => {
+        const container = a.closest('.wpb_column') || a.closest('div');
+        const lines = container ? container.innerText.split('\n').map(l => l.trim()).filter(l => l) : [];
+        // The title is usually the longest line or the one before "Descargar"
+        return {
+          href: a.href,
+          lines: lines
+        };
+      })
+      .slice(0, 3);
   });
   
-  console.log("Resultados:", results);
+  console.log(JSON.stringify(linksInfo, null, 2));
   await browser.close();
-})();
+}
+
+run();
