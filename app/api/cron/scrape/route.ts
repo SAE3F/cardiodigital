@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import chromium from '@sparticuz/chromium'
 import puppeteerCore from 'puppeteer-core'
+import { scrapeInternationalPubMed } from '@/lib/scrapers/internacional-pubmed'
 
 export const maxDuration = 60 // Segundos
 
@@ -141,10 +142,19 @@ export async function GET(request: Request) {
 
     if (browser) await browser.close();
 
-    return NextResponse.json({
-      success: true,
-      mensaje: `Scraping por categorías completado. ${insertCount} insertadas, ${skippedCount} actualizadas/saltadas. Total extraídas: ${nuevasGuias.length}.`,
-      errors: errors.length > 0 ? errors : undefined
+    // 3. Ejecutar el scraper internacional de PubMed
+    let intNuevas = 0;
+    try {
+      intNuevas = await scrapeInternationalPubMed();
+    } catch (intErr) {
+      console.error('Error en scraper internacional desde cron:', intErr);
+    }
+
+    return NextResponse.json({ 
+      success: true, 
+      mensaje: `Scraping completado. SAC: ${insertCount} insertadas/actualizadas. Internacional: ${intNuevas} insertadas.`,
+      sacCount: insertCount,
+      intCount: intNuevas
     })
 
   } catch (error: any) {
