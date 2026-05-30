@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 export default async function GuiaPdfViewer({ params }: { params: { slug: string } }) {
-  const supabase = getSupabaseServerClient()
+  const supabase = await getSupabaseServerClient()
   
   const { data: guia } = await supabase
     .from('guias')
