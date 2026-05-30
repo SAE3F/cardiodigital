@@ -16,7 +16,13 @@ export default async function GuiaPdfViewer({ params }: { params: { slug: string
   const guia = data as any
 
   if (!guia) {
-    notFound()
+    return (
+      <div className="p-8 text-white">
+        <h2>Debug Info</h2>
+        <p>Params Slug: {params.slug}</p>
+        <p>Supabase returned no data. Check RLS or slug mismatch.</p>
+      </div>
+    )
   }
 
   return (
