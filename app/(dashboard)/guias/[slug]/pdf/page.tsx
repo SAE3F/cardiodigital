@@ -85,7 +85,7 @@ export default async function GuiaPdfViewer({ params }: { params: Promise<{ slug
                 
                 {guia.url_fuente.includes('doi.org/') && (
                   <a 
-                    href={`https://sci-hub.se/${guia.url_fuente.split('doi.org/')[1]}`}
+                    href={`https://sci-hub.box/${guia.url_fuente.split('doi.org/')[1]}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-colors border border-slate-700 flex items-center justify-center gap-2"
