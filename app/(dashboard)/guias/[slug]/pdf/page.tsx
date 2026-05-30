@@ -50,24 +50,11 @@ export default async function GuiaPdfViewer({ params }: { params: { slug: string
 
       {/* Visor PDF Nivel Nativo */}
       <div className="flex-1 w-full bg-slate-900 relative">
-        <object 
-          data={guia.url_fuente} 
-          type="application/pdf" 
-          className="absolute inset-0 w-full h-full"
-        >
-          {/* Fallback si el dispositivo no soporta visor nativo de PDF (ej: algunos móviles) */}
-          <div className="flex flex-col items-center justify-center h-full p-6 text-center text-slate-400">
-            <p className="mb-4">Tu navegador o dispositivo no soporta la previsualización directa de PDFs.</p>
-            <a 
-              href={guia.url_fuente} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl transition-colors font-medium"
-            >
-              Descargar o abrir PDF externamente
-            </a>
-          </div>
-        </object>
+        <iframe 
+          src={`https://docs.google.com/viewer?url=${encodeURIComponent(guia.url_fuente)}&embedded=true`}
+          className="absolute inset-0 w-full h-full border-none"
+          title="Visor de PDF"
+        />
       </div>
     </div>
   )

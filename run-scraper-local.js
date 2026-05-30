@@ -41,11 +41,15 @@ async function run() {
           
           if (textoLimpio.toLowerCase().includes('recertificados') || textoLimpio.toLowerCase().includes('completo c 70')) return;
 
+          let anioReal = new Date().getFullYear();
+          const yearMatch = href.match(/20\d{2}/);
+          if (yearMatch) anioReal = parseInt(yearMatch[0]);
+
           encontradas.push({
             titulo: textoLimpio,
             url_fuente: href,
             fuente: 'SAC',
-            anio_publicacion: new Date().getFullYear(),
+            anio_publicacion: anioReal,
             categoria: categoriaNombre,
             contenido_md: `## ${textoLimpio}\n\nEste consenso fue extraído automáticamente.\n\n[Ver PDF oficial](${href})`,
             activa: true,
