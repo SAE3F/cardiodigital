@@ -58,11 +58,45 @@ export default async function GuiaPdfViewer({ params }: { params: Promise<{ slug
 
       {/* Visor PDF Nivel Nativo */}
       <div className="flex-1 w-full bg-slate-900 relative">
-        <iframe 
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(guia.url_fuente)}&embedded=true`}
-          className="absolute inset-0 w-full h-full border-none"
-          title="Visor de PDF"
-        />
+        {guia.url_fuente.toLowerCase().includes('.pdf') ? (
+          <iframe 
+            src={`https://docs.google.com/viewer?url=${encodeURIComponent(guia.url_fuente)}&embedded=true`}
+            className="absolute inset-0 w-full h-full border-none"
+            title="Visor de PDF"
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full p-6 text-center">
+            <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-8 max-w-md w-full">
+              <ExternalLink size={48} className="mx-auto mb-4 text-slate-500" />
+              <h2 className="text-xl font-bold text-slate-100 mb-2">Publicación Externa</h2>
+              <p className="text-slate-400 mb-8 text-sm">
+                Esta guía se encuentra alojada en una revista internacional. No es posible mostrar el PDF directamente aquí por protecciones del sitio web oficial.
+              </p>
+              
+              <div className="flex flex-col gap-3">
+                <a 
+                  href={guia.url_fuente}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full px-4 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-medium transition-colors"
+                >
+                  Abrir fuente oficial
+                </a>
+                
+                {guia.url_fuente.includes('doi.org/') && (
+                  <a 
+                    href={`https://sci-hub.se/${guia.url_fuente.split('doi.org/')[1]}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-colors border border-slate-700 flex items-center justify-center gap-2"
+                  >
+                    Desbloquear con Sci-Hub <span className="text-xs text-slate-500">(Alternativa)</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
