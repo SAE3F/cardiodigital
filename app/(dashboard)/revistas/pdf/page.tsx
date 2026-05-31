@@ -49,9 +49,7 @@ export default function GenericPdfViewer({ searchParams }: { searchParams: Promi
       {/* Visor PDF Nivel Nativo */}
       <div className="flex-1 w-full bg-card relative">
         <iframe 
-          src={url.includes('revistafac.org.ar') 
-            ? `https://docs.google.com/viewer?url=${encodeURIComponent(url.replace('/view/', '/download/'))}&embedded=true` 
-            : url}
+          src={url}
           className="absolute inset-0 w-full h-full border-none"
           title="Visor de PDF"
         />
