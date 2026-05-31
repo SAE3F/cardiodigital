@@ -8,8 +8,15 @@ import Link from 'next/link'
 export function RevistasList() {
   const [filtro, setFiltro] = useState('')
   const [sociedadFiltro, setSociedadFiltro] = useState<string>('Todas')
+  const [anioFiltro, setAnioFiltro] = useState<string>('Todos')
   
   const sociedades = ['Todas', 'sac', 'fac']
+  
+  const getYear = (issueTitle: string) => issueTitle.match(/\b(19|20)\d{2}\b/)?.[0] || 'Desconocido'
+  
+  const anios = ['Todos', ...Array.from(new Set(REGULAR_ARTICLES.map(a => getYear(a.issueTitle))))
+    .filter(y => y !== 'Desconocido')
+    .sort((a, b) => Number(b) - Number(a))]
   
   const filtradas = REGULAR_ARTICLES.filter(art => {
     const textMatch = art.title.toLowerCase().includes(filtro.toLowerCase()) || 
@@ -17,8 +24,9 @@ export function RevistasList() {
                       art.issueTitle.toLowerCase().includes(filtro.toLowerCase())
     
     const socMatch = sociedadFiltro === 'Todas' || art.sourceId === sociedadFiltro
+    const anioMatch = anioFiltro === 'Todos' || getYear(art.issueTitle) === anioFiltro
     
-    return textMatch && socMatch
+    return textMatch && socMatch && anioMatch
   })
 
   // Agrupar por Issue Title para no mostrar una lista plana desordenada
@@ -40,6 +48,15 @@ export function RevistasList() {
             className="pl-10 bg-card border-border text-foreground h-11"
           />
         </div>
+        <select
+          value={anioFiltro}
+          onChange={e => setAnioFiltro(e.target.value)}
+          className="bg-card border border-border text-foreground rounded-md px-3 h-11 min-w-[100px] outline-none focus:border-blue-500"
+        >
+          {anios.map(anio => (
+            <option key={anio} value={anio}>{anio === 'Todos' ? 'Año' : anio}</option>
+          ))}
+        </select>
         <select
           value={sociedadFiltro}
           onChange={e => setSociedadFiltro(e.target.value)}
@@ -72,7 +89,7 @@ export function RevistasList() {
                   >
                     <div className="flex justify-between items-start mb-2 gap-2">
                       <Badge variant="outline" className={`font-mono text-xs whitespace-nowrap ${art.sourceId === 'sac' ? 'border-blue-500/30 text-blue-400' : 'border-emerald-500/30 text-emerald-400'}`}>
-                        {art.sourceId.toUpperCase()}
+                        {art.sourceId.toUpperCase()} {getYear(art.issueTitle)}
                       </Badge>
                       <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right">
                         {art.category}
@@ -82,7 +99,7 @@ export function RevistasList() {
                       {art.title}
                     </h2>
                     <div className="flex items-center text-xs text-muted-foreground">
-                      <ExternalLink size={12} className="mr-1" /> PDF Original
+                      <ExternalLink size={12} className="mr-1" /> Ver PDF Original
                     </div>
                   </Link>
                 ))}

@@ -1,8 +1,12 @@
-import { ArrowLeft, ExternalLink } from 'lucide-react'
-import Link from 'next/link'
+'use client'
 
-export default async function GenericPdfViewer({ searchParams }: { searchParams: Promise<{ url: string, title: string }> }) {
-  const { url, title } = await searchParams
+import { ArrowLeft, ExternalLink } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { use } from 'react'
+
+export default function GenericPdfViewer({ searchParams }: { searchParams: Promise<{ url: string, title: string }> }) {
+  const router = useRouter()
+  const { url, title } = use(searchParams)
 
   if (!url) {
     return (
@@ -18,12 +22,12 @@ export default async function GenericPdfViewer({ searchParams }: { searchParams:
       {/* Header del visor */}
       <div className="p-4 flex items-center justify-between border-b border-border shrink-0">
         <div className="flex items-center gap-4">
-          <Link 
-            href="/guias" 
+          <button 
+            onClick={() => router.back()}
             className="p-2 -ml-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground transition-colors"
           >
             <ArrowLeft size={20} />
-          </Link>
+          </button>
           <div className="max-w-md md:max-w-xl lg:max-w-3xl overflow-hidden">
             <h1 className="text-sm md:text-base font-semibold text-foreground truncate">
               {title || 'Documento PDF'}
@@ -45,7 +49,7 @@ export default async function GenericPdfViewer({ searchParams }: { searchParams:
       {/* Visor PDF Nivel Nativo */}
       <div className="flex-1 w-full bg-card relative">
         <iframe 
-          src={`https://docs.google.com/viewer?url=${encodeURIComponent(url)}&embedded=true`}
+          src={url}
           className="absolute inset-0 w-full h-full border-none"
           title="Visor de PDF"
         />

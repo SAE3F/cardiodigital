@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { db, type GuiaLocal } from '@/lib/offline-db'
 import Link from 'next/link'
 import { BookOpen, Search, RefreshCw, AlertCircle, CheckCircle2, FileText } from 'lucide-react'
@@ -12,7 +13,17 @@ import { GUIDELINES_FROM_JOURNALS } from '@/lib/data/journals'
 import { RevistasList } from '@/components/guias/RevistasList'
 
 export default function GuiasPage() {
-  const [activeTab, setActiveTab] = useState<'guias' | 'revistas'>('guias')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const tabParam = searchParams.get('tab') as 'guias' | 'revistas' | null
+  
+  const [activeTab, setActiveTab] = useState<'guias' | 'revistas'>(tabParam || 'guias')
+
+  // Sincronizar el estado del tab con la URL sin recargar la página
+  const handleTabChange = (tab: 'guias' | 'revistas') => {
+    setActiveTab(tab)
+    router.replace(`/guias?tab=${tab}`, { scroll: false })
+  }
   const [guias, setGuias] = useState<GuiaLocal[]>([])
   const [filtro, setFiltro] = useState('')
   const [categoriaFiltro, setCategoriaFiltro] = useState<string>('Todas')
@@ -100,7 +111,7 @@ export default function GuiasPage() {
       {/* TABS SUPERIORES */}
       <div className="flex border-b border-border mb-6">
         <button 
-          onClick={() => setActiveTab('guias')}
+          onClick={() => handleTabChange('guias')}
           className={`flex-1 text-center py-3 font-medium text-sm sm:text-base transition-colors relative flex items-center justify-center gap-2 ${activeTab === 'guias' ? 'text-blue-400' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <BookOpen size={18} />
@@ -108,7 +119,7 @@ export default function GuiasPage() {
           {activeTab === 'guias' && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 rounded-t-full" />}
         </button>
         <button 
-          onClick={() => setActiveTab('revistas')}
+          onClick={() => handleTabChange('revistas')}
           className={`flex-1 text-center py-3 font-medium text-sm sm:text-base transition-colors relative flex items-center justify-center gap-2 ${activeTab === 'revistas' ? 'text-emerald-400' : 'text-muted-foreground hover:text-foreground'}`}
         >
           <FileText size={18} />
