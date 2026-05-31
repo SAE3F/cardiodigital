@@ -140,8 +140,24 @@ export function RevistasList() {
                     <h2 className="font-semibold text-foreground text-sm sm:text-base leading-tight mb-2 pr-10 group-hover:text-blue-400 transition-colors">
                       {art.title}
                     </h2>
-                    <div className="flex items-center text-xs text-muted-foreground">
-                      <ExternalLink size={12} className="mr-1" /> {art.isExternal ? 'Abrir fuente original' : 'Ver PDF Original'}
+                    
+                    <div className="flex items-center gap-4 mt-3">
+                      <div className="flex items-center text-xs text-muted-foreground group-hover:text-blue-400">
+                        <ExternalLink size={12} className="mr-1" /> {art.isExternal ? 'Abrir fuente original' : 'Ver PDF Original'}
+                      </div>
+                      
+                      {art.isExternal && art.link.includes('doi.org') && (
+                        <div 
+                          className="flex items-center text-xs text-orange-500 hover:text-orange-400 z-10"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.open(`https://annas-archive.org/search?q=${encodeURIComponent(art.link.replace('https://doi.org/', ''))}`, '_blank');
+                          }}
+                        >
+                          <ExternalLink size={12} className="mr-1" /> Buscar en Anna's Archive
+                        </div>
+                      )}
                     </div>
                   </Link>
                 )})}
