@@ -1,22 +1,34 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { calcularGoteo, type InputGoteo } from '@/lib/calculadoras/goteo'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { usePatient } from '@/lib/contexts/PatientContext'
 
 const FARMACOS = ['dopamina', 'dobutamina', 'noradrenalina', 'adrenalina', 'milrinona'] as const
 
 export default function GoteoPage() {
+  const { patient } = usePatient()
+  
   const [form, setForm] = useState<InputGoteo>({
     farmaco: 'dopamina',
     dosis_gamma: 5,
-    peso_kg: 70,
+    peso_kg: patient.isActive && patient.weight ? patient.weight : 70,
     concentracion_mg: 200,
     volumen_bolsa_ml: 250,
   })
   const [resultado, setResultado] = useState<ReturnType<typeof calcularGoteo> | null>(null)
+  const [autoFilled, setAutoFilled] = useState(false)
+
+  useEffect(() => {
+    if (patient.isActive && patient.weight && patient.weight !== form.peso_kg) {
+      setForm(p => ({ ...p, peso_kg: patient.weight! }))
+      setAutoFilled(true)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [patient.isActive, patient.weight])
 
   const calcular = () => setResultado(calcularGoteo(form))
 
@@ -24,6 +36,15 @@ export default function GoteoPage() {
     <div className="p-4 md:p-6 max-w-lg mx-auto pb-24">
       <h1 className="text-xl font-bold mb-1">Goteo de Inotrópicos</h1>
       <p className="text-slate-400 text-sm mb-6">Cálculo en γ/kg/min → mL/hora</p>
+
+      {autoFilled && (
+        <div className="mb-6 inline-flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm rounded-lg">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+          Auto-completado: Peso
+        </div>
+      )}
 
       <div className="space-y-4">
         {/* Fármaco */}

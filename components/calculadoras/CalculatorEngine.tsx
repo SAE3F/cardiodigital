@@ -1,9 +1,42 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { getCalculatorBySlug, Interpretation } from "@/lib/data/calculators"
+import { getCalculatorBySlug, Interpretation, CalculatorOption } from "@/lib/data/calculators"
 import Link from "next/link"
 import { usePatient } from "@/lib/contexts/PatientContext"
+
+function findMatchingAgeOption(options: CalculatorOption[], age: number): string | null {
+  for (const opt of options) {
+    const label = opt.label.toLowerCase();
+    
+    const rangeMatch = label.match(/(\d+)\s*-\s*(\d+)/);
+    if (rangeMatch) {
+      if (age >= parseInt(rangeMatch[1]) && age <= parseInt(rangeMatch[2])) return opt.id;
+      continue;
+    }
+
+    const ltMatch = label.match(/[<≤]\s*(\d+)/);
+    if (ltMatch) {
+      if (label.includes('≤') && age <= parseInt(ltMatch[1])) return opt.id;
+      if (label.includes('<') && age < parseInt(ltMatch[1])) return opt.id;
+      continue;
+    }
+
+    const gtMatch = label.match(/[>≥]\s*(\d+)/);
+    if (gtMatch) {
+      if (label.includes('≥') && age >= parseInt(gtMatch[1])) return opt.id;
+      if (label.includes('>') && age > parseInt(gtMatch[1])) return opt.id;
+      continue;
+    }
+    
+    const oMasMatch = label.match(/(\d+)\s*(?:o|y)\s*m[aá]s/);
+    if (oMasMatch) {
+      if (age >= parseInt(oMasMatch[1])) return opt.id;
+      continue;
+    }
+  }
+  return null;
+}
 
 interface EngineProps {
   slug: string;
@@ -37,8 +70,15 @@ export function CalculatorEngine({ slug }: EngineProps) {
           filled.push(input.label)
         }
       }
-      // NOTA: Para inputs tipo 'radio' de edad, requeriría lógica específica por calculadora (rangos).
-      // Por ahora se mantiene manual para evitar errores clínicos de mapeo.
+      
+      // Auto-detección para rangos de edad en radios
+      if (input.type === 'radio' && input.id === 'edad' && patient.age && input.options) {
+        const matchId = findMatchingAgeOption(input.options, patient.age);
+        if (matchId) {
+          newValues[input.id] = matchId;
+          filled.push(input.label);
+        }
+      }
     })
 
     if (filled.length > 0 && Object.keys(values).length === 0) {
@@ -46,7 +86,7 @@ export function CalculatorEngine({ slug }: EngineProps) {
       setAutoFilled(filled)
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [config, patient.isActive])
+  }, [config, patient.isActive, patient.age, patient.weight])
 
   // Calcular automáticamente cada vez que cambian los valores
   useEffect(() => {
