@@ -33,10 +33,10 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
   return (
     <div className="max-w-3xl mx-auto pb-24">
       {/* Header */}
-      <div className="mb-8 p-6 bg-slate-900 border border-slate-800 rounded-2xl shadow-sm">
+      <div className="mb-8 p-6 bg-card border border-border rounded-2xl shadow-sm">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-slate-100 mb-1">{config.name}</h1>
+            <h1 className="text-2xl font-bold text-foreground mb-1">{config.name}</h1>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/50 text-blue-300 border border-blue-800/50">
               {config.source}
             </span>
@@ -44,13 +44,13 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
           {history.length > 1 && (
             <button 
               onClick={handleReset}
-              className="text-sm text-slate-400 hover:text-slate-200 transition-colors underline"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors underline"
             >
               Reiniciar
             </button>
           )}
         </div>
-        <p className="text-slate-400 text-sm">{config.description}</p>
+        <p className="text-muted-foreground text-sm">{config.description}</p>
       </div>
 
       {/* Camino Histórico (Nodos Anteriores) */}
@@ -62,11 +62,11 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
           const chosenOption = node.options?.find(opt => opt.nextId === nextNodeId)
 
           return (
-            <div key={`${nodeId}-${index}`} className="relative pl-6 border-l-2 border-slate-800 ml-4 pb-4 opacity-50 transition-opacity hover:opacity-100">
-              <div className="absolute w-3 h-3 bg-slate-700 rounded-full -left-[7px] top-1.5 border-2 border-slate-900"></div>
+            <div key={`${nodeId}-${index}`} className="relative pl-6 border-l-2 border-border ml-4 pb-4 opacity-50 transition-opacity hover:opacity-100">
+              <div className="absolute w-3 h-3 bg-secondary rounded-full -left-[7px] top-1.5 border-2 border-slate-900"></div>
               
-              <div className="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
-                <h3 className="text-slate-300 font-medium text-sm mb-2">{node.title}</h3>
+              <div className="bg-muted/50 p-4 rounded-xl border border-border">
+                <h3 className="text-muted-foreground font-medium text-sm mb-2">{node.title}</h3>
                 {chosenOption && (
                   <div className="flex items-center text-blue-400 text-sm font-semibold">
                     <ChevronRight className="w-4 h-4 mr-1" />
@@ -85,10 +85,10 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
         
         {currentNode.type === 'question' ? (
           // CARD DE PREGUNTA
-          <div className="bg-slate-800 p-5 md:p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h2 className="text-xl font-bold text-slate-100 mb-2">{currentNode.title}</h2>
+          <div className="bg-accent p-5 md:p-6 rounded-2xl border border-border shadow-xl">
+            <h2 className="text-xl font-bold text-foreground mb-2">{currentNode.title}</h2>
             {currentNode.description && (
-              <p className="text-slate-400 text-sm mb-6 leading-relaxed">
+              <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
                 {currentNode.description}
               </p>
             )}
@@ -102,7 +102,7 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
                 } else if (option.variant === 'destructive') {
                   btnClass += "bg-red-600 hover:bg-red-500 text-white shadow-md shadow-red-900/20"
                 } else {
-                  btnClass += "bg-slate-700 hover:bg-slate-600 text-slate-200"
+                  btnClass += "bg-secondary hover:bg-slate-600 text-foreground"
                 }
 
                 return (
@@ -132,19 +132,19 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
               ) : (
                 <CheckCircle2 className="w-8 h-8 text-green-500" />
               )}
-              <h2 className="text-2xl font-bold text-slate-100">{currentNode.title}</h2>
+              <h2 className="text-2xl font-bold text-foreground">{currentNode.title}</h2>
             </div>
             
             {currentNode.description && (
-              <p className="text-slate-300 text-base mb-6 leading-relaxed">
+              <p className="text-muted-foreground text-base mb-6 leading-relaxed">
                 {currentNode.description}
               </p>
             )}
             
             {currentNode.recommendation && (
-              <div className="bg-slate-950/50 p-4 rounded-xl mb-4 border border-slate-800/50">
-                <h4 className="text-xs uppercase tracking-wider font-bold text-slate-500 mb-2">Recomendación</h4>
-                <p className="text-slate-200 text-sm whitespace-pre-line leading-relaxed">
+              <div className="bg-background/50 p-4 rounded-xl mb-4 border border-border/50">
+                <h4 className="text-xs uppercase tracking-wider font-bold text-foreground0 mb-2">Recomendación</h4>
+                <p className="text-foreground text-sm whitespace-pre-line leading-relaxed">
                   {currentNode.recommendation}
                 </p>
               </div>
@@ -167,7 +167,7 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
         <div className="mt-8 flex justify-center">
           <button 
             onClick={handleUndo}
-            className="flex items-center gap-2 text-slate-400 hover:text-slate-200 bg-slate-900 hover:bg-slate-800 px-4 py-2 rounded-full transition-colors text-sm font-medium border border-slate-800"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground bg-card hover:bg-accent px-4 py-2 rounded-full transition-colors text-sm font-medium border border-border"
           >
             <ArrowLeft className="w-4 h-4" />
             Deshacer último paso

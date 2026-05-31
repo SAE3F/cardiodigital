@@ -40,17 +40,17 @@ export default function BuscarPage() {
     <div className="p-4 md:p-6 max-w-2xl mx-auto pb-24">
       <h1 className="text-xl font-bold mb-4">Buscar</h1>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
         <Input
           autoFocus
           placeholder="Ej: fibrilación auricular, dopamina, TIMI..."
           value={query}
           onChange={e => { setQuery(e.target.value); ejecutarBusqueda(e.target.value) }}
-          className="pl-10 bg-slate-900 border-slate-700 text-slate-100 h-12"
+          className="pl-10 bg-card border-border text-foreground h-12"
         />
       </div>
 
-      {buscando && <p className="text-slate-400 text-sm mt-4">Buscando...</p>}
+      {buscando && <p className="text-muted-foreground text-sm mt-4">Buscando...</p>}
 
       <div className="mt-4 space-y-2">
         {resultados.map(r => {
@@ -60,23 +60,23 @@ export default function BuscarPage() {
             <Link
               key={r.id}
               href={href}
-              className="flex items-start gap-3 p-3 rounded-xl border border-slate-800 hover:border-slate-600 bg-slate-900/50 hover:bg-slate-800 transition-colors"
+              className="flex items-start gap-3 p-3 rounded-xl border border-border hover:border-slate-600 bg-muted/50 hover:bg-accent transition-colors"
             >
-              <Icon size={18} className="text-slate-400 mt-0.5 shrink-0" />
+              <Icon size={18} className="text-muted-foreground mt-0.5 shrink-0" />
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-sm text-slate-100 truncate">{r.nombre}</p>
+                <p className="font-medium text-sm text-foreground truncate">{r.nombre}</p>
                 {r.descripcion && (
-                  <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{r.descripcion}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{r.descripcion}</p>
                 )}
               </div>
-              <Badge variant="outline" className="text-xs shrink-0 capitalize border-slate-700 text-slate-400">
+              <Badge variant="outline" className="text-xs shrink-0 capitalize border-border text-muted-foreground">
                 {r.tipo}
               </Badge>
             </Link>
           )
         })}
         {!buscando && query.length >= 2 && resultados.length === 0 && (
-          <p className="text-slate-500 text-sm text-center py-8">Sin resultados para "{query}"</p>
+          <p className="text-foreground0 text-sm text-center py-8">Sin resultados para "{query}"</p>
         )}
       </div>
     </div>

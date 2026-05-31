@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { initSync } from '@/lib/sync'
+import { ThemeProvider } from '@/components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,17 +26,25 @@ export const viewport: Viewport = {
 
 import { SyncProvider } from '@/components/SyncProvider'
 import { PatientProvider } from '@/lib/contexts/PatientContext'
+import { SettingsProvider } from '@/lib/contexts/SettingsContext'
+import { AuthProvider } from '@/lib/contexts/AuthContext'
 import { PatientPanel } from '@/components/layout/PatientPanel'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="dark">
-      <body className={`${inter.className} bg-slate-950 text-slate-100 antialiased`}>
-        <PatientProvider>
-          <SyncProvider />
-          {children}
-          <PatientPanel />
-        </PatientProvider>
+    <html lang="es" suppressHydrationWarning>
+      <body className={`${inter.className} bg-background text-foreground antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" themes={['light', 'dark', 'oled', 'dim']} enableSystem disableTransitionOnChange>
+          <AuthProvider>
+            <SettingsProvider>
+              <PatientProvider>
+                <SyncProvider />
+                {children}
+                <PatientPanel />
+              </PatientProvider>
+            </SettingsProvider>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -35,7 +35,7 @@ export default function GoteoPage() {
   return (
     <div className="p-4 md:p-6 max-w-lg mx-auto pb-24">
       <h1 className="text-xl font-bold mb-1">Goteo de Inotrópicos</h1>
-      <p className="text-slate-400 text-sm mb-6">Cálculo en γ/kg/min → mL/hora</p>
+      <p className="text-muted-foreground text-sm mb-6">Cálculo en γ/kg/min → mL/hora</p>
 
       {autoFilled && (
         <div className="mb-6 inline-flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm rounded-lg">
@@ -49,7 +49,7 @@ export default function GoteoPage() {
       <div className="space-y-4">
         {/* Fármaco */}
         <div>
-          <Label className="text-slate-300 mb-2 block">Fármaco</Label>
+          <Label className="text-muted-foreground mb-2 block">Fármaco</Label>
           <div className="flex flex-wrap gap-2">
             {FARMACOS.map(f => (
               <button
@@ -58,7 +58,7 @@ export default function GoteoPage() {
                 className={`px-3 py-1.5 rounded-lg text-sm border transition-colors capitalize ${
                   form.farmaco === f
                     ? 'bg-red-500 border-red-500 text-white'
-                    : 'border-slate-700 text-slate-300 hover:border-slate-500 hover:bg-slate-800'
+                    : 'border-border text-muted-foreground hover:border-slate-500 hover:bg-accent'
                 }`}
               >
                 {f}
@@ -69,39 +69,39 @@ export default function GoteoPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label className="text-slate-300">Dosis (γ/kg/min)</Label>
+            <Label className="text-muted-foreground">Dosis (γ/kg/min)</Label>
             <Input
               type="number" step="0.5"
               value={form.dosis_gamma}
               onChange={e => setForm(p => ({ ...p, dosis_gamma: parseFloat(e.target.value) || 0 }))}
-              className="bg-slate-900 border-slate-700 text-slate-100 mt-1"
+              className="bg-card border-border text-foreground mt-1"
             />
           </div>
           <div>
-            <Label className="text-slate-300">Peso (kg)</Label>
+            <Label className="text-muted-foreground">Peso (kg)</Label>
             <Input
               type="number"
               value={form.peso_kg}
               onChange={e => setForm(p => ({ ...p, peso_kg: parseFloat(e.target.value) || 0 }))}
-              className="bg-slate-900 border-slate-700 text-slate-100 mt-1"
+              className="bg-card border-border text-foreground mt-1"
             />
           </div>
           <div>
-            <Label className="text-slate-300">Concentración (mg)</Label>
+            <Label className="text-muted-foreground">Concentración (mg)</Label>
             <Input
               type="number"
               value={form.concentracion_mg}
               onChange={e => setForm(p => ({ ...p, concentracion_mg: parseFloat(e.target.value) || 0 }))}
-              className="bg-slate-900 border-slate-700 text-slate-100 mt-1"
+              className="bg-card border-border text-foreground mt-1"
             />
           </div>
           <div>
-            <Label className="text-slate-300">Volumen bolsa (mL)</Label>
+            <Label className="text-muted-foreground">Volumen bolsa (mL)</Label>
             <Input
               type="number"
               value={form.volumen_bolsa_ml}
               onChange={e => setForm(p => ({ ...p, volumen_bolsa_ml: parseFloat(e.target.value) || 0 }))}
-              className="bg-slate-900 border-slate-700 text-slate-100 mt-1"
+              className="bg-card border-border text-foreground mt-1"
             />
           </div>
         </div>
@@ -115,19 +115,19 @@ export default function GoteoPage() {
       </div>
 
       {resultado && (
-        <div className="mt-6 p-4 bg-slate-900 rounded-xl border border-slate-700 space-y-3">
+        <div className="mt-6 p-4 bg-card rounded-xl border border-border space-y-3">
           <div className="text-center">
-            <p className="text-slate-400 text-sm">Velocidad de infusión</p>
+            <p className="text-muted-foreground text-sm">Velocidad de infusión</p>
             <p className="text-4xl font-bold text-red-400">{resultado.ml_por_hora}</p>
-            <p className="text-slate-400">mL/hora</p>
+            <p className="text-muted-foreground">mL/hora</p>
           </div>
           <div className="grid grid-cols-2 gap-2 text-sm">
-            <div className="bg-slate-800 rounded-lg p-3">
-              <p className="text-slate-400 text-xs">Concentración</p>
+            <div className="bg-accent rounded-lg p-3">
+              <p className="text-muted-foreground text-xs">Concentración</p>
               <p className="font-semibold">{resultado.concentracion_mcg_ml} mcg/mL</p>
             </div>
-            <div className="bg-slate-800 rounded-lg p-3">
-              <p className="text-slate-400 text-xs">mL/minuto</p>
+            <div className="bg-accent rounded-lg p-3">
+              <p className="text-muted-foreground text-xs">mL/minuto</p>
               <p className="font-semibold">{resultado.ml_por_minuto}</p>
             </div>
           </div>
@@ -136,7 +136,7 @@ export default function GoteoPage() {
               {adv}
             </Badge>
           ))}
-          <p className="text-xs text-slate-500 font-mono mt-2">{resultado.formula_usada}</p>
+          <p className="text-xs text-foreground0 font-mono mt-2">{resultado.formula_usada}</p>
         </div>
       )}
     </div>

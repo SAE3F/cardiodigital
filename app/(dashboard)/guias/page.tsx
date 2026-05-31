@@ -83,7 +83,7 @@ export default function GuiasPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
         <div>
           <h1 className="text-2xl font-bold">Guías y Consensos</h1>
-          <p className="text-sm text-slate-400 mt-1 flex items-center gap-2">
+          <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
             {lastSyncDate ? (
               <><CheckCircle2 size={14} className="text-green-500" /> Sincronizado: {lastSyncDate}</>
             ) : (
@@ -114,18 +114,18 @@ export default function GuiasPage() {
 
       <div className="flex gap-2 mb-4">
         <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
           <Input
             placeholder="Buscar guías..."
             value={filtro}
             onChange={e => setFiltro(e.target.value)}
-            className="pl-10 bg-slate-900 border-slate-700 text-slate-100 h-11"
+            className="pl-10 bg-card border-border text-foreground h-11"
           />
         </div>
         <select
           value={anioFiltro}
           onChange={e => setAnioFiltro(e.target.value === 'Todos' ? 'Todos' : Number(e.target.value))}
-          className="bg-slate-900 border border-slate-700 text-slate-100 rounded-md px-3 h-11 min-w-[100px] outline-none focus:border-blue-500"
+          className="bg-card border border-border text-foreground rounded-md px-3 h-11 min-w-[100px] outline-none focus:border-blue-500"
         >
           {anios.map(anio => (
             <option key={anio} value={anio}>{anio === 'Todos' ? 'Año' : anio}</option>
@@ -134,7 +134,7 @@ export default function GuiasPage() {
         <select
           value={sociedadFiltro}
           onChange={e => setSociedadFiltro(e.target.value)}
-          className="bg-slate-900 border border-slate-700 text-slate-100 rounded-md px-3 h-11 min-w-[120px] outline-none focus:border-blue-500"
+          className="bg-card border border-border text-foreground rounded-md px-3 h-11 min-w-[120px] outline-none focus:border-blue-500"
         >
           {sociedades.map(soc => (
             <option key={soc} value={soc}>{soc === 'Todas' ? 'Sociedad' : soc}</option>
@@ -151,8 +151,8 @@ export default function GuiasPage() {
               onClick={() => setCategoriaFiltro(cat)}
               className={`snap-start whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-colors border ${
                 categoriaFiltro === cat 
-                ? 'bg-slate-100 text-slate-900 border-slate-100' 
-                : 'bg-slate-900/50 text-slate-400 border-slate-800 hover:bg-slate-800'
+                ? 'bg-foreground text-background border-slate-100' 
+                : 'bg-muted/50 text-muted-foreground border-border hover:bg-accent'
               }`}
             >
               {cat}
@@ -163,9 +163,9 @@ export default function GuiasPage() {
 
       <div className="space-y-3">
         {guiasFiltradas.length === 0 ? (
-          <div className="text-center py-12 text-slate-500 bg-slate-900/50 rounded-2xl border border-dashed border-slate-800">
+          <div className="text-center py-12 text-foreground0 bg-muted/50 rounded-2xl border border-dashed border-border">
             <BookOpen className="mx-auto mb-3 opacity-20" size={48} />
-            <p className="text-slate-400">No se encontraron guías con esos filtros.</p>
+            <p className="text-muted-foreground">No se encontraron guías con esos filtros.</p>
             {guias.length === 0 && (
               <p className="text-sm mt-2 text-blue-400">Tocá "Sincronizar Datos" para descargar la base de datos de guías.</p>
             )}
@@ -175,19 +175,19 @@ export default function GuiasPage() {
             <Link
               key={guia.id}
               href={`/guias/${guia.slug}`}
-              className="block p-4 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-800 hover:border-slate-700 transition-all"
+              className="block p-4 rounded-xl border border-border bg-muted/50 hover:bg-accent hover:border-border transition-all"
             >
               <div className="flex justify-between items-start mb-2 gap-2">
                 <Badge variant="outline" className="border-red-500/30 text-red-400 font-mono text-xs whitespace-nowrap">
                   {guia.fuente} {guia.anio_publicacion}
                 </Badge>
-                <Badge variant="secondary" className="text-[10px] capitalize bg-slate-800/80 text-slate-400 border-none text-right">
+                <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right">
                   {guia.categoria}
                 </Badge>
               </div>
-              <h2 className="font-semibold text-slate-100 text-base sm:text-lg leading-tight mb-1 pr-2">{guia.titulo}</h2>
+              <h2 className="font-semibold text-foreground text-base sm:text-lg leading-tight mb-1 pr-2">{guia.titulo}</h2>
               {guia.resumen_rapido && (
-                <p className="text-sm text-slate-400 line-clamp-2 mt-2">{guia.resumen_rapido}</p>
+                <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{guia.resumen_rapido}</p>
               )}
             </Link>
           ))

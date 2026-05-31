@@ -48,43 +48,43 @@ export default function AdminPage() {
   return (
     <div className="p-4 md:p-8 max-w-4xl mx-auto space-y-6">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-100 flex items-center gap-2">
+        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Database className="w-6 h-6 text-blue-500" />
           Administración y Sincronización
         </h1>
-        <p className="text-slate-400 mt-2">
+        <p className="text-muted-foreground mt-2">
           Panel de control del almacenamiento local (IndexedDB)
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Tarjeta de Estadísticas */}
-        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-200 mb-4">Base de Datos Local</h2>
+        <div className="bg-accent/50 border border-border rounded-xl p-6 shadow-sm">
+          <h2 className="text-lg font-semibold text-foreground mb-4">Base de Datos Local</h2>
           
           <div className="space-y-4">
-            <div className="flex justify-between items-center bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
-              <span className="text-slate-300">Guías y Consensos</span>
+            <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg border border-border/50">
+              <span className="text-muted-foreground">Guías y Consensos</span>
               <span className="text-xl font-mono font-bold text-blue-400">{stats.guias}</span>
             </div>
             
-            <div className="flex justify-between items-center bg-slate-900/50 p-3 rounded-lg border border-slate-700/50">
-              <span className="text-slate-300">Fármacos</span>
+            <div className="flex justify-between items-center bg-muted/50 p-3 rounded-lg border border-border/50">
+              <span className="text-muted-foreground">Fármacos</span>
               <span className="text-xl font-mono font-bold text-emerald-400">{stats.farmacos}</span>
             </div>
             
-            <div className="pt-4 border-t border-slate-700/50 text-sm text-slate-400">
+            <div className="pt-4 border-t border-border/50 text-sm text-muted-foreground">
               Última sincronización: <br/>
-              <span className="text-slate-300 font-medium">{lastSync || 'Nunca'}</span>
+              <span className="text-muted-foreground font-medium">{lastSync || 'Nunca'}</span>
             </div>
           </div>
         </div>
 
         {/* Tarjeta de Acciones */}
-        <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-6 shadow-sm flex flex-col justify-between">
+        <div className="bg-accent/50 border border-border rounded-xl p-6 shadow-sm flex flex-col justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-slate-200 mb-2">Mantenimiento</h2>
-            <p className="text-sm text-slate-400 mb-6">
+            <h2 className="text-lg font-semibold text-foreground mb-2">Mantenimiento</h2>
+            <p className="text-sm text-muted-foreground mb-6">
               Forzar la resincronización descargará nuevamente los datos desde el servidor central a este dispositivo. Utilizar si notás inconsistencias.
             </p>
           </div>

@@ -25,7 +25,7 @@ export async function searchDrugsExternally(query: string): Promise<RxNavDrug[]>
   if (!query || query.length < 3) return []
 
   try {
-    const res = await fetch(`${BASE_URL}/approximateTerm.json?term=${encodeURIComponent(query)}&maxEntries=10`)
+    const res = await fetch(`${BASE_URL}/approximateTerm.json?term=${encodeURIComponent(query)}&maxEntries=20`)
     if (!res.ok) return []
     const data = await res.json()
 
@@ -42,8 +42,8 @@ export async function searchDrugsExternally(query: string): Promise<RxNavDrug[]>
     
     const drugs: RxNavDrug[] = []
     
-    // Solo tomamos los top 5 para no saturar
-    const topCuis = uniqueRxCuis.slice(0, 5)
+    // Tomamos los top 15
+    const topCuis = uniqueRxCuis.slice(0, 15)
     
     await Promise.all(
       topCuis.map(async (cui) => {

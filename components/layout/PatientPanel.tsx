@@ -23,32 +23,32 @@ export function PatientPanel() {
 
   return (
     <Sheet open={isPanelOpen} onOpenChange={setPanelOpen}>
-      <SheetContent side="right" className="bg-slate-950 border-slate-800 text-slate-100 sm:max-w-md w-full overflow-y-auto">
+      <SheetContent side="right" className="bg-background border-border text-foreground sm:max-w-md w-full overflow-y-auto">
         <SheetHeader className="mb-6">
-          <SheetTitle className="text-slate-100 flex items-center gap-2">
+          <SheetTitle className="text-foreground flex items-center gap-2">
             <User className="text-blue-500" />
             Paciente Activo
           </SheetTitle>
-          <SheetDescription className="text-slate-400">
+          <SheetDescription className="text-muted-foreground">
             Ingresá los datos del paciente actual. Estos se autocompletarán automáticamente en las calculadoras aplicables para acelerar tu flujo de trabajo en la guardia.
           </SheetDescription>
         </SheetHeader>
 
         <div className="space-y-6 py-4">
           <div className="space-y-2">
-            <Label htmlFor="age" className="text-slate-200">Edad (años)</Label>
+            <Label htmlFor="age" className="text-foreground">Edad (años)</Label>
             <Input
               id="age"
               type="number"
               placeholder="Ej: 65"
               value={patient.age || ''}
               onChange={(e) => setPatientData({ age: e.target.value ? parseInt(e.target.value) : undefined })}
-              className="bg-slate-900 border-slate-700 focus-visible:ring-blue-500 text-lg"
+              className="bg-card border-border focus-visible:ring-blue-500 text-lg"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="weight" className="text-slate-200">Peso (kg)</Label>
+            <Label htmlFor="weight" className="text-foreground">Peso (kg)</Label>
             <Input
               id="weight"
               type="number"
@@ -56,22 +56,22 @@ export function PatientPanel() {
               placeholder="Ej: 70.5"
               value={patient.weight || ''}
               onChange={(e) => setPatientData({ weight: e.target.value ? parseFloat(e.target.value) : undefined })}
-              className="bg-slate-900 border-slate-700 focus-visible:ring-blue-500 text-lg"
+              className="bg-card border-border focus-visible:ring-blue-500 text-lg"
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-slate-200">Sexo Biológico</Label>
+            <Label className="text-foreground">Sexo Biológico</Label>
             <div className="flex gap-3">
               <button
                 onClick={() => setPatientData({ gender: 'F' })}
-                className={`flex-1 py-3 rounded-lg border text-sm font-medium transition-colors ${patient.gender === 'F' ? 'bg-pink-500/20 border-pink-500 text-pink-300' : 'bg-slate-900 border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                className={`flex-1 py-3 rounded-lg border text-sm font-medium transition-colors ${patient.gender === 'F' ? 'bg-pink-500/20 border-pink-500 text-pink-300' : 'bg-card border-border text-muted-foreground hover:bg-accent'}`}
               >
                 Femenino
               </button>
               <button
                 onClick={() => setPatientData({ gender: 'M' })}
-                className={`flex-1 py-3 rounded-lg border text-sm font-medium transition-colors ${patient.gender === 'M' ? 'bg-blue-500/20 border-blue-500 text-blue-300' : 'bg-slate-900 border-slate-700 text-slate-400 hover:bg-slate-800'}`}
+                className={`flex-1 py-3 rounded-lg border text-sm font-medium transition-colors ${patient.gender === 'M' ? 'bg-blue-500/20 border-blue-500 text-blue-300' : 'bg-card border-border text-muted-foreground hover:bg-accent'}`}
               >
                 Masculino
               </button>
@@ -89,7 +89,7 @@ export function PatientPanel() {
           </div>
         )}
 
-        <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col gap-3">
+        <div className="mt-8 pt-6 border-t border-border flex flex-col gap-3">
           <Button 
             className="w-full bg-blue-600 hover:bg-blue-500 text-white"
             onClick={() => setPanelOpen(false)}

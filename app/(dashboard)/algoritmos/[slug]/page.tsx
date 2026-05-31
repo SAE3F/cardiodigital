@@ -23,7 +23,7 @@ export default async function AlgoritmoPage({ params }: PageProps) {
       <div className="mb-6">
         <Link 
           href="/algoritmos" 
-          className="inline-flex items-center text-sm text-slate-400 hover:text-slate-200 transition-colors"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-1" />
           Volver a Algoritmos

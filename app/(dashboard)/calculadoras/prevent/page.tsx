@@ -3,14 +3,14 @@ import Link from 'next/link'
 
 export default function PreventPage() {
   return (
-    <div className="flex flex-col h-[calc(100vh-5rem)] bg-slate-950">
-      <div className="p-4 md:p-6 pb-4 flex items-center gap-4 border-b border-slate-800">
-        <Link href="/calculadoras" className="p-2 -ml-2 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-100 transition-colors">
+    <div className="flex flex-col h-[calc(100vh-5rem)] bg-background">
+      <div className="p-4 md:p-6 pb-4 flex items-center gap-4 border-b border-border">
+        <Link href="/calculadoras" className="p-2 -ml-2 rounded-lg hover:bg-accent text-muted-foreground hover:text-foreground transition-colors">
           <ArrowLeft size={20} />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-slate-100">AHA PREVENT™</h1>
-          <p className="text-xs text-slate-400">Riesgo CV Global</p>
+          <h1 className="text-xl font-bold text-foreground">AHA PREVENT™</h1>
+          <p className="text-xs text-muted-foreground">Riesgo CV Global</p>
         </div>
       </div>
       
@@ -18,8 +18,8 @@ export default function PreventPage() {
         <div className="w-20 h-20 bg-blue-500/10 rounded-full flex items-center justify-center mb-6">
           <ShieldAlert className="w-10 h-10 text-blue-400" />
         </div>
-        <h2 className="text-2xl font-bold text-slate-100 mb-4">Calculadora Externa</h2>
-        <p className="text-slate-400 max-w-md mb-8 leading-relaxed">
+        <h2 className="text-2xl font-bold text-foreground mb-4">Calculadora Externa</h2>
+        <p className="text-muted-foreground max-w-md mb-8 leading-relaxed">
           Por razones de seguridad, las plataformas oficiales como la AHA bloquean la visualización directa dentro de otras aplicaciones (X-Frame-Options). 
           <br /><br />
           Para usar el <strong>AHA PREVENT™</strong> oficial, debés abrirlo en una pestaña nueva.

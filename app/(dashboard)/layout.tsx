@@ -14,9 +14,9 @@ export default async function DashboardLayout({
   // if (!user) redirect('/login')
 
   return (
-    <div className="flex h-screen bg-slate-950 text-slate-100">
+    <div className="flex h-screen bg-background text-foreground">
       {/* Sidebar desktop */}
-      <aside className="hidden md:flex w-64 flex-col border-r border-slate-800">
+      <aside className="hidden md:flex w-64 flex-col border-r border-border">
         <Sidebar />
       </aside>
 
@@ -26,7 +26,7 @@ export default async function DashboardLayout({
       </main>
 
       {/* Bottom nav mobile — crítico para uso con una mano en guardia */}
-      <nav className="fixed bottom-0 left-0 right-0 md:hidden border-t border-slate-800 bg-slate-950">
+      <nav className="fixed bottom-0 left-0 right-0 md:hidden border-t border-border bg-background">
         <BottomNav />
       </nav>
     </div>

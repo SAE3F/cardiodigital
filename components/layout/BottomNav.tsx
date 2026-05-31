@@ -1,17 +1,18 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, Calculator, Search, Settings, UserPlus, UserCheck, Pill, GitCommit } from 'lucide-react'
+import { Home, Search, BookOpen, Activity, GitCommit, Calculator, User, UserPlus, UserCheck, Pill } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 import { usePatient } from '@/lib/contexts/PatientContext'
 
 const navItems = [
-  { href: '/guias',        label: 'Guías',     icon: BookOpen },
-  { href: '/algoritmos',   label: 'Algoritmos',icon: GitCommit },
-  { href: '/calculadoras', label: 'Calcular',  icon: Calculator },
-  { href: '/interacciones',label: 'Interac.',  icon: Pill },
-  { href: '/buscar',       label: 'Buscar',    icon: Search },
+  { icon: Home, label: 'Inicio', href: '/' },
+  { icon: Search, label: 'Buscar', href: '/buscar' },
+  { icon: BookOpen, label: 'Guías', href: '/guias' },
+  { icon: Calculator, label: 'Calcular', href: '/calculadoras' },
+  { icon: GitCommit, label: 'Algoritmos', href: '/algoritmos' },
+  { icon: User, label: 'Perfil', href: '/perfil' }
 ]
 
 export function BottomNav() {
@@ -24,7 +25,7 @@ export function BottomNav() {
         onClick={() => setPanelOpen(true)}
         className={cn(
           'flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-xs transition-colors relative',
-          patient.isActive ? 'text-blue-400 bg-blue-500/10' : 'text-slate-400 hover:text-slate-200'
+          patient.isActive ? 'text-blue-400 bg-blue-500/10' : 'text-muted-foreground hover:text-foreground'
         )}
       >
         {patient.isActive ? <UserCheck size={22} /> : <UserPlus size={22} />}
@@ -35,7 +36,7 @@ export function BottomNav() {
       </button>
 
       {navItems.map(({ href, label, icon: Icon }) => {
-        const active = pathname.startsWith(href)
+        const active = href === '/' ? pathname === '/' : pathname.startsWith(href)
         return (
           <Link
             key={href}
@@ -44,7 +45,7 @@ export function BottomNav() {
               'flex flex-col items-center gap-1 px-3 py-2 rounded-lg text-xs transition-colors',
               active
                 ? 'text-red-400 bg-red-400/10'
-                : 'text-slate-400 hover:text-slate-200'
+                : 'text-muted-foreground hover:text-foreground'
             )}
           >
             <Icon size={22} />
