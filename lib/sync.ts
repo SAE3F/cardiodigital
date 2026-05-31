@@ -48,9 +48,10 @@ export async function syncAllData(): Promise<void> {
     localStorage.setItem(SYNC_KEY, Date.now().toString())
     localStorage.removeItem('cardioguardia_sync_error')
     console.log('[CardioGuardia] Sync completado')
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.warn('[CardioGuardia] Sync falló (probablemente offline o sin backend):', error)
-    localStorage.setItem('cardioguardia_sync_error', error.message || 'Error desconocido')
+    const msg = error instanceof Error ? error.message : 'Error desconocido'
+    localStorage.setItem('cardioguardia_sync_error', msg)
     throw error // Re-throw to let the caller handle it if needed
   }
 }

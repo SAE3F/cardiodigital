@@ -42,9 +42,10 @@ export default function GuiasPage() {
       await loadGuias() // Recargar datos locales
       setLastSyncDate(new Date().toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
       setSyncError(null)
-    } catch (e: any) {
+    } catch (e: unknown) {
       console.error(e)
-      setSyncError(e.message || 'Error desconocido')
+      const msg = e instanceof Error ? e.message : 'Error desconocido'
+      setSyncError(msg)
     } finally {
       setIsSyncing(false)
     }

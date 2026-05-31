@@ -17,9 +17,9 @@ export async function buscar(query: string): Promise<ResultadoBusqueda[]> {
   if (navigator.onLine) {
     try {
       const supabase = getSupabaseBrowserClient()
-      // @ts-ignore: Mock type fallback
+      // @ts-expect-error: Mock type fallback
       const { data, error } = await supabase.rpc('buscar', { query: query.trim() })
-      if (!error && data && (data as any).length > 0) {
+      if (!error && data && (data as unknown[]).length > 0) {
         return data as unknown as ResultadoBusqueda[]
       }
     } catch {
@@ -51,7 +51,7 @@ function normalizar(texto: string): string {
 
 async function buscarLocal(query: string): Promise<ResultadoBusqueda[]> {
   const qNorm = normalizar(query);
-  let terminos = qNorm.split(' ').filter(t => t.length > 1);
+  const terminos = qNorm.split(' ').filter(t => t.length > 1);
   
   // Agregar sinónimos a los términos de búsqueda
   const terminosExtendidos = [...terminos];
