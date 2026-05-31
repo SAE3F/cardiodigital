@@ -1,12 +1,13 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, Calculator, Search, Settings, UserPlus, UserCheck, Pill } from 'lucide-react'
+import { BookOpen, Calculator, Search, Settings, UserPlus, UserCheck, Pill, GitCommit } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { usePatient } from '@/lib/contexts/PatientContext'
 
 const navItems = [
   { href: '/guias',        label: 'Guías Clínicas', icon: BookOpen },
+  { href: '/algoritmos',   label: 'Algoritmos',     icon: GitCommit },
   { href: '/calculadoras', label: 'Calculadoras',   icon: Calculator },
   { href: '/interacciones', label: 'Interacciones', icon: Pill },
   { href: '/buscar',       label: 'Búsqueda',       icon: Search },
