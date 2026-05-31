@@ -5,33 +5,33 @@ import { getCalculatorBySlug, Interpretation, CalculatorOption } from "@/lib/dat
 import Link from "next/link"
 import { usePatient } from "@/lib/contexts/PatientContext"
 
-function findMatchingAgeOption(options: CalculatorOption[], age: number): string | null {
+function findMatchingNumericOption(options: CalculatorOption[], value: number): string | null {
   for (const opt of options) {
     const label = opt.label.toLowerCase();
     
     const rangeMatch = label.match(/(\d+)\s*-\s*(\d+)/);
     if (rangeMatch) {
-      if (age >= parseInt(rangeMatch[1]) && age <= parseInt(rangeMatch[2])) return opt.id;
+      if (value >= parseInt(rangeMatch[1]) && value <= parseInt(rangeMatch[2])) return opt.id;
       continue;
     }
 
     const ltMatch = label.match(/[<≤]\s*(\d+)/);
     if (ltMatch) {
-      if (label.includes('≤') && age <= parseInt(ltMatch[1])) return opt.id;
-      if (label.includes('<') && age < parseInt(ltMatch[1])) return opt.id;
+      if (label.includes('≤') && value <= parseInt(ltMatch[1])) return opt.id;
+      if (label.includes('<') && value < parseInt(ltMatch[1])) return opt.id;
       continue;
     }
 
     const gtMatch = label.match(/[>≥]\s*(\d+)/);
     if (gtMatch) {
-      if (label.includes('≥') && age >= parseInt(gtMatch[1])) return opt.id;
-      if (label.includes('>') && age > parseInt(gtMatch[1])) return opt.id;
+      if (label.includes('≥') && value >= parseInt(gtMatch[1])) return opt.id;
+      if (label.includes('>') && value > parseInt(gtMatch[1])) return opt.id;
       continue;
     }
     
     const oMasMatch = label.match(/(\d+)\s*(?:o|y)\s*m[aá]s/);
     if (oMasMatch) {
-      if (age >= parseInt(oMasMatch[1])) return opt.id;
+      if (value >= parseInt(oMasMatch[1])) return opt.id;
       continue;
     }
   }
@@ -71,12 +71,36 @@ export function CalculatorEngine({ slug }: EngineProps) {
         }
       }
       
-      // Auto-detección para rangos de edad en radios
-      if (input.type === 'radio' && input.id === 'edad' && patient.age && input.options) {
-        const matchId = findMatchingAgeOption(input.options, patient.age);
+      // Auto-detección para rangos numéricos (ej. edad o peso en radios/checkboxes)
+      if (input.id === 'edad' && patient.age && input.options) {
+        const matchId = findMatchingNumericOption(input.options, patient.age);
         if (matchId) {
           newValues[input.id] = matchId;
           filled.push(input.label);
+        }
+      }
+      if (input.id === 'peso' && patient.weight && input.options) {
+        const matchId = findMatchingNumericOption(input.options, patient.weight);
+        if (matchId) {
+          newValues[input.id] = matchId;
+          filled.push(input.label);
+        }
+      }
+
+      // Auto-detección para sexo
+      if (input.id === 'sexo' && patient.gender && input.options) {
+        const isFemale = patient.gender === 'F';
+        for (const opt of input.options) {
+          const lbl = opt.label.toLowerCase();
+          if (isFemale && (lbl.includes('mujer') || lbl.includes('femenin'))) {
+            newValues[input.id] = opt.id;
+            filled.push(input.label);
+            break;
+          } else if (!isFemale && (lbl.includes('hombre') || lbl.includes('masculin'))) {
+            newValues[input.id] = opt.id;
+            filled.push(input.label);
+            break;
+          }
         }
       }
     })
