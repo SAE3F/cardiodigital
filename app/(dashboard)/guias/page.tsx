@@ -11,6 +11,7 @@ import { syncAllData } from '@/lib/sync'
 import { guiasPremium } from '@/lib/data/guias-premium'
 import { GUIDELINES_FROM_JOURNALS } from '@/lib/data/journals'
 import { RevistasList } from '@/components/guias/RevistasList'
+import { FavoriteButton } from '@/components/ui/favorite-button'
 
 export default function GuiasPage() {
   const router = useRouter()
@@ -229,17 +230,27 @@ export default function GuiasPage() {
                   <Link
                     key={guia.id}
                     href={href}
-                    className="block p-4 rounded-xl border border-border bg-card hover:bg-accent hover:border-blue-500/50 transition-all group"
+                    className="block p-4 rounded-xl border border-border bg-card hover:bg-accent hover:border-blue-500/50 transition-all group relative"
                   >
                     <div className="flex justify-between items-start mb-2 gap-2">
                       <Badge variant="outline" className={`font-mono text-xs whitespace-nowrap ${isJournal ? 'border-emerald-500/30 text-emerald-400' : 'border-red-500/30 text-red-400'}`}>
                         {guia.fuente} {guia.anio_publicacion}
                       </Badge>
-                      <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right">
+                      <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right mr-8">
                         {guia.categoria}
                       </Badge>
                     </div>
-                    <h2 className="font-semibold text-foreground text-base sm:text-lg leading-tight mb-1 pr-2 group-hover:text-blue-400 transition-colors">{guia.titulo}</h2>
+                    
+                    <div className="absolute top-2 right-2">
+                      <FavoriteButton 
+                        itemSlug={isJournal ? `_journal_${encodeURIComponent(guia.url_fuente || '')}` : guia.slug}
+                        tipo="guia"
+                        titulo={guia.titulo}
+                        url={href}
+                      />
+                    </div>
+
+                    <h2 className="font-semibold text-foreground text-base sm:text-lg leading-tight mb-1 pr-10 group-hover:text-blue-400 transition-colors">{guia.titulo}</h2>
                     {guia.resumen_rapido && (
                       <p className="text-sm text-muted-foreground line-clamp-2 mt-2">{guia.resumen_rapido}</p>
                     )}

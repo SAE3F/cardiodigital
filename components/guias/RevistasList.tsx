@@ -4,6 +4,7 @@ import { Search, BookOpen, ExternalLink } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import Link from 'next/link'
+import { FavoriteButton } from '@/components/ui/favorite-button'
 
 export function RevistasList() {
   const [filtro, setFiltro] = useState('')
@@ -85,17 +86,27 @@ export function RevistasList() {
                   <Link
                     key={idx}
                     href={`/revistas/pdf?url=${encodeURIComponent(art.pdfLink)}&title=${encodeURIComponent(art.title)}`}
-                    className="block p-4 rounded-xl border border-border bg-card hover:bg-accent hover:border-blue-500/30 transition-all group"
+                    className="block p-4 rounded-xl border border-border bg-card hover:bg-accent hover:border-blue-500/30 transition-all group relative"
                   >
                     <div className="flex justify-between items-start mb-2 gap-2">
                       <Badge variant="outline" className={`font-mono text-xs whitespace-nowrap ${art.sourceId === 'sac' ? 'border-blue-500/30 text-blue-400' : 'border-emerald-500/30 text-emerald-400'}`}>
                         {art.sourceId.toUpperCase()} {getYear(art.issueTitle)}
                       </Badge>
-                      <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right">
+                      <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right mr-8">
                         {art.category}
                       </Badge>
                     </div>
-                    <h2 className="font-semibold text-foreground text-sm sm:text-base leading-tight mb-2 pr-2 group-hover:text-blue-400 transition-colors">
+
+                    <div className="absolute top-2 right-2">
+                      <FavoriteButton 
+                        itemSlug={`_journal_${encodeURIComponent(art.pdfLink)}`}
+                        tipo="guia"
+                        titulo={art.title}
+                        url={`/revistas/pdf?url=${encodeURIComponent(art.pdfLink)}&title=${encodeURIComponent(art.title)}`}
+                      />
+                    </div>
+
+                    <h2 className="font-semibold text-foreground text-sm sm:text-base leading-tight mb-2 pr-10 group-hover:text-blue-400 transition-colors">
                       {art.title}
                     </h2>
                     <div className="flex items-center text-xs text-muted-foreground">
