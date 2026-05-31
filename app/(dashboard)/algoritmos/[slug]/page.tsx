@@ -5,13 +5,14 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  }
+  }>
 }
 
-export default function AlgoritmoPage({ params }: PageProps) {
-  const config = getAlgorithmBySlug(params.slug)
+export default async function AlgoritmoPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const config = getAlgorithmBySlug(resolvedParams.slug)
 
   if (!config) {
     notFound()
