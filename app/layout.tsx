@@ -10,6 +10,10 @@ export const metadata: Metadata = {
   title: 'Cardiodigital',
   description: 'Guías y calculadoras de Cardiología y Emergentología',
   manifest: '/manifest.webmanifest',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
