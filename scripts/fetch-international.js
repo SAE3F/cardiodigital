@@ -11,7 +11,7 @@ const PUBMED_JOURNALS = [
   { term: '"The New England Journal of Medicine"[Journal] AND (cardiology OR cardiovascular OR heart OR coronary)', sourceId: 'nejm' },
   { term: '"JAMA Cardiology"[Journal]', sourceId: 'jama' },
   { term: '"The Lancet. Cardiology"[Journal] OR "Lancet (London, England)"[Journal] AND (cardiology OR cardiovascular OR heart OR coronary)', sourceId: 'lancet' },
-  { term: '"Revista espanola de cardiologia"[Journal]', sourceId: 'rec' }
+  { term: '"Revista espanola de cardiologia (English ed.)"[Journal] OR "Revista espanola de cardiologia"[Journal]', sourceId: 'rec' }
 ];
 
 async function fetchPubMedJournals() {
