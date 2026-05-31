@@ -30,15 +30,19 @@ export const FARMACOS: Farmaco[] = [
   /* FÁRMACOS CARDIOVASCULARES Y METABÓLICOS */
   
   // Antiarrítmicos
-  { id: 'amiodarona', nombre: 'Amiodarona', grupo: 'Antiarrítmicos' },
-  { id: 'digoxina', nombre: 'Digoxina', grupo: 'Antiarrítmicos' },
-  { id: 'sotalol', nombre: 'Sotalol', grupo: 'Antiarrítmicos' },
-  { id: 'flecainida', nombre: 'Flecainida', grupo: 'Antiarrítmicos' },
-  { id: 'propafenona', nombre: 'Propafenona', grupo: 'Antiarrítmicos' },
-  { id: 'dronedarona', nombre: 'Dronedarona', grupo: 'Antiarrítmicos' },
-  
-  // Anticoagulantes
-  { id: 'warfarina', nombre: 'Warfarina', grupo: 'Anticoagulantes' },
+  { id: 'amiodarona', nombre: 'Amiodarona', grupo: 'Antiarrítmico Clase III' },
+  { id: 'sotalol', nombre: 'Sotalol', grupo: 'Antiarrítmico Clase III / Betabloqueante' },
+  { id: 'dofetilida', nombre: 'Dofetilida', grupo: 'Antiarrítmico Clase III' },
+  { id: 'ibutilida', nombre: 'Ibutilida', grupo: 'Antiarrítmico Clase III' },
+  { id: 'flecainida', nombre: 'Flecainida', grupo: 'Antiarrítmico Clase IC' },
+  { id: 'propafenona', nombre: 'Propafenona', grupo: 'Antiarrítmico Clase IC' },
+  { id: 'digoxina', nombre: 'Digoxina', grupo: 'Glucósido Cardíaco' },
+
+  // Vasodilatadores / Antianginosos
+  { id: 'nitroglicerina', nombre: 'Nitroglicerina', grupo: 'Nitrato' },
+  { id: 'isosorbide', nombre: 'Isosorbide', grupo: 'Nitrato' },
+  { id: 'sildenafil', nombre: 'Sildenafil', grupo: 'Inhibidor PDE-5' },
+  { id: 'tadalafil', nombre: 'Tadalafil', grupo: 'Inhibidor PDE-5' },
   { id: 'acenocumarol', nombre: 'Acenocumarol', grupo: 'Anticoagulantes' },
   { id: 'dabigatran', nombre: 'Dabigatrán', grupo: 'DOACs' },
   { id: 'rivaroxaban', nombre: 'Rivaroxabán', grupo: 'DOACs' },
