@@ -1846,6 +1846,133 @@ export const calculators: CalculatorConfig[] = [
       if (mayores >= 2 || (mayores >= 1 && menores >= 2)) return { scoreRange: [score, score], risk: 'Diagnóstico Positivo', recommendation: `Cumple criterios de HF (Mayores: ${mayores}, Menores: ${menores}).`, color: 'red' };
       return { scoreRange: [score, score], risk: 'Diagnóstico Negativo', recommendation: `No cumple criterios suficientes (Mayores: ${mayores}, Menores: ${menores}).`, color: 'green' };
     }
+  },
+  {
+    slug: 'ava-continuity',
+    name: 'Aortic Valve Area (Continuity)',
+    category: 'Ecocardiografía',
+    description: 'Área Valvular Aórtica mediante la Ecuación de Continuidad',
+    reference: 'Oh JK, et al. The Echo Manual. 3rd ed.',
+    inputs: [
+      { id: 'lvotd', label: 'Diámetro del TSVI (cm)', type: 'number', min: 0.1, max: 10, step: 0.1, unit: 'cm' },
+      { id: 'lvotvti', label: 'VTI del TSVI (cm)', type: 'number', min: 1, max: 100, step: 0.1, unit: 'cm' },
+      { id: 'avvti', label: 'VTI Valvular Aórtico (cm)', type: 'number', min: 1, max: 200, step: 0.1, unit: 'cm' }
+    ],
+    calculate: (v) => {
+      const { lvotd, lvotvti, avvti } = v;
+      if (!lvotd || !lvotvti || !avvti) return 0;
+      const areaLvot = Math.PI * Math.pow(lvotd / 2, 2);
+      return (areaLvot * lvotvti) / avvti;
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Completá todos los campos.', color: 'blue' };
+      if (score > 1.5) return { scoreRange: [1.5, 10], risk: 'Normal / Leve', recommendation: `Área: ${score.toFixed(2)} cm². Estenosis Leve o Normal.`, color: 'green' };
+      if (score > 1.0) return { scoreRange: [1.0, 1.5], risk: 'Estenosis Moderada', recommendation: `Área: ${score.toFixed(2)} cm². Estenosis Aórtica Moderada.`, color: 'yellow' };
+      return { scoreRange: [0, 1.0], risk: 'Estenosis Severa', recommendation: `Área: ${score.toFixed(2)} cm². Estenosis Aórtica Severa (AVA < 1.0 cm²).`, color: 'red' };
+    }
+  },
+  {
+    slug: 'hakki',
+    name: 'Hakki Equation (Valve Area)',
+    category: 'Hemodinamia Invasiva',
+    description: 'Estimación simplificada del Área Valvular (Aórtica o Mitral) en laboratorio de hemodinamia',
+    reference: 'Hakki AH, et al. Circulation. 1981;63(5):1050-5.',
+    inputs: [
+      { id: 'co', label: 'Gasto Cardíaco (L/min)', type: 'number', min: 0.5, max: 20, step: 0.1, unit: 'L/min' },
+      { id: 'grad', label: 'Gradiente Pico a Pico (mmHg)', type: 'number', min: 1, max: 200, step: 1, unit: 'mmHg' }
+    ],
+    calculate: (v) => {
+      if (!v.co || !v.grad) return 0;
+      return v.co / Math.sqrt(v.grad);
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Completá todos los campos.', color: 'blue' };
+      return { scoreRange: [score, score], risk: 'Área Calculada', recommendation: `Área Valvular estimada: ${score.toFixed(2)} cm²`, color: 'yellow' };
+    }
+  },
+  {
+    slug: 'pisa-mr',
+    name: 'MR Quantification (PISA)',
+    category: 'Ecocardiografía',
+    description: 'Cuantificación de Insuficiencia Mitral mediante método PISA (EROA)',
+    reference: 'Zoghbi WA, et al. J Am Soc Echocardiogr. 2003;16(7):777-802.',
+    inputs: [
+      { id: 'r', label: 'Radio PISA (cm)', type: 'number', min: 0.1, max: 5, step: 0.1, unit: 'cm' },
+      { id: 'va', label: 'Velocidad de Aliasing (cm/s)', type: 'number', min: 10, max: 100, step: 1, unit: 'cm/s' },
+      { id: 'vp', label: 'Velocidad Pico IM (cm/s)', type: 'number', min: 100, max: 800, step: 10, unit: 'cm/s' }
+    ],
+    calculate: (v) => {
+      if (!v.r || !v.va || !v.vp) return 0;
+      const flow = 2 * Math.PI * Math.pow(v.r, 2) * v.va;
+      return flow / v.vp; // EROA in cm2
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Completá todos los campos.', color: 'blue' };
+      if (score < 0.20) return { scoreRange: [0, 0.20], risk: 'IM Leve', recommendation: `EROA: ${score.toFixed(2)} cm². Insuficiencia Mitral Leve.`, color: 'green' };
+      if (score < 0.40) return { scoreRange: [0.20, 0.40], risk: 'IM Moderada', recommendation: `EROA: ${score.toFixed(2)} cm². Insuficiencia Mitral Moderada.`, color: 'yellow' };
+      return { scoreRange: [0.40, 5], risk: 'IM Severa', recommendation: `EROA: ${score.toFixed(2)} cm². Insuficiencia Mitral Severa (EROA ≥ 0.40 cm²).`, color: 'red' };
+    }
+  },
+  {
+    slug: 'pht-mva',
+    name: 'Mitral Valve Area (PHT)',
+    category: 'Ecocardiografía',
+    description: 'Área Valvular Mitral usando Tiempo de Hemipresión (Pressure Half-Time)',
+    reference: 'Hatle L, et al. Br Heart J. 1979;42(5):604-9.',
+    inputs: [
+      { id: 'pht', label: 'Tiempo de Hemipresión - PHT (ms)', type: 'number', min: 20, max: 800, step: 1, unit: 'ms' }
+    ],
+    calculate: (v) => {
+      if (!v.pht) return 0;
+      return 220 / v.pht;
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Completá el campo.', color: 'blue' };
+      if (score > 1.5) return { scoreRange: [1.5, 5], risk: 'Normal / Leve', recommendation: `MVA: ${score.toFixed(2)} cm². Estenosis Leve o Normal.`, color: 'green' };
+      if (score > 1.0) return { scoreRange: [1.0, 1.5], risk: 'Estenosis Moderada', recommendation: `MVA: ${score.toFixed(2)} cm². Estenosis Mitral Moderada.`, color: 'yellow' };
+      return { scoreRange: [0, 1.0], risk: 'Estenosis Severa', recommendation: `MVA: ${score.toFixed(2)} cm². Estenosis Mitral Severa.`, color: 'red' };
+    }
+  },
+  {
+    slug: 'fractional-shortening',
+    name: 'Fractional Shortening',
+    category: 'Ecocardiografía',
+    description: 'Fracción de Acortamiento del Ventrículo Izquierdo',
+    reference: 'Lang RM, et al. J Am Soc Echocardiogr. 2015;28(1):1-39.',
+    inputs: [
+      { id: 'lvidd', label: 'LVIDd - Diámetro Diastólico (cm)', type: 'number', min: 1, max: 10, step: 0.1, unit: 'cm' },
+      { id: 'lvids', label: 'LVIDs - Diámetro Sistólico (cm)', type: 'number', min: 1, max: 10, step: 0.1, unit: 'cm' }
+    ],
+    calculate: (v) => {
+      if (!v.lvidd || !v.lvids || v.lvidd <= v.lvids) return 0;
+      return ((v.lvidd - v.lvids) / v.lvidd) * 100;
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Revisá los diámetros (LVIDd > LVIDs).', color: 'blue' };
+      if (score >= 25) return { scoreRange: [25, 100], risk: 'Normal', recommendation: `FS: ${score.toFixed(1)}%. Función sistólica conservada.`, color: 'green' };
+      return { scoreRange: [0, 25], risk: 'Disminuida', recommendation: `FS: ${score.toFixed(1)}%. Función sistólica reducida.`, color: 'red' };
+    }
+  },
+  {
+    slug: 'rvsp',
+    name: 'RV Systolic Pressure (RVSP)',
+    category: 'Ecocardiografía',
+    description: 'Presión Sistólica del Ventrículo Derecho estimada por Jet Tricuspídeo',
+    reference: 'Yock PG, Popp RL. Circulation. 1984;70(4):657-62.',
+    inputs: [
+      { id: 'trv', label: 'Velocidad Máxima IT (m/s)', type: 'number', min: 0.5, max: 8, step: 0.1, unit: 'm/s' },
+      { id: 'rap', label: 'Presión Aurícula Derecha (mmHg) - Estimada por VCI', type: 'number', min: 3, max: 20, step: 1, unit: 'mmHg' }
+    ],
+    calculate: (v) => {
+      if (!v.trv || !v.rap) return 0;
+      return 4 * Math.pow(v.trv, 2) + v.rap;
+    },
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Faltan datos', recommendation: 'Completá todos los campos.', color: 'blue' };
+      if (score <= 35) return { scoreRange: [0, 35], risk: 'Normal', recommendation: `RVSP: ${score.toFixed(0)} mmHg. Presión pulmonar normal.`, color: 'green' };
+      if (score <= 50) return { scoreRange: [36, 50], risk: 'HTP Leve a Moderada', recommendation: `RVSP: ${score.toFixed(0)} mmHg. Hipertensión Pulmonar probable.`, color: 'yellow' };
+      return { scoreRange: [50, 200], risk: 'HTP Severa', recommendation: `RVSP: ${score.toFixed(0)} mmHg. Alta probabilidad de HTP Severa.`, color: 'red' };
+    }
   }
 ];
 
