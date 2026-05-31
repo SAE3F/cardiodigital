@@ -7,6 +7,7 @@ import { BookOpen, Search, RefreshCw, AlertCircle, CheckCircle2 } from 'lucide-r
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { syncAllData } from '@/lib/sync'
+import { guiasPremium } from '@/lib/data/guias-premium'
 
 export default function GuiasPage() {
   const [guias, setGuias] = useState<GuiaLocal[]>([])
@@ -21,7 +22,12 @@ export default function GuiasPage() {
 
   const loadGuias = async () => {
     const allGuias = await db.guias.toArray()
-    setGuias(allGuias)
+    // Override con las guías premium hardcodeadas para dar formato interactivo a los consensos 2025/2026
+    const enhancedGuias = allGuias.map(g => {
+      const override = guiasPremium.find(p => p.titulo.toLowerCase() === g.titulo.toLowerCase())
+      return override ? { ...g, ...override } as GuiaLocal : g
+    })
+    setGuias(enhancedGuias)
   }
 
   useEffect(() => {

@@ -36,7 +36,7 @@ export const ALGORITMOS: AlgorithmConfig[] = [
     category: 'Cardiopatía Isquémica',
     source: 'Consenso SAC IAMCEST (2024)',
     description: 'Estrategia de reperfusión inicial en el Infarto Agudo de Miocardio con Elevación del ST.',
-    relatedGuidelines: ['iamcest-2024', 'consenso-iamcest'],
+    relatedGuidelines: ['iamcest-2024', 'consenso-iamcest', 'sindromes coronarios agudos'],
     initialNodeId: 'q_hemodinamia',
     nodes: {
       'q_hemodinamia': {
@@ -144,7 +144,7 @@ export const ALGORITMOS: AlgorithmConfig[] = [
     category: 'Insuficiencia Cardíaca',
     source: 'Consenso SAC Insuficiencia Cardíaca (2023)',
     description: 'Clasificación clínica de Stevenson y manejo inicial en la Insuficiencia Cardíaca Aguda.',
-    relatedGuidelines: ['ic-2023', 'consenso-ic-aguda', 'consenso-insuficiencia-cardiaca'],
+    relatedGuidelines: ['ic-2023', 'consenso-ic-aguda', 'consenso-insuficiencia-cardiaca', 'insuficiencia cardíaca'],
     initialNodeId: 'q_congestion',
     nodes: {
       'q_congestion': {
@@ -218,7 +218,7 @@ export const ALGORITMOS: AlgorithmConfig[] = [
     category: 'Arritmias',
     source: 'Consenso SAC Arritmias (2022)',
     description: 'Manejo inicial en guardia de la Fibrilación Auricular de reciente comienzo.',
-    relatedGuidelines: ['fa-2022', 'consenso-arritmias', 'consenso-fibrilacion-auricular'],
+    relatedGuidelines: ['fa-2022', 'consenso-arritmias', 'consenso-fibrilacion-auricular', 'fibrilación auricular'],
     initialNodeId: 'q_inestabilidad',
     nodes: {
       'q_inestabilidad': {

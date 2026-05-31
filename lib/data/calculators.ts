@@ -44,7 +44,7 @@ export const calculators: CalculatorConfig[] = [
     category: 'Arritmias',
     description: 'Estimación del riesgo de ACV en pacientes con Fibrilación Auricular no valvular.',
     reference: 'Lip GY, et al. Chest. 2010;137(2):263-72.',
-    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias'],
+    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias', 'fibrilación auricular'],
     inputs: [
       {
         id: 'insuficiencia_cardiaca',
@@ -229,9 +229,10 @@ export const calculators: CalculatorConfig[] = [
   {
     slug: 'timi-stemi',
     name: 'TIMI Risk Score for STEMI',
-    category: 'Síndrome Coronario Agudo',
-    description: 'Estima la mortalidad a 30 días en pacientes con IAM con elevación del ST',
+    category: 'Cardiopatía Isquémica',
+    description: 'Score TIMI para estratificación de riesgo en SCA con elevación del ST (IAMCEST).',
     reference: 'Morrow DA, et al. Circulation. 2000;102(17):2031-7.',
+    relatedGuidelines: ['iamcest-2024', 'consenso-iamcest', 'sindromes coronarios agudos', 'síndromes coronarios agudos'],
     inputs: [
       {
         id: 'edad',
@@ -1728,7 +1729,7 @@ export const calculators: CalculatorConfig[] = [
     category: 'Fibrilación Auricular',
     description: 'Score clásico de riesgo de ACV en Fibrilación Auricular.',
     reference: 'Gage BF, et al. JAMA. 2001;285(22):2864-70.',
-    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias'],
+    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias', 'fibrilación auricular'],
     inputs: [
       { id: 'icc', label: 'Insuficiencia Cardíaca Congestiva (Historia)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
       { id: 'hta', label: 'Hipertensión', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },

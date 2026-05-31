@@ -11,6 +11,7 @@ import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
 import { ALGORITMOS } from '@/lib/data/algoritmos'
 import { calculators } from '@/lib/data/calculators'
+import { guiasPremium } from '@/lib/data/guias-premium'
 
 const parseMarkdownToSections = (md: string) => {
   const regex = /^##\s+(.*)$/gm;
@@ -56,7 +57,8 @@ export default function GuiaDetallePage() {
     const loadGuia = async () => {
       const g = await db.guias.where('slug').equals(slug).first()
       if (g) {
-        setGuia(g)
+        const override = guiasPremium.find(p => p.titulo.toLowerCase() === g.titulo.toLowerCase())
+        setGuia(override ? { ...g, ...override } as GuiaLocal : g)
       }
       setCargando(false)
     }
@@ -69,7 +71,13 @@ export default function GuiaDetallePage() {
   }, [guia])
 
   const tools = useMemo(() => {
-    const algos = ALGORITMOS.filter(a => a.relatedGuidelines?.includes(slug)).map(a => ({
+    if (!guia) return []
+    const matchTool = (guidelines?: string[]) => {
+      if (!guidelines) return false
+      return guidelines.includes(slug) || guidelines.some(rg => guia.titulo.toLowerCase().includes(rg.replace(/-/g, ' ')))
+    }
+
+    const algos = ALGORITMOS.filter(a => matchTool(a.relatedGuidelines)).map(a => ({
       id: a.slug,
       title: a.name,
       type: 'Algoritmo',
@@ -77,7 +85,7 @@ export default function GuiaDetallePage() {
       icon: GitCommit
     }))
     
-    const calcs = calculators.filter(c => c.relatedGuidelines?.includes(slug)).map(c => ({
+    const calcs = calculators.filter(c => matchTool(c.relatedGuidelines)).map(c => ({
       id: c.slug,
       title: c.name,
       type: 'Calculadora',
@@ -86,7 +94,7 @@ export default function GuiaDetallePage() {
     }))
     
     return [...algos, ...calcs]
-  }, [slug])
+  }, [slug, guia])
 
   if (cargando) return <div className="p-6 text-center text-slate-400">Cargando guía...</div>
 
