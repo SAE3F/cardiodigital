@@ -1665,8 +1665,191 @@ export const calculators: CalculatorConfig[] = [
         return { scoreRange: [score, score], risk: 'Endocarditis Rechazada', recommendation: `No cumple criterios suficientes para diagnóstico clínico (${mayores} mayores, ${menores} menores).`, color: 'green' };
       }
     }
+  },
+  {
+    slug: 'timi-nstemi',
+    name: 'TIMI Risk Score (NSTEMI)',
+    category: 'Enfermedad Coronaria',
+    description: 'Estima mortalidad, IAM o isquemia recurrente a 14 días en NSTEMI/Angina Inestable',
+    reference: 'Antman EM, et al. JAMA. 2000;284(7):835-42.',
+    inputs: [
+      { id: 'edad', label: 'Edad ≥ 65 años', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'factores', label: '≥ 3 factores de riesgo CV (HTA, DBT, DLP, AF, Tabaquismo)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'estenosis', label: 'Estenosis coronaria conocida ≥ 50%', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'aas', label: 'Uso de aspirina en los últimos 7 días', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'angina', label: 'Angina severa (≥ 2 episodios en 24h)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'ecg', label: 'Desviación del segmento ST ≥ 0.5 mm', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'biomarcadores', label: 'Biomarcadores cardíacos elevados', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] }
+    ],
+    calculate: (values) => {
+      let score = 0;
+      if (values.edad) score += 1;
+      if (values.factores) score += 1;
+      if (values.estenosis) score += 1;
+      if (values.aas) score += 1;
+      if (values.angina) score += 1;
+      if (values.ecg) score += 1;
+      if (values.biomarcadores) score += 1;
+      return score;
+    },
+    interpret: (score) => {
+      if (score <= 2) return { scoreRange: [0, score], risk: 'Riesgo Bajo', recommendation: 'Mortalidad/IAM/Isquemia a 14 días: 4.7% - 8.3%', color: 'green' };
+      if (score <= 4) return { scoreRange: [3, 4], risk: 'Riesgo Moderado', recommendation: 'Mortalidad/IAM/Isquemia a 14 días: 13.2% - 19.9%', color: 'yellow' };
+      return { scoreRange: [5, 7], risk: 'Riesgo Alto', recommendation: 'Mortalidad/IAM/Isquemia a 14 días: 26.2% - 40.9%', color: 'red' };
+    }
+  },
+  {
+    slug: 'killip',
+    name: 'Killip Class',
+    category: 'Insuficiencia Cardíaca',
+    description: 'Estratificación de riesgo clínico en pacientes con IAM',
+    reference: 'Killip T, et al. Am J Cardiol. 1967;20(4):457-64.',
+    inputs: [
+      { id: 'clase', label: 'Hallazgos clínicos', type: 'radio', options: [
+        { id: '1', label: 'Clase I: Sin congestión pulmonar o tercer ruido', points: 1 },
+        { id: '2', label: 'Clase II: Rales basales, S3, o congestión yugular', points: 2 },
+        { id: '3', label: 'Clase III: Edema agudo de pulmón', points: 3 },
+        { id: '4', label: 'Clase IV: Shock cardiogénico', points: 4 }
+      ] }
+    ],
+    calculate: (values) => Number(values.clase) || 1,
+    interpret: (score) => {
+      if (score === 1) return { scoreRange: [1, 1], risk: 'Killip I', recommendation: 'Mortalidad a 30 días estimada: ~6%', color: 'green' };
+      if (score === 2) return { scoreRange: [2, 2], risk: 'Killip II', recommendation: 'Mortalidad a 30 días estimada: ~17%', color: 'yellow' };
+      if (score === 3) return { scoreRange: [3, 3], risk: 'Killip III', recommendation: 'Mortalidad a 30 días estimada: ~38%', color: 'red' };
+      return { scoreRange: [4, 4], risk: 'Killip IV', recommendation: 'Mortalidad a 30 días estimada: ~81%', color: 'red' };
+    }
+  },
+  {
+    slug: 'chads2',
+    name: 'CHADS2 Score',
+    category: 'Fibrilación Auricular',
+    description: 'Score clásico de riesgo de ACV en Fibrilación Auricular',
+    reference: 'Gage BF, et al. JAMA. 2001;285(22):2864-70.',
+    inputs: [
+      { id: 'icc', label: 'Insuficiencia Cardíaca Congestiva (Historia)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'hta', label: 'Hipertensión', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'edad', label: 'Edad ≥ 75 años', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'dbts', label: 'Diabetes', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'acv', label: 'ACV/AIT previo', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 2 }] }
+    ],
+    calculate: (v) => (v.icc ? 1 : 0) + (v.hta ? 1 : 0) + (v.edad ? 1 : 0) + (v.dbts ? 1 : 0) + (v.acv ? 2 : 0),
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Bajo', recommendation: 'Riesgo ACV anual: 1.9%. AAS sugerida (según guías previas).', color: 'green' };
+      if (score === 1) return { scoreRange: [1, 1], risk: 'Moderado', recommendation: 'Riesgo ACV anual: 2.8%. Considerar anticoagulación.', color: 'yellow' };
+      return { scoreRange: [2, 6], risk: 'Alto', recommendation: 'Riesgo ACV anual: 4.0% - 18.2%. Anticoagulación indicada.', color: 'red' };
+    }
+  },
+  {
+    slug: 'atria',
+    name: 'ATRIA Bleeding Risk',
+    category: 'Fibrilación Auricular',
+    description: 'Riesgo de sangrado mayor en pacientes con FA en anticoagulación',
+    reference: 'Fang MC, et al. J Am Coll Cardiol. 2011;58(4):395-401.',
+    inputs: [
+      { id: 'anemia', label: 'Anemia (Hb <13 g/dL ♂ / <12 g/dL ♀)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 3 }] },
+      { id: 'renal', label: 'Falla renal severa (eGFR <30 o diálisis)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 3 }] },
+      { id: 'edad', label: 'Edad ≥ 75 años', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 2 }] },
+      { id: 'sangrado', label: 'Sangrado previo (GI, intracraneal)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'hta', label: 'Historia de hipertensión', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] }
+    ],
+    calculate: (v) => (v.anemia ? 3 : 0) + (v.renal ? 3 : 0) + (v.edad ? 2 : 0) + (v.sangrado ? 1 : 0) + (v.hta ? 1 : 0),
+    interpret: (score) => {
+      if (score <= 3) return { scoreRange: [0, score], risk: 'Riesgo Bajo', recommendation: 'Incidencia sangrado: 0.8% anual.', color: 'green' };
+      if (score === 4) return { scoreRange: [4, 4], risk: 'Riesgo Moderado', recommendation: 'Incidencia sangrado: 2.6% anual.', color: 'yellow' };
+      return { scoreRange: [5, 10], risk: 'Riesgo Alto', recommendation: 'Incidencia sangrado: 5.8% anual.', color: 'red' };
+    }
+  },
+  {
+    slug: 'san-francisco',
+    name: 'San Francisco Syncope Rule',
+    category: 'Síncope',
+    description: 'Identifica pacientes con síncope con alto riesgo a 7 días',
+    reference: 'Quinn J, et al. Ann Emerg Med. 2004;43(2):224-32.',
+    inputs: [
+      { id: 'chf', label: 'Historia de Insuficiencia Cardíaca', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'hct', label: 'Hematocrito < 30%', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'ecg', label: 'ECG anormal (no sinusal o cambios nuevos)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'sob', label: 'Disnea (Shortness of Breath) en guardia', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
+      { id: 'sbp', label: 'PAS < 90 mmHg en el triage', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] }
+    ],
+    calculate: (v) => (v.chf || v.hct || v.ecg || v.sob || v.sbp) ? 1 : 0,
+    interpret: (score) => {
+      if (score === 0) return { scoreRange: [0, 0], risk: 'Bajo Riesgo', recommendation: 'Seguro para alta domiciliaria (muy bajo riesgo de eventos a 7 días).', color: 'green' };
+      return { scoreRange: [1, 1], risk: 'Alto Riesgo', recommendation: 'Regla Positiva (CHESS). Se sugiere observación, internación o estudios adicionales.', color: 'red' };
+    }
+  },
+  {
+    slug: 'egsys',
+    name: 'EGSYS Syncope Score',
+    category: 'Síncope',
+    description: 'Evaluation of Guidelines in Syncope Study - Etiología cardíaca',
+    reference: 'Del Rosso A, et al. Eur Heart J. 2008;29(2):226-34.',
+    inputs: [
+      { id: 'palp', label: 'Palpitaciones precendiendo el síncope', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 4 }] },
+      { id: 'heartd', label: 'Enfermedad cardíaca conocida', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 3 }] },
+      { id: 'ecg', label: 'ECG anormal', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 3 }] },
+      { id: 'effort', label: 'Síncope durante esfuerzo físico', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 3 }] },
+      { id: 'supine', label: 'Síncope en decúbito supino', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 2 }] },
+      { id: 'neuro', label: 'Pródromos autonómicos (náuseas/vómitos)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: -1 }] },
+      { id: 'prec', label: 'Factores precipitantes (dolor, bipedestación)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: -1 }] }
+    ],
+    calculate: (v) => {
+      let score = 0;
+      if (v.palp) score += 4;
+      if (v.heartd) score += 3;
+      if (v.ecg) score += 3;
+      if (v.effort) score += 3;
+      if (v.supine) score += 2;
+      if (v.neuro) score -= 1;
+      if (v.prec) score -= 1;
+      return score;
+    },
+    interpret: (score) => {
+      if (score < 3) return { scoreRange: [-2, 2], risk: 'Baja Probabilidad', recommendation: 'Síncope cardíaco improbable.', color: 'green' };
+      if (score === 3) return { scoreRange: [3, 3], risk: 'Probabilidad Intermedia', recommendation: 'Evaluar clínicamente. Mortalidad 13%.', color: 'yellow' };
+      return { scoreRange: [4, 15], risk: 'Alta Probabilidad', recommendation: 'Síncope cardíaco muy probable (Mortalidad >20%). Admisión.', color: 'red' };
+    }
+  },
+  {
+    slug: 'framingham-chf',
+    name: 'Framingham HF Criteria',
+    category: 'Insuficiencia Cardíaca',
+    description: 'Criterios clínicos para diagnóstico de Insuficiencia Cardíaca',
+    reference: 'McKee PA, et al. N Engl J Med. 1971;285(26):1441-6.',
+    inputs: [
+      { id: 'pnd', label: 'DPM o disnea de decúbito', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'yug', label: 'Ingurgitación yugular', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'rales', label: 'Estertores crepitantes', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'rx', label: 'Cardiomegalia en Rx', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'epa', label: 'Edema Agudo de Pulmón', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'gallop', label: 'Tercer ruido (S3)', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'pvp', label: 'PVC > 16 cmH2O', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'hep', label: 'Reflujo hepatoyugular positivo', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      { id: 'wl', label: 'Pérdida peso >4.5kg en 5 días bajo tratamiento', type: 'checkbox', options: [{ id: 'M', label: 'Mayor', points: 10 }] },
+      
+      { id: 'edema', label: 'Edema maleolar bilateral', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] },
+      { id: 'tos', label: 'Tos nocturna', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] },
+      { id: 'dys', label: 'Disnea de esfuerzo', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] },
+      { id: 'hepm', label: 'Hepatomegalia', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] },
+      { id: 'pleur', label: 'Derrame pleural', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] },
+      { id: 'tachy', label: 'Taquicardia (>120 lpm)', type: 'checkbox', options: [{ id: 'm', label: 'Menor', points: 1 }] }
+    ],
+    calculate: (v) => {
+      let mayores = 0, menores = 0;
+      Object.keys(v).forEach(k => { if(v[k] === 'M') mayores++; if(v[k] === 'm') menores++; });
+      return mayores * 100 + menores;
+    },
+    interpret: (score) => {
+      const mayores = Math.floor(score / 100);
+      const menores = score % 100;
+      if (mayores >= 2 || (mayores >= 1 && menores >= 2)) return { scoreRange: [score, score], risk: 'Diagnóstico Positivo', recommendation: `Cumple criterios de HF (Mayores: ${mayores}, Menores: ${menores}).`, color: 'red' };
+      return { scoreRange: [score, score], risk: 'Diagnóstico Negativo', recommendation: `No cumple criterios suficientes (Mayores: ${mayores}, Menores: ${menores}).`, color: 'green' };
+    }
   }
-];export function getCalculatorBySlug(slug: string): CalculatorConfig | undefined {
+];
+
+export function getCalculatorBySlug(slug: string): CalculatorConfig | undefined {
   return calculators.find(c => c.slug === slug);
 }
 
