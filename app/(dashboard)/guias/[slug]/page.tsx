@@ -6,6 +6,7 @@ import { db, type GuiaLocal } from '@/lib/offline-db'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ArrowLeft, ChevronDown, FileText, Wrench, GitCommit, Calculator } from 'lucide-react'
+import { FavoriteButton } from '@/components/ui/FavoriteButton'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import Link from 'next/link'
@@ -140,6 +141,13 @@ export default function GuiaDetallePage() {
         <div className="flex-1 min-w-0">
           <h1 className="text-sm font-semibold truncate text-foreground">{guia.titulo}</h1>
         </div>
+        <FavoriteButton 
+          itemSlug={slug} 
+          tipo="guia" 
+          titulo={guia.titulo} 
+          url={`/guias/${slug}`} 
+          className="text-foreground"
+        />
       </div>
 
       <div className="p-4 md:p-6 max-w-3xl mx-auto">

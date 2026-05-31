@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { getCalculatorBySlug, Interpretation, CalculatorOption } from "@/lib/data/calculators"
 import Link from "next/link"
 import { usePatient } from "@/lib/contexts/PatientContext"
+import { FavoriteButton } from "@/components/ui/FavoriteButton"
 
 function findMatchingNumericOption(options: CalculatorOption[], value: number): string | null {
   for (const opt of options) {
@@ -164,7 +165,10 @@ export function CalculatorEngine({ slug }: EngineProps) {
   return (
     <div className="max-w-3xl mx-auto pb-24">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">{config.name}</h1>
+        <div className="flex items-start justify-between gap-4">
+          <h1 className="text-3xl font-bold text-foreground">{config.name}</h1>
+          <FavoriteButton itemSlug={slug} tipo="calculadora" titulo={config.name} url={`/calculadoras/${slug}`} />
+        </div>
         <p className="text-muted-foreground mt-2">{config.description}</p>
         <div className="flex flex-wrap items-center gap-3 mt-4">
           <span className="inline-block px-3 py-1 bg-accent text-xs font-medium text-muted-foreground rounded-full border border-border">

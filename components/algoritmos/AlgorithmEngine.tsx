@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { AlgorithmConfig, AlgorithmNode, AlgorithmOption } from '@/lib/data/algoritmos'
 import { ArrowLeft, ChevronRight, AlertTriangle, ShieldAlert, CheckCircle2 } from 'lucide-react'
+import { FavoriteButton } from '@/components/ui/FavoriteButton'
 
 interface AlgorithmEngineProps {
   config: AlgorithmConfig;
@@ -36,7 +37,10 @@ export function AlgorithmEngine({ config }: AlgorithmEngineProps) {
       <div className="mb-8 p-6 bg-card border border-border rounded-2xl shadow-sm">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <h1 className="text-2xl font-bold text-foreground mb-1">{config.name}</h1>
+            <div className="flex items-center gap-3 mb-1">
+              <h1 className="text-2xl font-bold text-foreground">{config.name}</h1>
+              <FavoriteButton itemSlug={config.slug} tipo="algoritmo" titulo={config.name} url={`/algoritmos/${config.slug}`} />
+            </div>
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900/50 text-blue-300 border border-blue-800/50">
               {config.source}
             </span>

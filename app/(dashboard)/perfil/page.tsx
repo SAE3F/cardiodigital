@@ -5,18 +5,28 @@ import { useSettings } from '@/lib/contexts/SettingsContext'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { LogOut, User, Moon, Sun, Type, MonitorSmartphone, Eclipse } from 'lucide-react'
+import { LogOut, User, Moon, Sun, Type, MonitorSmartphone, Eclipse, Heart, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { db, type FavoritoLocal } from '@/lib/offline-db'
+import Link from 'next/link'
 
 export default function PerfilPage() {
   const { user, signOut } = useAuth()
   const { theme, setTheme } = useTheme()
   const { fontSize, setFontSize } = useSettings()
   const router = useRouter()
+  const [favoritos, setFavoritos] = useState<FavoritoLocal[]>([])
   
   // Para evitar hydration mismatch con next-themes
   const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
+  useEffect(() => {
+    setMounted(true)
+    const loadFavoritos = async () => {
+      const favs = await db.favoritos.toArray()
+      setFavoritos(favs)
+    }
+    loadFavoritos()
+  }, [])
 
   const handleSignOut = async () => {
     await signOut()
@@ -42,12 +52,35 @@ export default function PerfilPage() {
       {!user && (
         <div className="p-4 bg-yellow-500/10 border border-yellow-500/50 rounded-xl">
           <p className="text-yellow-600 mb-3 font-medium">No has iniciado sesión</p>
-          <p className="text-sm text-yellow-600/80 mb-4">Iniciá sesión para guardar tus guías favoritas y sincronizar datos.</p>
+          <p className="text-sm text-yellow-600/80 mb-4">Iniciá sesión para sincronizar tus favoritos en todos tus dispositivos.</p>
           <Button onClick={() => router.push('/login')} className="bg-yellow-600 hover:bg-yellow-700 text-white">
             Iniciar Sesión
           </Button>
         </div>
       )}
+
+      {/* Favoritos */}
+      <div>
+        <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
+          <Heart className="w-5 h-5 text-red-500" />
+          Mis Favoritos
+        </h2>
+        {favoritos.length === 0 ? (
+          <p className="text-muted-foreground text-sm italic">Aún no agregaste guías, algoritmos ni calculadoras a favoritos.</p>
+        ) : (
+          <div className="grid gap-3">
+            {favoritos.map((fav) => (
+              <Link key={fav.id} href={fav.url} className="flex items-center justify-between p-4 bg-card border border-border rounded-xl hover:border-red-500/50 transition-colors">
+                <div>
+                  <h3 className="font-semibold text-foreground text-sm">{fav.titulo}</h3>
+                  <p className="text-xs text-muted-foreground capitalize">{fav.tipo}</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className="space-y-6">
         <div>
