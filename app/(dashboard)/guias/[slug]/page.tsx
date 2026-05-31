@@ -72,12 +72,34 @@ export default function GuiaDetallePage() {
 
   const tools = useMemo(() => {
     if (!guia) return []
-    const matchTool = (guidelines?: string[]) => {
-      if (!guidelines) return false
-      return guidelines.includes(slug) || guidelines.some(rg => guia.titulo.toLowerCase().includes(rg.replace(/-/g, ' ')))
+    const matchTool = (toolCategory: string, guidelines?: string[]) => {
+      // 1. Match explícito por slug o título (Guías Premium/Específicas)
+      if (guidelines && (guidelines.includes(slug) || guidelines.some(rg => guia.titulo.toLowerCase().includes(rg.replace(/-/g, ' '))))) {
+        return true;
+      }
+      
+      const catTool = toolCategory?.toLowerCase() || '';
+      const catGuia = guia.categoria?.toLowerCase() || '';
+      const title = guia.titulo.toLowerCase();
+
+      // 2. Match directo por categoría
+      if (catTool && catGuia && (catTool.includes(catGuia) || catGuia.includes(catTool))) {
+        return true;
+      }
+
+      // 3. Heurística Inteligente por Temas Cardiológicos (Matchea si el título de la guía habla del tema de la herramienta)
+      const isIsquemia = (s: string) => s.includes('isquémica') || s.includes('coronario') || s.includes('infarto') || s.includes('iam');
+      const isArritmia = (s: string) => s.includes('arritmia') || s.includes('fibrilación') || s.includes('auricular');
+      const isIC = (s: string) => s.includes('insuficiencia cardíaca') || s.includes('ic');
+
+      if (isIsquemia(catTool) && isIsquemia(title)) return true;
+      if (isArritmia(catTool) && isArritmia(title)) return true;
+      if (isIC(catTool) && isIC(title)) return true;
+
+      return false;
     }
 
-    const algos = ALGORITMOS.filter(a => matchTool(a.relatedGuidelines)).map(a => ({
+    const algos = ALGORITMOS.filter(a => matchTool(a.category, a.relatedGuidelines)).map(a => ({
       id: a.slug,
       title: a.name,
       type: 'Algoritmo',
@@ -85,7 +107,7 @@ export default function GuiaDetallePage() {
       icon: GitCommit
     }))
     
-    const calcs = calculators.filter(c => matchTool(c.relatedGuidelines)).map(c => ({
+    const calcs = calculators.filter(c => matchTool(c.category, c.relatedGuidelines)).map(c => ({
       id: c.slug,
       title: c.name,
       type: 'Calculadora',
