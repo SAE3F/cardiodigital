@@ -44,7 +44,13 @@ async function scrapeSource(source) {
       const $ = cheerio.load(html);
       
       $('.obj_issue_summary').each((i, el) => {
-        const title = $(el).find('a.title').text().trim();
+        let title = $(el).find('a.title').text().trim();
+        const series = $(el).find('.series').text().trim();
+        if (series) {
+          // Si tiene serie (ej: "Vol. 55 Núm. 1 (2026)"), lo sumamos al título si no está ya
+          title = `${title} - ${series}`;
+        }
+        
         const link = $(el).find('a.title').attr('href');
         if (link) {
           allIssues.push({ title, link });

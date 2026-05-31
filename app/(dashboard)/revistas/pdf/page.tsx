@@ -36,12 +36,12 @@ export default function GenericPdfViewer({ searchParams }: { searchParams: Promi
         </div>
 
         <a 
-          href={url} 
+          href={url.replace('/view/', '/download/')} 
           target="_blank" 
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-3 py-2 text-xs font-medium bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-colors ml-4 shrink-0"
         >
-          <span className="hidden sm:inline">Abrir en navegador</span>
+          <span className="hidden sm:inline">Descargar PDF</span>
           <ExternalLink size={14} />
         </a>
       </div>
@@ -49,7 +49,9 @@ export default function GenericPdfViewer({ searchParams }: { searchParams: Promi
       {/* Visor PDF Nivel Nativo */}
       <div className="flex-1 w-full bg-card relative">
         <iframe 
-          src={url}
+          src={url.includes('revistafac.org.ar') 
+            ? `https://docs.google.com/viewer?url=${encodeURIComponent(url.replace('/view/', '/download/'))}&embedded=true` 
+            : url}
           className="absolute inset-0 w-full h-full border-none"
           title="Visor de PDF"
         />
