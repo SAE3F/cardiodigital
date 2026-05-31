@@ -24,7 +24,7 @@ export default function GuiasPage() {
     const allGuias = await db.guias.toArray()
     // Override con las guías premium hardcodeadas para dar formato interactivo a los consensos 2025/2026
     const enhancedGuias = allGuias.map(g => {
-      const override = guiasPremium.find(p => p.titulo.toLowerCase() === g.titulo.toLowerCase())
+      const override = guiasPremium.find(p => p.titulo?.toLowerCase() === g.titulo.toLowerCase())
       return override ? { ...g, ...override } as GuiaLocal : g
     })
     setGuias(enhancedGuias)

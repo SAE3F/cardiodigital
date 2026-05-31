@@ -57,7 +57,7 @@ export default function GuiaDetallePage() {
     const loadGuia = async () => {
       const g = await db.guias.where('slug').equals(slug).first()
       if (g) {
-        const override = guiasPremium.find(p => p.titulo.toLowerCase() === g.titulo.toLowerCase())
+        const override = guiasPremium.find(p => p.titulo?.toLowerCase() === g.titulo.toLowerCase())
         setGuia(override ? { ...g, ...override } as GuiaLocal : g)
       }
       setCargando(false)
