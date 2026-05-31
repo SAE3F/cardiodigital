@@ -31,6 +31,7 @@ export interface CalculatorConfig {
   category: string;
   description: string;
   reference?: string;
+  relatedGuidelines?: string[]; // Slugs de guías clínicas asociadas
   inputs: CalculatorInput[];
   calculate: (values: Record<string, any>) => number;
   interpret: (score: number, values?: Record<string, any>) => Interpretation;
@@ -40,9 +41,10 @@ export const calculators: CalculatorConfig[] = [
   {
     slug: 'chads2-vasc',
     name: 'CHA₂DS₂-VASc',
-    category: 'Fibrilación Auricular',
-    description: 'Riesgo de ACV en pacientes con Fibrilación Auricular no valvular',
+    category: 'Arritmias',
+    description: 'Estimación del riesgo de ACV en pacientes con Fibrilación Auricular no valvular.',
     reference: 'Lip GY, et al. Chest. 2010;137(2):263-72.',
+    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias'],
     inputs: [
       {
         id: 'insuficiencia_cardiaca',
@@ -1724,8 +1726,9 @@ export const calculators: CalculatorConfig[] = [
     slug: 'chads2',
     name: 'CHADS2 Score',
     category: 'Fibrilación Auricular',
-    description: 'Score clásico de riesgo de ACV en Fibrilación Auricular',
+    description: 'Score clásico de riesgo de ACV en Fibrilación Auricular.',
     reference: 'Gage BF, et al. JAMA. 2001;285(22):2864-70.',
+    relatedGuidelines: ['fa-2022', 'consenso-fibrilacion-auricular', 'consenso-arritmias'],
     inputs: [
       { id: 'icc', label: 'Insuficiencia Cardíaca Congestiva (Historia)', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
       { id: 'hta', label: 'Hipertensión', type: 'checkbox', options: [{ id: 'y', label: 'Sí', points: 1 }] },
