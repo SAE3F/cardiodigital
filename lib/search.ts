@@ -31,34 +31,62 @@ export async function buscar(query: string): Promise<ResultadoBusqueda[]> {
   return buscarLocal(query)
 }
 
+const SINONIMOS: Record<string, string[]> = {
+  'fa': ['fibrilacion auricular', 'atrial fibrillation'],
+  'sca': ['sindrome coronario agudo', 'acute coronary'],
+  'ic': ['insuficiencia cardiaca', 'heart failure'],
+  'tep': ['tromboembolismo pulmonar', 'pulmonary embolism'],
+  'iam': ['infarto agudo de miocardio', 'myocardial infarction'],
+  'hta': ['hipertension arterial', 'hypertension'],
+}
+
+function normalizar(texto: string): string {
+  if (!texto) return '';
+  return texto
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // elimina acentos
+    .replace(/[^a-z0-9\s]/g, '')
+}
+
 async function buscarLocal(query: string): Promise<ResultadoBusqueda[]> {
-  const terminos = query.toLowerCase().split(' ').filter(t => t.length > 1)
+  const qNorm = normalizar(query);
+  let terminos = qNorm.split(' ').filter(t => t.length > 1);
+  
+  // Agregar sinónimos a los términos de búsqueda
+  const terminosExtendidos = [...terminos];
+  terminos.forEach(t => {
+    if (SINONIMOS[t]) {
+      terminosExtendidos.push(...SINONIMOS[t].map(normalizar));
+    }
+  });
+
   const resultados: ResultadoBusqueda[] = []
 
   const guias = await db.guias.toArray()
   guias.forEach(g => {
-    const texto = `${g.titulo} ${g.subtitulo ?? ''} ${g.palabras_clave?.join(' ') ?? ''}`.toLowerCase()
-    const matches = terminos.filter(t => texto.includes(t)).length
+    const texto = normalizar(`${g.titulo} ${g.subtitulo ?? ''} ${g.palabras_clave?.join(' ') ?? ''}`);
+    const matches = terminosExtendidos.filter(t => texto.includes(t)).length
     if (matches > 0) {
       resultados.push({
         id: g.id, nombre: g.titulo,
         descripcion: g.resumen_rapido,
         tipo: 'guia', categoria: g.categoria,
-        ranking: matches / terminos.length,
+        ranking: matches / terminosExtendidos.length,
       })
     }
   })
 
   const farmacos = await db.farmacos.toArray()
   farmacos.forEach(f => {
-    const texto = `${f.nombre} ${f.nombre_comercial?.join(' ') ?? ''} ${f.clase ?? ''}`.toLowerCase()
-    const matches = terminos.filter(t => texto.includes(t)).length
+    const texto = normalizar(`${f.nombre} ${f.nombre_comercial?.join(' ') ?? ''} ${f.clase ?? ''}`);
+    const matches = terminosExtendidos.filter(t => texto.includes(t)).length
     if (matches > 0) {
       resultados.push({
         id: f.id, nombre: f.nombre,
         descripcion: f.clase,
         tipo: 'farmaco',
-        ranking: matches / terminos.length,
+        ranking: matches / terminosExtendidos.length,
       })
     }
   })

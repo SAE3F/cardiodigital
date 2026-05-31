@@ -17,6 +17,7 @@ export default function GuiasPage() {
   // Sincronización
   const [isSyncing, setIsSyncing] = useState(false)
   const [lastSyncDate, setLastSyncDate] = useState<string | null>(null)
+  const [syncError, setSyncError] = useState<string | null>(null)
 
   const loadGuias = async () => {
     const allGuias = await db.guias.toArray()
@@ -29,16 +30,21 @@ export default function GuiasPage() {
     if (last) {
       setLastSyncDate(new Date(parseInt(last)).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
     }
+    const err = localStorage.getItem('cardioguardia_sync_error')
+    if (err) setSyncError(err)
   }, [])
 
   const handleManualSync = async () => {
     setIsSyncing(true)
+    setSyncError(null)
     try {
       await syncAllData()
       await loadGuias() // Recargar datos locales
       setLastSyncDate(new Date().toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
-    } catch (e) {
+      setSyncError(null)
+    } catch (e: any) {
       console.error(e)
+      setSyncError(e.message || 'Error desconocido')
     } finally {
       setIsSyncing(false)
     }
@@ -89,6 +95,16 @@ export default function GuiasPage() {
         </button>
       </div>
       
+      {syncError && (
+        <div className="mb-6 bg-red-900/30 border border-red-500/50 text-red-200 text-sm p-4 rounded-lg flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-semibold mb-1">Error al sincronizar datos</p>
+            <p className="opacity-90">{syncError}</p>
+          </div>
+        </div>
+      )}
+
       <div className="flex gap-2 mb-4">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />

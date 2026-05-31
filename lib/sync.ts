@@ -46,9 +46,12 @@ export async function syncAllData(): Promise<void> {
     if (calculadoras) await db.calculadoras.bulkPut(calculadoras)
 
     localStorage.setItem(SYNC_KEY, Date.now().toString())
+    localStorage.removeItem('cardioguardia_sync_error')
     console.log('[CardioGuardia] Sync completado')
-  } catch (error) {
+  } catch (error: any) {
     console.warn('[CardioGuardia] Sync falló (probablemente offline o sin backend):', error)
+    localStorage.setItem('cardioguardia_sync_error', error.message || 'Error desconocido')
+    throw error // Re-throw to let the caller handle it if needed
   }
 }
 

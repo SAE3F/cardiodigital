@@ -195,9 +195,15 @@ export const calculators: CalculatorConfig[] = [
     ],
     calculate: (values) => {
       let score = 0;
-      Object.values(values).forEach(val => {
-        if (val) score += 1; // Todos los inputs checkbox devuelven su ID si están checkeados
-      });
+      if (values.hipertension === 'h') score += 1;
+      if (values.renal === 'a_renal') score += 1;
+      if (values.hepatica === 'a_hepatic') score += 1;
+      if (values.stroke === 's') score += 1;
+      if (values.sangrado === 'b') score += 1;
+      if (values.labile_inr === 'l') score += 1;
+      if (values.edad === 'e') score += 1;
+      if (values.drogas === 'd_drugs') score += 1;
+      if (values.alcohol === 'd_alcohol') score += 1;
       return score;
     },
     interpret: (score) => {
