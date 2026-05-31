@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { getCalculatorBySlug, Interpretation } from "@/lib/data/calculators"
 import Link from "next/link"
+import { usePatient } from "@/lib/contexts/PatientContext"
 
 interface EngineProps {
   slug: string;
@@ -10,10 +11,42 @@ interface EngineProps {
 
 export function CalculatorEngine({ slug }: EngineProps) {
   const config = getCalculatorBySlug(slug)
+  const { patient } = usePatient()
   
   const [values, setValues] = useState<Record<string, any>>({})
   const [score, setScore] = useState<number | null>(null)
   const [result, setResult] = useState<Interpretation | null>(null)
+  const [autoFilled, setAutoFilled] = useState<string[]>([])
+
+  // Pre-cargar datos del paciente si es aplicable
+  useEffect(() => {
+    if (!config || !patient.isActive) return;
+
+    const newValues = { ...values }
+    const filled: string[] = []
+
+    config.inputs.forEach(input => {
+      // Inyección exacta para inputs numéricos de edad y peso
+      if (input.type === 'number') {
+        if (input.id === 'edad' && patient.age) {
+          newValues[input.id] = patient.age
+          filled.push(input.label)
+        }
+        if (input.id === 'peso' && patient.weight) {
+          newValues[input.id] = patient.weight
+          filled.push(input.label)
+        }
+      }
+      // NOTA: Para inputs tipo 'radio' de edad, requeriría lógica específica por calculadora (rangos).
+      // Por ahora se mantiene manual para evitar errores clínicos de mapeo.
+    })
+
+    if (filled.length > 0 && Object.keys(values).length === 0) {
+      setValues(newValues)
+      setAutoFilled(filled)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config, patient.isActive])
 
   // Calcular automáticamente cada vez que cambian los valores
   useEffect(() => {
@@ -82,6 +115,14 @@ export function CalculatorEngine({ slug }: EngineProps) {
             </span>
           )}
         </div>
+        {autoFilled.length > 0 && (
+          <div className="mt-4 inline-flex items-center gap-2 px-3 py-2 bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm rounded-lg">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Auto-completado: {autoFilled.join(', ')}
+          </div>
+        )}
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">

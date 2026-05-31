@@ -1,8 +1,9 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BookOpen, Calculator, Search, Settings } from 'lucide-react'
+import { BookOpen, Calculator, Search, Settings, UserPlus, UserCheck } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { usePatient } from '@/lib/contexts/PatientContext'
 
 const navItems = [
   { href: '/guias',        label: 'Guías Clínicas', icon: BookOpen },
@@ -13,6 +14,7 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname()
+  const { setPanelOpen, patient } = usePatient()
 
   return (
     <div className="flex h-full flex-col bg-slate-950 p-4">
@@ -46,6 +48,20 @@ export function Sidebar() {
       </nav>
 
       <div className="mt-auto px-2 pb-4 space-y-2">
+        <button 
+          onClick={() => setPanelOpen(true)}
+          className={`w-full text-left p-3 rounded-xl border flex items-center justify-between font-medium transition-colors ${patient.isActive ? 'bg-blue-500/20 border-blue-500/50 text-blue-300 hover:bg-blue-500/30' : 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800'}`}
+        >
+          <div className="flex items-center gap-2 text-sm">
+            {patient.isActive ? <UserCheck size={18} className="text-blue-400" /> : <UserPlus size={18} />}
+            <span>Paciente Activo</span>
+          </div>
+          {patient.isActive && (
+            <span className="text-xs bg-blue-500 text-white px-2 py-0.5 rounded-full">
+              On
+            </span>
+          )}
+        </button>
         <button 
           onClick={async () => {
             const { syncAllData } = await import('@/lib/sync');

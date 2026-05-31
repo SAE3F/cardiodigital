@@ -24,13 +24,18 @@ export const viewport: Viewport = {
 }
 
 import { SyncProvider } from '@/components/SyncProvider'
+import { PatientProvider } from '@/lib/contexts/PatientContext'
+import { PatientPanel } from '@/components/layout/PatientPanel'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es" className="dark">
       <body className={`${inter.className} bg-slate-950 text-slate-100 antialiased`}>
-        <SyncProvider />
-        {children}
+        <PatientProvider>
+          <SyncProvider />
+          {children}
+          <PatientPanel />
+        </PatientProvider>
       </body>
     </html>
   )
