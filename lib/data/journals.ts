@@ -1,7 +1,5 @@
-import journalsData from './journals.json';
-
 export interface JournalArticle {
-  sourceId: 'sac' | 'fac';
+  sourceId: 'sac' | 'fac' | 'jacc' | 'circulation' | 'ehj' | 'nejm' | 'jama' | 'lancet' | 'rec';
   sourceName: string;
   issueTitle: string;
   category: string;
@@ -9,9 +7,17 @@ export interface JournalArticle {
   link: string;
   pdfLink: string;
   isGuideline: boolean;
+  isExternal?: boolean;
 }
 
-export const JOURNALS: JournalArticle[] = journalsData as JournalArticle[];
+import localJournals from './journals.json';
+import intlJournals from './journals-intl.json';
 
-export const GUIDELINES_FROM_JOURNALS = JOURNALS.filter(j => j.isGuideline);
-export const REGULAR_ARTICLES = JOURNALS.filter(j => !j.isGuideline);
+// Las guías detectadas dentro de revistas (nacionales)
+export const GUIDELINES_FROM_JOURNALS = localJournals.filter((j: any) => j.isGuideline);
+
+// Artículos regulares de revistas (nacionales + internacionales)
+export const REGULAR_ARTICLES = [
+  ...localJournals.filter((j: any) => !j.isGuideline),
+  ...intlJournals
+];

@@ -11,7 +11,18 @@ export function RevistasList() {
   const [sociedadFiltro, setSociedadFiltro] = useState<string>('Todas')
   const [anioFiltro, setAnioFiltro] = useState<string>('Todos')
   
-  const sociedades = ['Todas', 'sac', 'fac']
+  const sociedades = [
+    { id: 'Todas', name: 'Sociedad' },
+    { id: 'sac', name: 'SAC' },
+    { id: 'fac', name: 'FAC' },
+    { id: 'rec', name: 'REC' },
+    { id: 'jacc', name: 'JACC' },
+    { id: 'circulation', name: 'Circulation' },
+    { id: 'ehj', name: 'EHJ' },
+    { id: 'nejm', name: 'NEJM' },
+    { id: 'jama', name: 'JAMA' },
+    { id: 'lancet', name: 'Lancet' }
+  ]
   
   const getYear = (issueTitle: string) => issueTitle.match(/\b(19|20)\d{2}\b/)?.[0] || 'Desconocido'
   
@@ -64,7 +75,7 @@ export function RevistasList() {
           className="bg-card border border-border text-foreground rounded-md px-3 h-11 min-w-[120px] outline-none focus:border-blue-500 uppercase"
         >
           {sociedades.map(soc => (
-            <option key={soc} value={soc}>{soc === 'Todas' ? 'Sociedad' : soc.toUpperCase()}</option>
+            <option key={soc.id} value={soc.id}>{soc.name}</option>
           ))}
         </select>
       </div>
@@ -82,14 +93,34 @@ export function RevistasList() {
                 {issue}
               </h3>
               <div className="grid grid-cols-1 gap-3">
-                {articles.map((art, idx) => (
+                {articles.map((art: any, idx: number) => {
+                  const href = art.isExternal 
+                    ? art.link 
+                    : `/revistas/pdf?url=${encodeURIComponent(art.pdfLink)}&title=${encodeURIComponent(art.title)}`
+                  
+                  // Badge color mapping
+                  const badgeColors: Record<string, string> = {
+                    sac: 'border-blue-500/30 text-blue-400',
+                    fac: 'border-emerald-500/30 text-emerald-400',
+                    rec: 'border-yellow-500/30 text-yellow-400',
+                    jacc: 'border-indigo-500/30 text-indigo-400',
+                    circulation: 'border-red-500/30 text-red-400',
+                    ehj: 'border-purple-500/30 text-purple-400',
+                    nejm: 'border-slate-500/30 text-slate-400',
+                    jama: 'border-orange-500/30 text-orange-400',
+                    lancet: 'border-pink-500/30 text-pink-400'
+                  }
+
+                  return (
                   <Link
                     key={idx}
-                    href={`/revistas/pdf?url=${encodeURIComponent(art.pdfLink)}&title=${encodeURIComponent(art.title)}`}
+                    href={href}
+                    target={art.isExternal ? "_blank" : undefined}
+                    rel={art.isExternal ? "noopener noreferrer" : undefined}
                     className="block p-4 rounded-xl border border-border bg-card hover:bg-accent hover:border-blue-500/30 transition-all group relative"
                   >
                     <div className="flex justify-between items-start mb-2 gap-2">
-                      <Badge variant="outline" className={`font-mono text-xs whitespace-nowrap ${art.sourceId === 'sac' ? 'border-blue-500/30 text-blue-400' : 'border-emerald-500/30 text-emerald-400'}`}>
+                      <Badge variant="outline" className={`font-mono text-xs whitespace-nowrap ${badgeColors[art.sourceId] || 'border-gray-500/30 text-gray-400'}`}>
                         {art.sourceId.toUpperCase()} {getYear(art.issueTitle)}
                       </Badge>
                       <Badge variant="secondary" className="text-[10px] capitalize bg-accent/80 text-muted-foreground border-none text-right mr-8">
@@ -99,10 +130,10 @@ export function RevistasList() {
 
                     <div className="absolute top-2 right-2">
                       <FavoriteButton 
-                        itemSlug={`_journal_${encodeURIComponent(art.pdfLink)}`}
+                        itemSlug={art.isExternal ? `_ext_${encodeURIComponent(art.link)}` : `_journal_${encodeURIComponent(art.pdfLink)}`}
                         tipo="guia"
                         titulo={art.title}
-                        url={`/revistas/pdf?url=${encodeURIComponent(art.pdfLink)}&title=${encodeURIComponent(art.title)}`}
+                        url={href}
                       />
                     </div>
 
@@ -110,10 +141,10 @@ export function RevistasList() {
                       {art.title}
                     </h2>
                     <div className="flex items-center text-xs text-muted-foreground">
-                      <ExternalLink size={12} className="mr-1" /> Ver PDF Original
+                      <ExternalLink size={12} className="mr-1" /> {art.isExternal ? 'Abrir fuente original' : 'Ver PDF Original'}
                     </div>
                   </Link>
-                ))}
+                )})}
               </div>
             </div>
           ))}

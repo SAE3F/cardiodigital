@@ -1,28 +1,32 @@
-async function run() {
-  const query = '("European heart journal"[Journal] OR "Circulation"[Journal] OR "Journal of the American College of Cardiology"[Journal]) AND ("guideline"[Title] OR "guidelines"[Title]) AND ("2023"[Date - Publication] : "3000"[Date - Publication])';
-  
-  const searchUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&retmode=json&retmax=5&term=${encodeURIComponent(query)}`;
-  
-  const searchRes = await fetch(searchUrl);
-  const searchData = await searchRes.json();
-  const ids = searchData.esearchresult.idlist;
-  
-  console.log('Found PMIDs:', ids);
-  
-  if (ids.length > 0) {
-    const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&retmode=json&id=${ids.join(',')}`;
-    const summaryRes = await fetch(summaryUrl);
+async function testPubMed() {
+  try {
+    const searchRes = await fetch('https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term="Journal of the American College of Cardiology"[Journal]&retmax=5&retmode=json');
+    const searchData = await searchRes.json();
+    const ids = searchData.esearchresult.idlist.join(',');
+    
+    console.log('Found IDs:', ids);
+    
+    const summaryRes = await fetch(`https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${ids}&retmode=json`);
     const summaryData = await summaryRes.json();
     
-    for (const id of ids) {
-      const article = summaryData.result[id];
-      const doi = article.articleids.find(a => a.idtype === 'doi');
-      console.log(`\nTitle: ${article.title}`);
-      console.log(`Journal: ${article.source}`);
-      console.log(`Year: ${article.pubdate.split(' ')[0]}`);
-      console.log(`DOI: ${doi ? doi.value : 'N/A'}`);
+    const uids = summaryData.result.uids;
+    for (const uid of uids) {
+      const article = summaryData.result[uid];
+      const title = article.title;
+      const pubdate = article.pubdate; // e.g. "2024 May 15"
+      const source = article.source; // e.g. "J Am Coll Cardiol"
+      
+      let doi = '';
+      if (article.articleids) {
+        const doiObj = article.articleids.find(id => id.idtype === 'doi');
+        if (doiObj) doi = doiObj.value;
+      }
+      
+      console.log(`- [${source} ${pubdate}] ${title} (DOI: ${doi})`);
     }
+  } catch (err) {
+    console.error(err);
   }
 }
 
-run();
+testPubMed();
