@@ -13,7 +13,7 @@ const SOURCES = [
     id: 'sac',
     name: 'Revista Argentina de Cardiología',
     archiveUrl: 'https://www.rac.sac.org.ar/index.php/rac/issue/archive',
-    pages: 1 // SAC only has 1 page of archives as of current check (25 issues)
+    pages: 2 // Scrape 2 pages to reach ~2018/2020
   }
 ];
 
