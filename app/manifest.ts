@@ -2,10 +2,10 @@ import type { MetadataRoute } from 'next'
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'CardioGuardia',
-    short_name: 'CardioGuardia',
+    name: 'Cardiodigital',
+    short_name: 'Cardiodigital',
     description: 'Guías y calculadoras de Cardiología y Emergentología para guardia',
-    start_url: '/calculadoras',
+    start_url: '/guias',
     display: 'standalone',
     background_color: '#0f172a',
     theme_color: '#0f172a',

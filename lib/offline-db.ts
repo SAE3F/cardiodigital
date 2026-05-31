@@ -50,7 +50,7 @@ export interface FavoritoLocal {
   url: string
 }
 
-class CardioGuardiaDB extends Dexie {
+class CardiodigitalDB extends Dexie {
   guias!: Table<GuiaLocal>
   algoritmos!: Table<AlgoritmoLocal>
   farmacos!: Table<FarmacoLocal>
@@ -73,4 +73,4 @@ class CardioGuardiaDB extends Dexie {
   }
 }
 
-export const db = new CardioGuardiaDB()
+export const db = new CardiodigitalDB()

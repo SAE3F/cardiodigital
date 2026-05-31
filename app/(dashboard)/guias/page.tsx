@@ -32,11 +32,11 @@ export default function GuiasPage() {
 
   useEffect(() => {
     loadGuias()
-    const last = localStorage.getItem('cardioguardia_last_sync')
+    const last = localStorage.getItem('cardiodigital_last_sync')
     if (last) {
       setLastSyncDate(new Date(parseInt(last)).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' }))
     }
-    const err = localStorage.getItem('cardioguardia_sync_error')
+    const err = localStorage.getItem('cardiodigital_sync_error')
     if (err) setSyncError(err)
   }, [])
 

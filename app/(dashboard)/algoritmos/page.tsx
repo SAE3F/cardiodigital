@@ -1,18 +1,33 @@
+'use client'
+
 import { ALGORITMOS } from '@/lib/data/algoritmos'
 import Link from 'next/link'
-import { GitCommit, ArrowRight, ShieldAlert, HeartPulse, Activity } from 'lucide-react'
+import { GitCommit, ArrowRight, ShieldAlert, HeartPulse, Activity, Heart } from 'lucide-react'
+import { usePatient } from '@/lib/contexts/PatientContext'
 
 export default function AlgoritmosHubPage() {
+  const { setPanelOpen, patient } = usePatient()
   // Agrupar por categoría
   const categorias = Array.from(new Set(ALGORITMOS.map(a => a.category)))
 
   return (
     <div className="p-4 md:p-6 max-w-5xl mx-auto pb-24">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Algoritmos de Decisión</h1>
-        <p className="text-muted-foreground text-sm">
-          Flujogramas interactivos paso a paso basados en los consensos de la Sociedad Argentina de Cardiología (SAC).
-        </p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Algoritmos de Decisión</h1>
+          <p className="text-muted-foreground text-sm">
+            Flujogramas interactivos paso a paso basados en los consensos de la Sociedad Argentina de Cardiología (SAC).
+          </p>
+        </div>
+        <button
+          onClick={() => setPanelOpen(true)}
+          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-xs transition-colors border ${
+            patient.isActive ? 'border-blue-500/50 bg-blue-500/10 text-blue-400' : 'border-border bg-card text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {patient.isActive ? <Heart className="w-5 h-5" /> : <Activity className="w-5 h-5" />}
+          Paciente
+        </button>
       </div>
 
       <div className="space-y-10">

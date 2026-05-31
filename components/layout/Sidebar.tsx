@@ -23,7 +23,7 @@ export function Sidebar() {
       <div className="mb-8 px-2">
         <h1 className="text-xl font-bold text-foreground flex items-center gap-2">
           <BookOpen className="text-red-500" />
-          CardioGuardia
+          Cardiodigital
         </h1>
         <p className="text-xs text-foreground0 mt-1">Herramientas de Guardia</p>
       </div>

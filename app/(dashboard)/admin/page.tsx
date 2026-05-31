@@ -13,7 +13,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     loadStats()
-    const last = localStorage.getItem('cardioguardia_last_sync')
+    const last = localStorage.getItem('cardiodigital_last_sync')
     if (last) setLastSync(new Date(parseInt(last)).toLocaleString())
   }, [])
 

@@ -4,9 +4,11 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Search, Heart, Activity, Droplets, Calculator } from 'lucide-react'
 import { getAllCalculators } from '@/lib/data/calculators'
+import { usePatient } from '@/lib/contexts/PatientContext'
 
 export default function CalculadorasPage() {
   const [searchQuery, setSearchQuery] = useState('')
+  const { setPanelOpen, patient } = usePatient()
 
   // Obtener calculadoras del motor y la custom de goteo
   const engineCalculators = getAllCalculators().map(c => ({
@@ -62,9 +64,20 @@ export default function CalculadorasPage() {
 
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto pb-24">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Calculadoras</h1>
-        <p className="text-muted-foreground text-sm">Herramientas clínicas 100% offline</p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Calculadoras</h1>
+          <p className="text-muted-foreground text-sm">Herramientas clínicas 100% offline</p>
+        </div>
+        <button
+          onClick={() => setPanelOpen(true)}
+          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-xl text-xs transition-colors border ${
+            patient.isActive ? 'border-blue-500/50 bg-blue-500/10 text-blue-400' : 'border-border bg-card text-muted-foreground hover:text-foreground'
+          }`}
+        >
+          {patient.isActive ? <Heart className="w-5 h-5" /> : <Activity className="w-5 h-5" />}
+          Paciente
+        </button>
       </div>
 
       <div className="relative mb-8">

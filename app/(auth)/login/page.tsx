@@ -47,13 +47,13 @@ export default function LoginPage() {
       <div className="w-full max-w-md bg-card border border-border rounded-2xl shadow-xl p-8 z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="relative w-20 h-20 bg-background rounded-2xl flex items-center justify-center shadow-inner border border-border mb-4 overflow-hidden">
-            <Image src="/logo.png" alt="CardioGuardia Logo" fill className="object-cover" />
+            <Image src="/logo.png" alt="Cardiodigital Logo" fill className="object-cover" />
             {/* Si no hay logo, fallback visual:
             <HeartPulse className="w-10 h-10 text-red-500" />
             */}
           </div>
           <h1 className="text-2xl font-bold text-foreground">Bienvenido Doc</h1>
-          <p className="text-muted-foreground text-sm mt-1">Ingresa a CardioGuardia</p>
+          <p className="text-muted-foreground text-sm mt-1">Ingresa a Cardiodigital</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">

@@ -28,7 +28,7 @@ export function PatientProvider({ children }: { children: ReactNode }) {
 
   // Cargar desde localStorage al inicializar
   useEffect(() => {
-    const saved = localStorage.getItem('cardioguardia_active_patient')
+    const saved = localStorage.getItem('cardiodigital_active_patient')
     if (saved) {
       try {
         setPatient(JSON.parse(saved))
@@ -43,9 +43,9 @@ export function PatientProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (isLoaded) {
       if (patient.isActive) {
-        localStorage.setItem('cardioguardia_active_patient', JSON.stringify(patient))
+        localStorage.setItem('cardiodigital_active_patient', JSON.stringify(patient))
       } else {
-        localStorage.removeItem('cardioguardia_active_patient')
+        localStorage.removeItem('cardiodigital_active_patient')
       }
     }
   }, [patient, isLoaded])

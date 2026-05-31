@@ -54,10 +54,10 @@ export default function RegisterPage() {
       <div className="w-full max-w-md bg-card border border-border rounded-2xl shadow-xl p-8 z-10">
         <div className="flex flex-col items-center mb-8">
           <div className="relative w-16 h-16 bg-background rounded-2xl flex items-center justify-center shadow-inner border border-border mb-4 overflow-hidden">
-             <Image src="/logo.png" alt="CardioGuardia Logo" fill className="object-cover" />
+             <Image src="/logo.png" alt="Cardiodigital Logo" fill className="object-cover" />
           </div>
           <h1 className="text-2xl font-bold text-foreground">Crear Cuenta</h1>
-          <p className="text-muted-foreground text-sm mt-1">Sumate a CardioGuardia</p>
+          <p className="text-muted-foreground text-sm mt-1">Sumate a Cardiodigital</p>
         </div>
 
         {success ? (

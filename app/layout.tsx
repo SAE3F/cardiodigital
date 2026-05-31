@@ -7,13 +7,13 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'CardioGuardia',
+  title: 'Cardiodigital',
   description: 'Guías y calculadoras de Cardiología y Emergentología',
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'CardioGuardia',
+    title: 'Cardiodigital',
   },
 }
 
