@@ -55,7 +55,7 @@ async function fetchPubMedJournals() {
           sourceId: journal.sourceId,
           issueTitle: `${item.source} ${year}`,
           category: 'artículo',
-          isExternal: !isRec // REC opens in internal viewer, others external
+          isExternal: true // REC blocks iframes with frame-ancestors, must be external
         });
       }
     } catch (e) {

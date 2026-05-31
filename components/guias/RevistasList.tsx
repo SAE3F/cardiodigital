@@ -152,7 +152,7 @@ export function RevistasList() {
                           onClick={(e) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            window.open(`https://annas-archive.org/search?q=${encodeURIComponent(art.link.replace('https://doi.org/', ''))}`, '_blank');
+                            window.open(`https://annas-archive.pk/search?q=${encodeURIComponent(art.link.replace('https://doi.org/', ''))}`, '_blank');
                           }}
                         >
                           <ExternalLink size={12} className="mr-1" /> Buscar en Anna's Archive
