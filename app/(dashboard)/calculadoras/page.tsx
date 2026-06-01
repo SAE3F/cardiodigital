@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Search, Heart, Activity, Droplets, Calculator } from 'lucide-react'
+import { Search, Heart, Activity, Droplets, Calculator, Repeat, TestTube2 } from 'lucide-react'
 import { getAllCalculators } from '@/lib/data/calculators'
 import { usePatient } from '@/lib/contexts/PatientContext'
 
@@ -20,6 +20,20 @@ export default function CalculadorasPage() {
   }))
 
   const customCalculators = [
+    {
+      href: '/calculadoras/laboratorio',
+      titulo: 'Valores Normales de Laboratorio',
+      descripcion: 'Biomarcadores, Ionograma, Gases, etc.',
+      categoria: 'Herramientas Clínicas',
+      icon: TestTube2,
+    },
+    {
+      href: '/calculadoras/anticoagulantes',
+      titulo: 'Switch Anticoagulantes',
+      descripcion: 'Conversión entre DOACs, VKA y Parenterales',
+      categoria: 'Herramientas Clínicas',
+      icon: Repeat,
+    },
     {
       href: '/calculadoras/goteo',
       titulo: 'Goteo de Inotrópicos',

@@ -55,7 +55,7 @@ export default function BuscarPage() {
       <div className="mt-4 space-y-2">
         {resultados.map(r => {
           const Icon = iconos[r.tipo] ?? BookOpen
-          const href = r.tipo === 'guia' ? `/guias/${r.id}` : r.tipo === 'farmaco' ? `/buscar?f=${r.id}` : `/calculadoras`
+          const href = r.tipo === 'guia' ? `/guias/${r.id}` : r.tipo === 'farmaco' ? `/buscar?f=${r.id}` : `/calculadoras/${r.id}`
           return (
             <Link
               key={r.id}

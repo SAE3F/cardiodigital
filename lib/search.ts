@@ -91,5 +91,27 @@ async function buscarLocal(query: string): Promise<ResultadoBusqueda[]> {
     }
   })
 
+  // Calculadoras custom
+  const calculadorasCustom = [
+    { id: 'goteo', nombre: 'Goteo de Inotrópicos', desc: 'Dopamina, dobutamina, noradrenalina' },
+    { id: 'prevent', nombre: 'AHA PREVENT', desc: 'Riesgo CV Global' },
+    { id: 'score2', nombre: 'SCORE2', desc: 'Riesgo CV Europeo' },
+    { id: 'laboratorio', nombre: 'Valores Normales de Laboratorio', desc: 'Biomarcadores, Ionograma, Gases, etc.' },
+    { id: 'anticoagulantes', nombre: 'Switch Anticoagulantes', desc: 'Conversión entre DOACs, VKA y Parenterales' }
+  ]
+
+  calculadorasCustom.forEach(c => {
+    const texto = normalizar(`${c.nombre} ${c.desc}`);
+    const matches = terminosExtendidos.filter(t => texto.includes(t)).length
+    if (matches > 0) {
+      resultados.push({
+        id: c.id, nombre: c.nombre,
+        descripcion: c.desc,
+        tipo: 'calculadora',
+        ranking: matches / terminosExtendidos.length,
+      })
+    }
+  })
+
   return resultados.sort((a, b) => (b.ranking ?? 0) - (a.ranking ?? 0)).slice(0, 20)
 }
