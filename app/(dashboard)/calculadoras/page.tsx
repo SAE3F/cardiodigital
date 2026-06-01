@@ -73,8 +73,12 @@ export default function CalculadorasPage() {
     return acc
   }, {} as Record<string, typeof todas>)
 
-  // Ordenar categorías alfabéticamente
-  const categoriasOrdenadas = Object.keys(agrupadas).sort()
+  // Ordenar categorías alfabéticamente pero forzando 'Herramientas Clínicas' arriba de todo
+  const categoriasOrdenadas = Object.keys(agrupadas).sort((a, b) => {
+    if (a === 'Herramientas Clínicas') return -1;
+    if (b === 'Herramientas Clínicas') return 1;
+    return a.localeCompare(b);
+  })
 
   return (
     <div className="p-4 md:p-6 max-w-4xl mx-auto pb-24">
