@@ -134,14 +134,14 @@ export const BedMatrix: React.FC<BedMatrixProps> = ({
                   }`}
                 />
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-base font-bold text-slate-900 tracking-tight">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h2 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight">
                       {sector.name}
                     </h2>
-                    <span className="font-mono text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200 tabular-nums">
-                      {occupiedCount} / {sectorBeds.length} Camas ocupadas
+                    <span className="font-mono text-[11px] sm:text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200 tabular-nums">
+                      {occupiedCount}/{sectorBeds.length} Camas
                     </span>
-                    <span className="text-[11px] px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-1">
+                    <span className="hidden sm:flex text-[11px] px-2 py-0.5 rounded font-medium bg-slate-100 text-slate-700 border border-slate-200 items-center gap-1">
                       <GripHorizontal className="w-3 h-3 text-slate-500" /> Drag & Drop Habilitado
                     </span>
                   </div>

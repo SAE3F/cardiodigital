@@ -8,33 +8,28 @@ import {
   Lock, 
   Settings, 
   RefreshCw, 
-  ArrowRightLeft,
   AlertTriangle,
   User,
-  MapPin,
   Compass,
+  Stethoscope,
   Biohazard,
-  BarChart3,
-  Calculator,
-  BookOpen,
-  Database
+  ArrowRightLeft
 } from 'lucide-react';
 import type { ClinicalToolsTab } from './ClinicalToolsModal';
 
 interface HeaderProps {
   onOpenSettings: () => void;
   onOpenNewPatientModal: () => void;
-  onOpenEpidemiology: () => void;
-  onOpenClinicalTools: (tab?: ClinicalToolsTab) => void;
-  onOpenHistoricalRegistry: () => void;
+  onOpenEpidemiology?: () => void;
+  onOpenClinicalTools?: (tab?: ClinicalToolsTab) => void;
+  onOpenHistoricalRegistry?: () => void;
+  onOpenToolsHub: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({ 
   onOpenSettings, 
   onOpenNewPatientModal,
-  onOpenEpidemiology,
-  onOpenClinicalTools,
-  onOpenHistoricalRegistry
+  onOpenToolsHub
 }) => {
   const {
     config,
@@ -53,29 +48,51 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs transition-colors">
       {/* Top Bar: Title, Hospital & Global Actions */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center space-x-3">
-          <div className="w-9 h-9 rounded-lg bg-blue-700 flex items-center justify-center text-white shadow-xs">
-            <HeartPulse className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base font-bold tracking-tight text-slate-900">CardioGuardia</h1>
-              <span className="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                Pase & Camas
-              </span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2.5 sm:gap-3">
+        {/* Full-width Title & Subtitle on mobile, Left side on desktop */}
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0 flex-1">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md sm:rounded-lg bg-blue-700 flex items-center justify-center text-white shadow-xs shrink-0">
+              <HeartPulse className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2]" />
             </div>
-            <p className="text-[11px] text-slate-500 font-medium truncate max-w-[260px] sm:max-w-md">
-              {config.hospitalName} • {config.serviceName}
-            </p>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-none">CardioGuardia</h1>
+                <span className="text-[9px] sm:text-[10px] uppercase tracking-wider px-1.5 sm:px-2 py-0.5 rounded-sm font-semibold bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
+                  Pase & Camas
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 font-medium truncate mt-0.5 w-full">
+                {config.hospitalName} • {config.serviceName}
+              </p>
+            </div>
+          </div>
+
+          {/* Quick buttons on mobile top bar right */}
+          <div className="flex sm:hidden items-center gap-1.5 shrink-0 ml-2">
+            <button
+              onClick={onOpenToolsHub}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-colors shadow-2xs"
+              title="Herramientas Clínicas"
+            >
+              <Stethoscope className="w-3.5 h-3.5 text-blue-700 stroke-[2]" />
+              <span>Herramientas</span>
+            </button>
+            <button
+              onClick={onOpenNewPatientModal}
+              className="p-1.5 rounded-md bg-blue-700 text-white hover:bg-blue-800 transition-colors shadow-xs"
+              title="Ingresar Paciente"
+            >
+              <User className="w-4 h-4 stroke-[2]" />
+            </button>
           </div>
         </div>
 
-        {/* View Switcher Tabs (Desktop & Tablet) - Segmented Control */}
-        <div className="flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs font-medium">
+        {/* View Switcher Tabs (Desktop & Tablet only) - Segmented Control */}
+        <div className="hidden sm:flex items-center bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs font-medium shrink-0">
           <button
             onClick={() => setActiveView('floor')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all ${
+            className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-md transition-all ${
               activeView === 'floor'
                 ? 'bg-white text-blue-700 font-semibold shadow-xs'
                 : 'text-slate-600 hover:text-slate-900'
@@ -123,42 +140,15 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
 
-        {/* Action icons: Calculators, Guidelines, Epidemiology, Database, New Patient, Settings */}
-        <div className="flex items-center space-x-1.5">
+        {/* Desktop Action icons */}
+        <div className="hidden sm:flex items-center space-x-1.5 shrink-0">
           <button
-            onClick={() => onOpenClinicalTools('calculators')}
-            className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-2xs"
-            title="Calculadoras médicas indexadas (CHA2DS2-VASc, HAS-BLED, TIMI, GRACE...)"
+            onClick={onOpenToolsHub}
+            className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 transition-colors shadow-2xs"
+            title="Herramientas Clínicas: Calculadoras, Guías, Evidencia, Farmacología"
           >
-            <Calculator className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden lg:inline">Calculadoras</span>
-          </button>
-
-          <button
-            onClick={() => onOpenClinicalTools('national_guidelines')}
-            className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-2xs"
-            title="Consensos Nacionales SAC / FAC y Evidencia Internacional en OpenEvidence"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden lg:inline">Guías SAC/FAC</span>
-          </button>
-
-          <button
-            onClick={onOpenEpidemiology}
-            className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-2xs"
-            title="Análisis estadístico de FRCV, comorbilidades e infecciones"
-          >
-            <BarChart3 className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden lg:inline">FRCV & Métricas</span>
-          </button>
-
-          <button
-            onClick={onOpenHistoricalRegistry}
-            className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1.5 rounded-md bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors shadow-2xs"
-            title="Base de datos histórica persistente y censo de internación"
-          >
-            <Database className="w-3.5 h-3.5 text-slate-600" />
-            <span className="hidden sm:inline">Historial</span>
+            <Stethoscope className="w-3.5 h-3.5 text-blue-700 stroke-[2]" />
+            <span>Herramientas</span>
           </button>
 
           <button
@@ -202,13 +192,13 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Sub Bar: Sector Filtering & Realtime Clinical Bed Stats */}
-      <div className="bg-slate-50 border-t border-slate-200 px-4 sm:px-6 lg:px-8 py-1.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
-          {/* Sector Buttons */}
-          <div className="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0">
+      <div className="bg-slate-50 border-t border-slate-200 px-3 sm:px-6 lg:px-8 py-2">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-2.5 text-xs">
+          {/* Sector Buttons - Fully visible on mobile without horizontal scroll */}
+          <div className="flex flex-wrap items-center gap-1.5 w-full md:w-auto">
             <button
               onClick={() => setActiveSectorId('all')}
-              className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+              className={`flex-1 sm:flex-initial text-center justify-center px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${
                 activeSectorId === 'all'
                   ? 'bg-slate-800 text-white shadow-xs'
                   : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'
@@ -223,7 +213,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <button
                   key={sector.id}
                   onClick={() => setActiveSectorId(sector.id)}
-                  className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 ${
+                  className={`flex-1 sm:flex-initial text-center justify-center px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors flex items-center gap-1.5 ${
                     activeSectorId === sector.id
                       ? 'bg-blue-700 text-white shadow-xs'
                       : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-100'

@@ -13,8 +13,9 @@ import { HospitalSettingsModal } from './components/HospitalSettingsModal';
 import { EpidemiologyModal } from './components/EpidemiologyModal';
 import { ClinicalToolsModal, type ClinicalToolsTab } from './components/ClinicalToolsModal';
 import { HistoricalRegistryModal } from './components/HistoricalRegistryModal';
+import { ToolsHubModal } from './components/ToolsHubModal';
 import { PinLockModal } from './components/PinLockModal';
-import { LayoutGrid, Smartphone, Tv, Plus, Compass } from 'lucide-react';
+import { LayoutGrid, Smartphone, Tv, Plus, Stethoscope } from 'lucide-react';
 
 const CardioAppContent: React.FC = () => {
   const {
@@ -36,6 +37,7 @@ const CardioAppContent: React.FC = () => {
   const [clinicalToolsPatientId, setClinicalToolsPatientId] = useState<string | null>(null);
   const [clinicalToolsInitialTab, setClinicalToolsInitialTab] = useState<ClinicalToolsTab>('calculators');
   const [isHistoricalRegistryOpen, setIsHistoricalRegistryOpen] = useState<boolean>(false);
+  const [isToolsHubOpen, setIsToolsHubOpen] = useState<boolean>(false);
 
   const selectedPatient = selectedPatientId ? getPatientById(selectedPatientId) : null;
   const scanEcgPatient = scanEcgPatientId ? getPatientById(scanEcgPatientId) : null;
@@ -64,17 +66,33 @@ const CardioAppContent: React.FC = () => {
           setIsClinicalToolsOpen(true);
         }}
         onOpenHistoricalRegistry={() => setIsHistoricalRegistryOpen(true)}
+        onOpenToolsHub={() => setIsToolsHubOpen(true)}
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6">
         {activeView === 'floor' && (
-          <HospitalFloorPlan
-            onSelectPatient={id => setSelectedPatientId(id)}
-            onOpenNewPatientInBed={handleOpenNewPatientInBed}
-            onInitiateTransfer={id => setTransferPatientId(id)}
-            onScanEcg={id => setScanEcgPatientId(id)}
-          />
+          <>
+            {/* Desktop / tablet shows floor plan */}
+            <div className="hidden md:block">
+              <HospitalFloorPlan
+                onSelectPatient={id => setSelectedPatientId(id)}
+                onOpenNewPatientInBed={handleOpenNewPatientInBed}
+                onInitiateTransfer={id => setTransferPatientId(id)}
+                onScanEcg={id => setScanEcgPatientId(id)}
+              />
+            </div>
+            {/* Mobile shows Grilla / BedMatrix directly */}
+            <div className="md:hidden">
+              <BedMatrix
+                onSelectPatient={id => setSelectedPatientId(id)}
+                onInitiateTransfer={id => setTransferPatientId(id)}
+                onOpenNewPatientInBed={handleOpenNewPatientInBed}
+                onScanEcg={id => setScanEcgPatientId(id)}
+                onOpenSettings={() => setIsSettingsOpen(true)}
+              />
+            </div>
+          </>
         )}
 
         {activeView === 'map' && (
@@ -96,7 +114,7 @@ const CardioAppContent: React.FC = () => {
         )}
 
         {activeView === 'presentation' && (
-          <PresentationMode onClose={() => setActiveView('floor')} />
+          <PresentationMode onClose={() => setActiveView('map')} />
         )}
       </main>
 
@@ -111,32 +129,22 @@ const CardioAppContent: React.FC = () => {
         </button>
       </div>
 
-      {/* Mobile Bottom Navigation Bar */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-2 flex items-center justify-around text-[10px] font-medium">
-        <button
-          onClick={() => setActiveView('floor')}
-          className={`flex flex-col items-center gap-1 transition-colors ${
-            activeView === 'floor' ? 'text-blue-700 font-semibold' : 'text-slate-500'
-          }`}
-        >
-          <Compass className="w-4 h-4 stroke-[1.75]" />
-          <span>Plano</span>
-        </button>
-
+      {/* Mobile Bottom Navigation Bar: Camas, Recorrida, Herramientas, Pase TV */}
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center justify-around text-[10px] font-medium shadow-lg">
         <button
           onClick={() => setActiveView('map')}
           className={`flex flex-col items-center gap-1 transition-colors ${
-            activeView === 'map' ? 'text-blue-700 font-semibold' : 'text-slate-500'
+            activeView === 'map' || activeView === 'floor' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
-          <LayoutGrid className="w-4 h-4 stroke-[1.75]" />
+          <LayoutGrid className="w-4 h-4 stroke-[2]" />
           <span>Camas</span>
         </button>
 
         <button
           onClick={() => setActiveView('rounds')}
           className={`flex flex-col items-center gap-1 transition-colors ${
-            activeView === 'rounds' ? 'text-blue-700 font-semibold' : 'text-slate-500'
+            activeView === 'rounds' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
           <Smartphone className="w-4 h-4 stroke-[1.75]" />
@@ -144,9 +152,17 @@ const CardioAppContent: React.FC = () => {
         </button>
 
         <button
+          onClick={() => setIsToolsHubOpen(true)}
+          className="flex flex-col items-center gap-1 transition-colors text-slate-700 hover:text-blue-700 font-semibold"
+        >
+          <Stethoscope className="w-4 h-4 stroke-[2] text-blue-700" />
+          <span className="text-blue-800">Herramientas</span>
+        </button>
+
+        <button
           onClick={() => setActiveView('presentation')}
           className={`flex flex-col items-center gap-1 transition-colors ${
-            activeView === 'presentation' ? 'text-blue-700 font-semibold' : 'text-slate-500'
+            activeView === 'presentation' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
           <Tv className="w-4 h-4 stroke-[1.75]" />
@@ -221,6 +237,20 @@ const CardioAppContent: React.FC = () => {
           }}
         />
       )}
+
+      {/* Tools Hub Sheet/Modal */}
+      <ToolsHubModal
+        isOpen={isToolsHubOpen}
+        onClose={() => setIsToolsHubOpen(false)}
+        onOpenClinicalTools={(tab) => {
+          setClinicalToolsInitialTab(tab);
+          setClinicalToolsPatientId(null);
+          setIsClinicalToolsOpen(true);
+        }}
+        onOpenEpidemiology={() => setIsEpidemiologyOpen(true)}
+        onOpenHistoricalRegistry={() => setIsHistoricalRegistryOpen(true)}
+        onOpenSettings={() => setIsSettingsOpen(true)}
+      />
 
       <PinLockModal />
     </div>

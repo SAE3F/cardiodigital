@@ -126,7 +126,7 @@ export const CardioProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [isLocked, setIsLocked] = useState<boolean>(false);
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
   const [activeSectorId, setActiveSectorId] = useState<string | 'all'>('all');
-  const [activeView, setActiveView] = useState<ActiveViewType>('floor'); // Default to Floor Plan view!
+  const [activeView, setActiveView] = useState<ActiveViewType>('map'); // Default to Bed Matrix (Grilla)!
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
