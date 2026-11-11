@@ -27,7 +27,7 @@ export const NATIONAL_GUIDELINES: NationalGuideline[] = [
     year: 2026,
     category: 'Cardiopatía Isquémica & SCA',
     quickSummary: 'Protocolo de manejo integral de los Síndromes Coronarios Agudos en guardia y UCO. Triage en <10 min, troponinas ultrasensibles y timing de cateterismo.',
-    pdfUrl: 'https://www.revistasac.org.ar/',
+    pdfUrl: 'https://www.sac.org.ar/wp-content/uploads/2026/04/sindromes-coronarios-agudos-1.pdf',
     articleUrl: 'https://www.sac.org.ar/consensos/',
     keyPoints: [
       'ECG en < 10 min desde el primer contacto médico (FMC) obligatorio.',
@@ -69,7 +69,8 @@ export const NATIONAL_GUIDELINES: NationalGuideline[] = [
     year: 2025,
     category: 'Cardiopatía Isquémica & SCA',
     quickSummary: 'Enfoque moderno del paciente con enfermedad coronaria estable: tratamiento médico óptimo, evaluación anatómica vs funcional e indicaciones de ATC/CRM.',
-    pdfUrl: 'https://www.sac.org.ar/consensos/',
+    pdfUrl: 'https://www.sac.org.ar/wp-content/uploads/2026/01/Consenso-de-sindromes-coronarios-cronicos-5.pdf',
+    articleUrl: 'https://www.sac.org.ar/consensos/',
     keyPoints: [
       'Tratamiento Médico Óptimo (TMO) como pilar fundamental para mejorar pronóstico y calidad de vida.',
       'Antianginosos de 1ra línea: Betabloqueantes y/o Antagonistas Cálcicos.',
@@ -158,7 +159,8 @@ export const NATIONAL_GUIDELINES: NationalGuideline[] = [
     year: 2025,
     category: 'Arritmias & Dispositivos',
     quickSummary: 'Nuevos paradigmas en FA: esquema ABC, control temprano del ritmo frente al control de frecuencia, y ablación con catéter como 1ra línea.',
-    pdfUrl: 'https://www.sac.org.ar/consensos/',
+    pdfUrl: 'https://www.sac.org.ar/wp-content/uploads/2026/10/Consenso-FA.pdf',
+    articleUrl: 'https://www.sac.org.ar/consensos/?unidadtematica=arritmias-y-fibrilacion-auricular',
     keyPoints: [
       'Esquema ABC: A (Anticoagulación / DOACs), B (Better symptom management), C (Comorbidity optimization).',
       'DOACs como primera línea indiscutida sobre acenocumarol en FA no valvular.',
@@ -248,7 +250,8 @@ export const NATIONAL_GUIDELINES: NationalGuideline[] = [
     year: 2024,
     category: 'Cuidados Críticos & Shock',
     quickSummary: 'Manejo en Unidad Coronaria del shock refractario, balón de contrapulsación intraaórtico (BIAC), ECMO venoarterial y dispositivos de asistencia ventricular.',
-    pdfUrl: 'https://www.sac.org.ar/consensos/',
+    pdfUrl: 'https://www.sac.org.ar/wp-content/uploads/2021/01/consenso-88-2-1_1.pdf',
+    articleUrl: 'https://www.sac.org.ar/consensos/?unidadtematica=cirugia-cardiovascular-y-cardiologia-critica',
     keyPoints: [
       'Titulación de inotrópicos a la dosis mínima efectiva para evitar taquiarritmias y consumo miocárdico de O2.',
       'Levosimendán en pacientes bajo betabloqueantes o hipertensión pulmonar con falla del ventrículo derecho.',

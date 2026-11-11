@@ -34,7 +34,7 @@ export const OFFICIAL_PORTALS: OfficialPortal[] = [
     name: 'Revista Argentina de Cardiología (RAC)',
     society: 'SAC',
     description: 'Órgano científico oficial de la SAC. Indexada en PubMed/MEDLINE, SciELO, LILACS y Scopus con revisión por pares.',
-    url: 'https://www.rac.sac.org.ar',
+    url: 'https://rac.sac.org.ar/index.php/rac/index',
     badge: 'Revista Científica'
   },
   {
@@ -42,15 +42,15 @@ export const OFFICIAL_PORTALS: OfficialPortal[] = [
     name: 'Biblioteca de Consensos y Guías SAC',
     society: 'SAC',
     description: 'Repositorio oficial completo de todos los consensos, guías de práctica clínica y documentos de posición de la SAC.',
-    url: 'https://www.sac.org.ar/consensos-y-guias/',
+    url: 'https://www.sac.org.ar/consensos/',
     badge: 'Guías de Práctica'
   },
   {
     id: 'sac-campus',
-    name: 'Campus Virtual SAC',
+    name: 'Campus Virtual y Cursos SAC',
     society: 'SAC',
     description: 'Plataforma educativa oficial: cursos de posgrado, webinars, ateneos clínicos y programas de certificación profesional.',
-    url: 'https://campus.sac.org.ar',
+    url: 'https://www.sac.org.ar/capacitaciones/',
     badge: 'Educación Continua'
   },
   {
@@ -66,23 +66,23 @@ export const OFFICIAL_PORTALS: OfficialPortal[] = [
     name: 'Revista de la FAC (RFAC)',
     society: 'FAC',
     description: 'Publicación oficial trimestral con artículos originales, revisiones, casuística y consensos federales.',
-    url: 'https://revistafac.org.ar',
+    url: 'https://revistafac.org.ar/ojs/index.php/revistafac/es',
     badge: 'Revista Científica'
   },
   {
     id: 'fac-guias',
-    name: 'Guías y Consensos de la FAC',
+    name: 'Guías y Suplementos de la FAC',
     society: 'FAC',
-    description: 'Documentos normativos y consensos de los diferentes comités científicos federales de la FAC.',
-    url: 'https://fac.org.ar/guias-y-consensos/',
+    description: 'Documentos normativos, números especiales y consensos publicados por los comités científicos de la FAC.',
+    url: 'https://revistafac.org.ar/ojs/index.php/revistafac/es/issue/archive',
     badge: 'Guías de Práctica'
   },
   {
     id: 'fac-educacion',
-    name: 'Campus y Cursos FAC',
+    name: 'Academia y Cursos FAC',
     society: 'FAC',
     description: 'Cursos virtuales interactivos, ateneos intersocietarios y recursos de capacitación médica continua.',
-    url: 'https://fac.org.ar/educacion/',
+    url: 'https://fac.org.ar/academia/',
     badge: 'Educación Continua'
   }
 ];
