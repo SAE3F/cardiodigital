@@ -104,30 +104,40 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
   return (
     <div className="fixed inset-0 z-50 bg-slate-100 text-slate-900 flex flex-col overflow-hidden select-none">
       {/* Top Projector Header */}
-      <header className="bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 shrink-0 shadow-2xs">
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0 flex-1">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-700 shrink-0" />
-            <h1 className="text-sm font-bold text-slate-900 tracking-wide uppercase">
-              Pase TV
-            </h1>
+      <header className="bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shrink-0 shadow-2xs">
+        <div className="flex items-center justify-between gap-2 w-full sm:w-auto">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <div className="flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-700 shrink-0" />
+              <h1 className="text-sm font-bold text-slate-900 tracking-wide uppercase">
+                Pase TV
+              </h1>
+            </div>
+            <span className="text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+              {currentSector?.shortName || currentSector?.name}
+            </span>
+            <span className="font-mono text-xs text-slate-500 font-medium tabular-nums">
+              {currentIndex + 1} / {sortedPatients.length}
+            </span>
           </div>
-          <span className="text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-            {currentSector?.shortName || currentSector?.name}
-          </span>
-          <span className="font-mono text-xs text-slate-500 font-medium tabular-nums">
-            {currentIndex + 1} / {sortedPatients.length}
-          </span>
+
+          <button
+            onClick={onClose}
+            title="Salir de Modo Proyector (Esc)"
+            className="sm:hidden p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-md transition-colors shrink-0"
+          >
+            <X className="w-5 h-5" />
+          </button>
         </div>
 
         {/* Quick patient jumper & Mobile ECG Button */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-2 shrink-0 w-full sm:w-auto">
           <button
             onClick={() => setIsMobileEcgOpen(true)}
-            className="lg:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold shadow-2xs transition-colors"
+            className="lg:hidden w-full sm:w-auto justify-center flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold shadow-2xs transition-colors"
           >
             <Activity className="w-3.5 h-3.5" />
-            <span>Ver Electro ({currentPatient.ecgs.length})</span>
+            <span>Ver Electrocardiograma ({currentPatient.ecgs.length})</span>
           </button>
 
           <div className="hidden md:flex items-center gap-1 overflow-x-auto max-w-xl">
@@ -152,7 +162,7 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
           <button
             onClick={onClose}
             title="Salir de Modo Proyector (Esc)"
-            className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-md transition-colors ml-4"
+            className="hidden sm:block p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-md transition-colors ml-4"
           >
             <X className="w-5 h-5" />
           </button>

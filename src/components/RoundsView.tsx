@@ -50,8 +50,8 @@ export const RoundsView: React.FC<RoundsViewProps> = ({
     <div className="max-w-2xl mx-auto space-y-3.5 sm:space-y-4 pb-20 px-1 sm:px-0">
       {/* Top Header Banner */}
       <div className="bg-white p-3.5 sm:p-4 rounded-lg border border-slate-200 shadow-2xs">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <div className="min-w-0 flex-1">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="w-full sm:w-auto sm:flex-1 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-base font-bold text-slate-900">Modo Recorrida Médica</h2>
               <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">

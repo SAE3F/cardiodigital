@@ -158,36 +158,47 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-slate-900/50 backdrop-blur-2xs">
       <div className="bg-white rounded-none sm:rounded-lg max-w-4xl w-full border-0 sm:border sm:border-slate-300 shadow-xl overflow-hidden flex flex-col h-[100dvh] sm:h-auto sm:max-h-[92vh]">
         {/* Header Bar */}
-        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 shrink-0">
-          <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
-            <span
-              className={`w-2 h-8 rounded-xs shrink-0 ${
-                clinicalStatus === 'critico'
-                  ? 'bg-rose-600'
-                  : clinicalStatus === 'vigilar'
-                  ? 'bg-amber-500'
-                  : 'bg-emerald-600'
-              }`}
-            />
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <h2 className="text-base font-bold text-slate-900">
-                  {patient.fullName}
-                </h2>
-                <span className="font-mono text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200 tabular-nums">
-                  {patient.sex} • {patient.age}a
-                </span>
-                <span className="text-xs text-slate-500 font-mono tabular-nums">DNI {patient.dni}</span>
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+          <div className="flex items-start justify-between gap-2.5 w-full sm:w-auto sm:flex-1 min-w-0">
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+              <span
+                className={`w-2 h-8 rounded-xs shrink-0 mt-0.5 sm:mt-0 ${
+                  clinicalStatus === 'critico'
+                    ? 'bg-rose-600'
+                    : clinicalStatus === 'vigilar'
+                    ? 'bg-amber-500'
+                    : 'bg-emerald-600'
+                }`}
+              />
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                  <h2 className="text-base font-bold text-slate-900 leading-snug">
+                    {patient.fullName}
+                  </h2>
+                  <span className="font-mono text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200 tabular-nums shrink-0">
+                    {patient.sex} • {patient.age}a
+                  </span>
+                  <span className="text-xs text-slate-500 font-mono tabular-nums">DNI {patient.dni}</span>
+                </div>
+                <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
+                  <strong className="text-slate-800 font-medium">{currentSector?.shortName || currentSector?.name}</strong> •{' '}
+                  <strong className="text-blue-700 font-mono">{currentBed?.name}</strong> • Ingreso:{' '}
+                  <span className="font-mono tabular-nums">{patient.admissionDate}</span>
+                </p>
               </div>
-              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
-                Ubicación: <strong className="text-slate-800 font-medium">{currentSector?.name}</strong> •{' '}
-                <strong className="text-blue-700 font-mono">{currentBed?.name}</strong> • Ingreso:{' '}
-                <span className="font-mono tabular-nums">{patient.admissionDate}</span>
-              </p>
             </div>
+
+            {/* Close button on mobile top-right */}
+            <button
+              onClick={onClose}
+              className="sm:hidden p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-200 transition-colors shrink-0"
+              title="Cerrar Ficha"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex flex-wrap items-center justify-between sm:justify-end gap-1.5 w-full sm:w-auto shrink-0 pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-200/70">
             {/* Quick Status Selector */}
             <select
               value={clinicalStatus}
@@ -209,51 +220,55 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
               <option value="critico">Crítico</option>
             </select>
 
-            {onOpenClinicalTools && (
-              <>
-                <button
-                  onClick={() => onOpenClinicalTools(patient.id, 'calculators')}
-                  className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
-                  title="Calcular scores clínicos (CHA2DS2-VASc, HAS-BLED, TIMI, Wells, GRACE...)"
-                >
-                  <Calculator className="w-3.5 h-3.5 text-slate-600" />
-                  <span className="hidden sm:inline">Scores</span>
-                </button>
+            <div className="flex items-center gap-1.5">
+              {onOpenClinicalTools && (
+                <>
+                  <button
+                    onClick={() => onOpenClinicalTools(patient.id, 'calculators')}
+                    className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
+                    title="Calcular scores clínicos (CHA2DS2-VASc, HAS-BLED, TIMI, Wells, GRACE...)"
+                  >
+                    <Calculator className="w-3.5 h-3.5 text-slate-600" />
+                    <span className="hidden sm:inline">Scores</span>
+                  </button>
 
-                <button
-                  onClick={() => onOpenClinicalTools(patient.id, 'openevidence')}
-                  className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
-                  title="Buscar evidencia internacional con IA en OpenEvidence"
-                >
-                  <Globe className="w-3.5 h-3.5 text-slate-600" />
-                  <span className="hidden sm:inline">OpenEvidence</span>
-                </button>
-              </>
-            )}
+                  <button
+                    onClick={() => onOpenClinicalTools(patient.id, 'openevidence')}
+                    className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
+                    title="Buscar evidencia internacional con IA en OpenEvidence"
+                  >
+                    <Globe className="w-3.5 h-3.5 text-slate-600" />
+                    <span className="hidden sm:inline">OpenEvidence</span>
+                  </button>
+                </>
+              )}
 
-            <button
-              onClick={() => onInitiateTransfer(patient.id)}
-              className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
-            >
-              <ArrowRightLeft className="w-3.5 h-3.5 text-slate-600" />
-              <span className="hidden sm:inline">Trasladar</span>
-            </button>
+              <button
+                onClick={() => onInitiateTransfer(patient.id)}
+                className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
+                title="Trasladar paciente"
+              >
+                <ArrowRightLeft className="w-3.5 h-3.5 text-slate-600" />
+                <span className="hidden sm:inline">Trasladar</span>
+              </button>
 
-            <button
-              onClick={handleDischarge}
-              title="Alta Médica"
-              className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
-            >
-              <UserCheck className="w-3.5 h-3.5 text-slate-600" />
-              <span className="hidden sm:inline">Alta</span>
-            </button>
+              <button
+                onClick={handleDischarge}
+                title="Alta Médica"
+                className="px-2.5 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 transition-colors flex items-center gap-1 shadow-2xs"
+              >
+                <UserCheck className="w-3.5 h-3.5 text-slate-600" />
+                <span className="hidden sm:inline">Alta</span>
+              </button>
 
-            <button
-              onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-200 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
+              <button
+                onClick={onClose}
+                className="hidden sm:block p-1.5 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-200 transition-colors"
+                title="Cerrar Ficha"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 

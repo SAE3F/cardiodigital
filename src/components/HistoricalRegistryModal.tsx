@@ -179,26 +179,36 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
       <div className="bg-white rounded-none sm:rounded-lg shadow-xl border-0 sm:border sm:border-slate-300 w-full max-w-7xl h-[100dvh] sm:h-auto sm:max-h-[94vh] flex flex-col overflow-hidden text-slate-800">
         
         {/* HEADER */}
-        <div className="px-4 py-3 sm:px-5 sm:py-3.5 border-b border-slate-200 flex flex-wrap items-start sm:items-center justify-between gap-2.5 bg-slate-50 shrink-0">
-          <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
-            <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-              <Database className="w-4 h-4" />
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-sm font-semibold text-slate-900 leading-snug">Base de Datos Histórica & Censo Asistencial</h2>
-                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium shrink-0">
-                  IndexedDB Persistente
-                </span>
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-slate-50 shrink-0">
+          <div className="flex items-start justify-between gap-2.5 w-full sm:w-auto sm:flex-1 min-w-0">
+            <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+              <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                <Database className="w-4 h-4" />
               </div>
-              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
-                Registro de admisiones, historial clínico, estancias hospitalarias y auditoría de calidad
-              </p>
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h2 className="text-sm font-semibold text-slate-900 leading-snug">Base de Datos Histórica & Censo Asistencial</h2>
+                  <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium shrink-0">
+                    IndexedDB Persistente
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
+                  Registro de admisiones, historial clínico, estancias hospitalarias y auditoría de calidad
+                </p>
+              </div>
             </div>
+
+            <button
+              onClick={onClose}
+              className="sm:hidden p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors shrink-0"
+              title="Cerrar"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Action Buttons: Export CSV, JSON, Import */}
-          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0 w-full sm:w-auto justify-end">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0 w-full sm:w-auto justify-end pt-1 sm:pt-0 border-t sm:border-t-0 border-slate-200/70">
             <button
               onClick={handleExportCSV}
               className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-blue-700 hover:bg-blue-800 text-white transition-colors"
@@ -230,9 +240,10 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
 
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors ml-1"
+              className="hidden sm:block p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors ml-1"
+              title="Cerrar"
             >
-              <X className="w-5 h-5 sm:w-4 sm:h-4" />
+              <X className="w-4 h-4" />
             </button>
           </div>
         </div>
