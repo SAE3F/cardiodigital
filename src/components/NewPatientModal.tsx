@@ -161,19 +161,19 @@ export const NewPatientModal: React.FC<NewPatientModalProps> = ({ initialBedId, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/50 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-lg max-w-3xl w-full border border-slate-300 shadow-xl overflow-hidden my-6 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-slate-900/50 backdrop-blur-xs">
+      <div className="bg-white rounded-none sm:rounded-lg max-w-3xl w-full border-0 sm:border sm:border-slate-300 shadow-xl overflow-hidden sm:my-6 h-[100dvh] sm:h-auto sm:max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0 flex-1">
+            <div className="p-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shrink-0">
               <UserPlus className="w-4 h-4" />
             </div>
-            <div>
+            <div className="min-w-0 flex-1">
               <h2 className="text-sm font-semibold text-slate-900">
                 Ingresar Nuevo Paciente
               </h2>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 leading-snug">
                 Admisión hospitalaria, diagnósticos CIE/SAC y asignación de unidad
               </p>
             </div>
@@ -181,14 +181,14 @@ export const NewPatientModal: React.FC<NewPatientModalProps> = ({ initialBedId, 
 
           <button
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors shrink-0"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 sm:w-4 sm:h-4" />
           </button>
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 space-y-4 text-xs overflow-y-auto flex-1">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-5 space-y-4 text-xs overflow-y-auto flex-1 min-h-0">
           {/* Row 1: Name, DNI, Age, Sex */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>

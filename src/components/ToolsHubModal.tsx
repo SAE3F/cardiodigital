@@ -183,7 +183,7 @@ export const ToolsHubModal: React.FC<ToolsHubModalProps> = ({
                     <h3 className="text-xs font-semibold text-slate-900 group-hover:text-blue-700 transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-[11px] text-slate-500 truncate leading-snug">
+                    <p className="text-[11px] text-slate-500 line-clamp-2 sm:truncate leading-snug">
                       {item.subtitle}
                     </p>
                   </div>

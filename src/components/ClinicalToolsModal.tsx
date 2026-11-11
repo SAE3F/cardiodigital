@@ -391,29 +391,29 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
   }, [drug1, drug2]);
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-xl border border-slate-300 w-full max-w-6xl max-h-[92vh] flex flex-col overflow-hidden text-slate-800">
+    <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white rounded-none sm:rounded-lg shadow-xl border-0 sm:border sm:border-slate-300 w-full max-w-6xl h-[100dvh] sm:h-auto sm:max-h-[92vh] flex flex-col overflow-hidden text-slate-800">
         
         {/* MODAL HEADER */}
-        <div className="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between bg-slate-50">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center">
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 border-b border-slate-200 flex items-start sm:items-center justify-between gap-2 bg-slate-50 shrink-0">
+          <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+            <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
               <Calculator className="w-4 h-4" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-sm font-semibold text-slate-900">Centro de Evidencia & Herramientas Clínicas</h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <h2 className="text-sm font-semibold text-slate-900 leading-snug">Centro de Evidencia & Herramientas Clínicas</h2>
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium shrink-0">
                   SAC • FAC • OpenEvidence
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
                 Calculadoras indexadas, consensos nacionales oficiales y síntesis de evidencia internacional
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 shrink-0">
             {/* Patient Context Dropdown */}
             <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-md bg-white border border-slate-300">
               <UserCheck className="w-3.5 h-3.5 text-blue-700" />
@@ -436,15 +436,16 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
 
             <button
               onClick={onClose}
-              className="p-1 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors"
+              title="Cerrar"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
 
         {/* NAVIGATION TABS */}
-        <div className="flex items-center gap-1 px-5 border-b border-slate-200 bg-white overflow-x-auto text-xs font-medium no-scrollbar">
+        <div className="flex items-center gap-1 px-3 sm:px-5 border-b border-slate-200 bg-white overflow-x-auto text-xs font-medium no-scrollbar shrink-0">
           <button
             onClick={() => setActiveTab('calculators')}
             className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
@@ -521,7 +522,7 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
         </div>
 
         {/* MODAL BODY */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 bg-slate-50">
+        <div className="flex-1 min-h-0 overflow-y-auto p-3.5 sm:p-5 bg-slate-50">
           
           {/* ================================================================= */}
           {/* TAB 1: CALCULADORAS MÉDICAS                                       */}
@@ -709,8 +710,8 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                         // Case 3: Numeric inputs (e.g. Clearance, QTc, heart rate, blood pressure)
                         if (input.type === 'number') {
                           return (
-                            <div key={input.id} className="p-3 rounded-md border border-slate-200 bg-slate-50/50 flex flex-wrap items-center justify-between gap-3">
-                              <div>
+                            <div key={input.id} className="p-3 rounded-md border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
+                              <div className="min-w-0 flex-1">
                                 <label className="block text-xs font-semibold text-slate-800">
                                   {input.label}
                                 </label>
@@ -718,7 +719,7 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                                   <p className="text-[11px] text-slate-500">{input.description}</p>
                                 )}
                               </div>
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 shrink-0">
                                 <input
                                   type="number"
                                   min={input.min}
@@ -993,44 +994,44 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
               </div>
 
               {/* Sub-Navigation Tabs */}
-              <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-md border border-slate-200 text-xs">
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 p-1 bg-slate-100 rounded-md border border-slate-200 text-xs">
                 <button
                   type="button"
                   onClick={() => setNationalSubSection('guidelines')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
+                  className={`flex-auto sm:flex-initial justify-center flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
                     nationalSubSection === 'guidelines'
                       ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
-                  <BookOpen className="w-3.5 h-3.5 stroke-[1.75]" />
-                  <span>Consensos & Guías Clínicas ({NATIONAL_GUIDELINES.length})</span>
+                  <BookOpen className="w-3.5 h-3.5 stroke-[1.75] shrink-0" />
+                  <span>Consensos & Guías ({NATIONAL_GUIDELINES.length})</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setNationalSubSection('journals')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
+                  className={`flex-auto sm:flex-initial justify-center flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
                     nationalSubSection === 'journals'
                       ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
-                  <FileText className="w-3.5 h-3.5 stroke-[1.75]" />
-                  <span>Revistas Científicas RAC & FAC ({NATIONAL_ARTICLES.length})</span>
+                  <FileText className="w-3.5 h-3.5 stroke-[1.75] shrink-0" />
+                  <span>Revistas RAC & FAC ({NATIONAL_ARTICLES.length})</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setNationalSubSection('portals')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
+                  className={`flex-auto sm:flex-initial justify-center flex items-center gap-1.5 px-3 py-1.5 rounded-sm font-semibold transition-all ${
                     nationalSubSection === 'portals'
                       ? 'bg-white text-blue-700 shadow-xs border border-slate-200'
                       : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
                   }`}
                 >
-                  <Globe className="w-3.5 h-3.5 stroke-[1.75]" />
-                  <span>Portales Oficiales SAC / FAC ({OFFICIAL_PORTALS.length})</span>
+                  <Globe className="w-3.5 h-3.5 stroke-[1.75] shrink-0" />
+                  <span>Portales SAC / FAC ({OFFICIAL_PORTALS.length})</span>
                 </button>
               </div>
 
@@ -1040,25 +1041,25 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
               {nationalSubSection === 'guidelines' && (
                 <div className="space-y-3">
                   {/* Filters Bar */}
-                  <div className="bg-white rounded-md p-3 border border-slate-200 shadow-2xs flex flex-wrap items-center gap-2.5">
-                    <div className="flex-1 min-w-[240px] relative">
+                  <div className="bg-white rounded-md p-3 border border-slate-200 shadow-2xs flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2.5">
+                    <div className="w-full sm:flex-1 sm:min-w-[240px] relative">
                       <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
                       <input
                         type="text"
                         value={searchGuideline}
                         onChange={e => setSearchGuideline(e.target.value)}
-                        placeholder="Buscar consenso (ej. IAMCEST, Shock, Fibrilación, Hipertensión...)"
+                        placeholder="Buscar consenso (ej. IAMCEST, Shock, FA...)"
                         className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md border border-slate-300 bg-white focus:outline-hidden focus:border-blue-700"
                       />
                     </div>
 
                     {/* Society Filter */}
-                    <div className="flex items-center gap-1.5 text-xs">
-                      <span className="text-slate-500 font-medium text-[11px]">Sociedad:</span>
+                    <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto">
+                      <span className="text-slate-500 font-medium text-[11px] shrink-0">Sociedad:</span>
                       <select
                         value={selectedSociety}
                         onChange={e => setSelectedSociety(e.target.value)}
-                        className="py-1 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
+                        className="flex-1 sm:flex-initial py-1.5 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
                       >
                         <option value="all">Todas (SAC & FAC)</option>
                         <option value="SAC">Solo SAC</option>
@@ -1068,12 +1069,12 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                     </div>
 
                     {/* Category Filter */}
-                    <div className="flex items-center gap-1.5 text-xs">
-                      <span className="text-slate-500 font-medium text-[11px]">Tema:</span>
+                    <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto">
+                      <span className="text-slate-500 font-medium text-[11px] shrink-0">Tema:</span>
                       <select
                         value={selectedGuidelineCat}
                         onChange={e => setSelectedGuidelineCat(e.target.value)}
-                        className="py-1 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
+                        className="flex-1 sm:flex-initial py-1.5 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
                       >
                         <option value="all">Todos los temas</option>
                         <option value="Cardiopatía Isquémica & SCA">Cardiopatía Isquémica & SCA</option>
@@ -1096,8 +1097,8 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                           key={g.id}
                           className="bg-white rounded-md border border-slate-200 overflow-hidden transition-colors hover:border-slate-300 shadow-2xs"
                         >
-                          <div className="p-3.5 flex flex-wrap items-start justify-between gap-3">
-                            <div className="flex-1 space-y-1">
+                          <div className="p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                            <div className="min-w-0 w-full sm:flex-1 space-y-1.5">
                               <div className="flex flex-wrap items-center gap-1.5">
                                 <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-sm bg-blue-50 text-blue-800 border border-blue-200">
                                   {g.society}
@@ -1120,10 +1121,10 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                             </div>
 
                             {/* Action buttons */}
-                            <div className="flex items-center gap-2 shrink-0">
+                            <div className="flex items-center justify-end gap-2 shrink-0 w-full sm:w-auto pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
                               <button
                                 onClick={() => setExpandedGuidelineId(isExpanded ? null : g.id)}
-                                className="px-2.5 py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                                className="px-3 py-1.5 sm:py-1 rounded-md text-xs font-medium bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                               >
                                 {isExpanded ? 'Ocultar Puntos' : 'Puntos Clave'}
                               </button>
@@ -1133,7 +1134,7 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                                   href={g.pdfUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="flex items-center gap-1 px-3 py-1 rounded-md text-xs font-medium bg-blue-700 text-white hover:bg-blue-800 transition-colors shadow-2xs"
+                                  className="flex items-center gap-1 px-3 py-1.5 sm:py-1 rounded-md text-xs font-medium bg-blue-700 text-white hover:bg-blue-800 transition-colors shadow-2xs"
                                 >
                                   <Download className="w-3.5 h-3.5" />
                                   <span>PDF ↗</span>
@@ -1190,28 +1191,28 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                 <div className="space-y-3">
                   {/* Journal Filters Bar */}
                   <div className="bg-white rounded-md p-3 border border-slate-200 shadow-2xs space-y-2">
-                    <div className="flex flex-wrap items-center gap-2.5">
-                      <div className="flex-1 min-w-[240px] relative">
+                    <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2.5">
+                      <div className="w-full sm:flex-1 sm:min-w-[240px] relative">
                         <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
                         <input
                           type="text"
                           value={searchJournal}
                           onChange={e => setSearchJournal(e.target.value)}
-                          placeholder="Buscar artículo por título, tema o volumen (ej: 'troponina', 'angioplastia', 'insuficiencia')..."
+                          placeholder="Buscar artículo por título o tema..."
                           className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md border border-slate-300 bg-white focus:outline-hidden focus:border-blue-700"
                         />
                       </div>
 
                       {/* Source filter: SAC vs FAC */}
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <span className="text-slate-500 font-medium text-[11px]">Revista:</span>
+                      <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto">
+                        <span className="text-slate-500 font-medium text-[11px] shrink-0">Revista:</span>
                         <select
                           value={journalSource}
                           onChange={e => {
                             setJournalSource(e.target.value as any);
                             setJournalLimit(40);
                           }}
-                          className="py-1 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
+                          className="flex-1 sm:flex-initial py-1.5 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
                         >
                           <option value="all">Todas (RAC y RFAC)</option>
                           <option value="sac">Revista Argentina de Cardiología (RAC - SAC)</option>
@@ -1220,15 +1221,15 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                       </div>
 
                       {/* Category filter */}
-                      <div className="flex items-center gap-1.5 text-xs">
-                        <span className="text-slate-500 font-medium text-[11px]">Sección:</span>
+                      <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto">
+                        <span className="text-slate-500 font-medium text-[11px] shrink-0">Sección:</span>
                         <select
                           value={journalCategory}
                           onChange={e => {
                             setJournalCategory(e.target.value);
                             setJournalLimit(40);
                           }}
-                          className="py-1 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
+                          className="flex-1 sm:flex-initial py-1.5 px-2.5 text-xs font-medium rounded-md border border-slate-300 bg-white text-slate-800"
                         >
                           <option value="all">Todas las secciones</option>
                           <option value="original">Artículos Originales</option>
@@ -1257,14 +1258,14 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                   </div>
 
                   {/* Articles List */}
-                  <div className="space-y-2 max-h-[600px] overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-none sm:max-h-[600px] sm:overflow-y-auto pr-0 sm:pr-1">
                     {filteredArticles.map((art, idx) => (
                       <div
                         key={idx}
-                        className="bg-white rounded-md p-3 border border-slate-200 hover:border-blue-300 transition-colors shadow-2xs space-y-1.5"
+                        className="bg-white rounded-md p-3 border border-slate-200 hover:border-blue-300 transition-colors shadow-2xs space-y-2"
                       >
-                        <div className="flex flex-wrap items-center justify-between gap-2">
-                          <div className="flex flex-wrap items-center gap-1.5">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                          <div className="flex flex-wrap items-center gap-1.5 min-w-0">
                             <span className={`text-[10px] font-semibold uppercase px-2 py-0.5 rounded-sm border ${
                               art.sourceId === 'sac'
                                 ? 'bg-blue-50 text-blue-800 border-blue-200'
@@ -1275,7 +1276,7 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                             <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-sm bg-slate-100 text-slate-600">
                               {art.category}
                             </span>
-                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-xs">
+                            <span className="text-[10px] text-slate-400 font-mono truncate max-w-full sm:max-w-xs">
                               {art.issueTitle}
                             </span>
                           </div>
@@ -1446,21 +1447,23 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
 
                 {/* Direct Search Input */}
                 <div className="pt-1 space-y-2">
-                  <div className="flex items-center gap-2 bg-slate-800/90 p-1.5 rounded-md border border-slate-700">
-                    <Search className="w-4 h-4 text-slate-400 ml-2 shrink-0 stroke-[1.75]" />
-                    <input
-                      type="text"
-                      value={openEvidenceQuery}
-                      onChange={e => setOpenEvidenceQuery(e.target.value)}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') launchOpenEvidence(openEvidenceQuery, 'openevidence');
-                      }}
-                      placeholder="Escribí tu pregunta clínica (ej: 'Optimal DAPT duration after PCI in high bleeding risk ESC 2024')..."
-                      className="flex-1 bg-transparent border-0 text-white placeholder-slate-400 text-xs font-medium focus:outline-hidden px-2"
-                    />
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-slate-800/90 p-2 sm:p-1.5 rounded-md border border-slate-700">
+                    <div className="flex items-center flex-1 min-w-0">
+                      <Search className="w-4 h-4 text-slate-400 ml-1.5 sm:ml-2 shrink-0 stroke-[1.75]" />
+                      <input
+                        type="text"
+                        value={openEvidenceQuery}
+                        onChange={e => setOpenEvidenceQuery(e.target.value)}
+                        onKeyDown={e => {
+                          if (e.key === 'Enter') launchOpenEvidence(openEvidenceQuery, 'openevidence');
+                        }}
+                        placeholder="Escribí tu pregunta clínica (ej: 'DAPT ESC 2024')..."
+                        className="flex-1 min-w-0 bg-transparent border-0 text-white placeholder-slate-400 text-xs font-medium focus:outline-hidden px-2 py-1"
+                      />
+                    </div>
                     <button
                       onClick={() => launchOpenEvidence(openEvidenceQuery, 'openevidence')}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold shadow-xs transition-colors shrink-0"
+                      className="flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold shadow-xs transition-colors shrink-0"
                       title="Copia la pregunta al portapapeles y abre OpenEvidence"
                     >
                       <span>Consultar en OpenEvidence</span>
@@ -1499,12 +1502,12 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
               {/* Contextual Patient Evidence Prompts (If active patient) */}
               {activePatient && (
                 <div className="bg-white rounded-md p-4 border border-slate-200 shadow-xs space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-semibold text-slate-900 flex items-center gap-2">
-                      <Sparkles className="w-3.5 h-3.5 text-blue-700 stroke-[1.75]" />
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-slate-900 flex items-center gap-2 min-w-0">
+                      <Sparkles className="w-3.5 h-3.5 text-blue-700 stroke-[1.75] shrink-0" />
                       <span>Consultas sugeridas para <strong>{activePatient.fullName}</strong> ({activePatient.diagnosis})</span>
                     </span>
-                    <span className="text-[10px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded-sm border border-slate-200">
+                    <span className="text-[10px] font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded-sm border border-slate-200 shrink-0">
                       Copia automática y apertura segura
                     </span>
                   </div>
@@ -1920,11 +1923,11 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
         </div>
 
         {/* MODAL FOOTER */}
-        <div className="px-5 py-3 border-t border-slate-200 bg-white flex items-center justify-between text-xs text-slate-500">
-          <span className="font-mono text-[11px] text-slate-400">CardioGuardia v8 • SAC • FAC • OpenEvidence</span>
+        <div className="px-4 py-3 sm:px-5 border-t border-slate-200 bg-white flex items-center justify-between gap-2 text-xs text-slate-500 shrink-0">
+          <span className="font-mono text-[11px] text-slate-400 truncate min-w-0">CardioGuardia v8 • SAC • FAC • OpenEvidence</span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-md bg-slate-800 hover:bg-slate-900 text-white font-medium text-xs transition-colors shadow-xs"
+            className="px-4 py-1.5 rounded-md bg-slate-800 hover:bg-slate-900 text-white font-medium text-xs transition-colors shadow-xs shrink-0"
           >
             Cerrar
           </button>

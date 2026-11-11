@@ -175,49 +175,49 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-lg shadow-xl border border-slate-300 w-full max-w-7xl max-h-[94vh] flex flex-col overflow-hidden text-slate-800">
+    <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div className="bg-white rounded-none sm:rounded-lg shadow-xl border-0 sm:border sm:border-slate-300 w-full max-w-7xl h-[100dvh] sm:h-auto sm:max-h-[94vh] flex flex-col overflow-hidden text-slate-800">
         
         {/* HEADER */}
-        <div className="px-5 py-3.5 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 bg-slate-50">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center">
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 border-b border-slate-200 flex flex-wrap items-start sm:items-center justify-between gap-2.5 bg-slate-50 shrink-0">
+          <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+            <div className="w-8 h-8 rounded-md bg-blue-700 text-white flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
               <Database className="w-4 h-4" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-sm font-semibold text-slate-900">Base de Datos Histórica & Censo Asistencial</h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-sm font-semibold text-slate-900 leading-snug">Base de Datos Histórica & Censo Asistencial</h2>
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium shrink-0">
                   IndexedDB Persistente
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
                 Registro de admisiones, historial clínico, estancias hospitalarias y auditoría de calidad
               </p>
             </div>
           </div>
 
           {/* Action Buttons: Export CSV, JSON, Import */}
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 shrink-0 w-full sm:w-auto justify-end">
             <button
               onClick={handleExportCSV}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-blue-700 hover:bg-blue-800 text-white transition-colors"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-blue-700 hover:bg-blue-800 text-white transition-colors"
               title="Descargar base completa en formato CSV para Microsoft Excel"
             >
               <FileSpreadsheet className="w-3.5 h-3.5" />
-              <span>Exportar Excel (CSV)</span>
+              <span>CSV</span>
             </button>
 
             <button
               onClick={handleExportJSON}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 transition-colors"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 transition-colors"
               title="Descargar copia de seguridad en formato JSON"
             >
               <Download className="w-3.5 h-3.5" />
-              <span>Backup JSON</span>
+              <span>JSON</span>
             </button>
 
-            <label className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 cursor-pointer transition-colors">
+            <label className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-md text-xs font-medium bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 cursor-pointer transition-colors">
               <Upload className="w-3.5 h-3.5" />
               <span>Importar</span>
               <input
@@ -230,15 +230,17 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
 
             <button
               onClick={onClose}
-              className="p-1 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors ml-1"
+              className="p-1.5 text-slate-400 hover:text-slate-700 rounded hover:bg-slate-200 transition-colors ml-1"
             >
-              <X className="w-4 h-4" />
+              <X className="w-5 h-5 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
 
+        {/* SCROLLABLE BODY (KPIs + Filters + Table) */}
+        <div className="flex-1 min-h-0 overflow-y-auto">
         {/* SUMMARY KPI CARDS */}
-        <div className="px-5 py-3 bg-white border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs">
+        <div className="px-4 sm:px-5 py-3 bg-white border-b border-slate-200 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-xs">
           <div className="p-2.5 rounded-md bg-white border border-slate-200">
             <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">Total Registros</span>
             <span className="text-lg font-bold text-slate-900 font-mono tabular-nums">{stats.total}</span>
@@ -370,8 +372,8 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
         </div>
 
         {/* TABLE CONTENT */}
-        <div className="flex-1 overflow-y-auto">
-          <table className="w-full text-left border-collapse text-xs">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[780px] text-left border-collapse text-xs">
             <thead className="bg-slate-50 sticky top-0 z-10 border-b border-slate-200 text-slate-600 font-semibold uppercase tracking-wider text-[10px]">
               <tr>
                 <th className="py-2.5 px-4">DNI / Paciente</th>
@@ -526,6 +528,7 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
             </tbody>
           </table>
         </div>
+        </div>
 
         {/* PATIENT DETAIL INSPECTION DRAWER / MODAL */}
         {inspectedPatient && (
@@ -664,7 +667,7 @@ export const HistoricalRegistryModal: React.FC<HistoricalRegistryModalProps> = (
         )}
 
         {/* FOOTER */}
-        <div className="px-5 py-2.5 border-t border-slate-200 bg-slate-50 flex flex-wrap items-center justify-between text-xs text-slate-500">
+        <div className="px-4 py-2.5 sm:px-5 border-t border-slate-200 bg-slate-50 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-500 shrink-0">
           <div className="flex items-center gap-2">
             <Info className="w-4 h-4 text-blue-700" />
             <span>Mostrando {filteredPatients.length} de {allPatients.length} pacientes registrados en la base histórica.</span>

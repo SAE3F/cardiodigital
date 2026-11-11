@@ -155,13 +155,13 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/50 backdrop-blur-2xs overflow-y-auto">
-      <div className="bg-white rounded-lg max-w-4xl w-full border border-slate-300 shadow-xl overflow-hidden flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-slate-900/50 backdrop-blur-2xs">
+      <div className="bg-white rounded-none sm:rounded-lg max-w-4xl w-full border-0 sm:border sm:border-slate-300 shadow-xl overflow-hidden flex flex-col h-[100dvh] sm:h-auto sm:max-h-[92vh]">
         {/* Header Bar */}
-        <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 shrink-0">
+          <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
             <span
-              className={`w-2 h-8 rounded-xs ${
+              className={`w-2 h-8 rounded-xs shrink-0 ${
                 clinicalStatus === 'critico'
                   ? 'bg-rose-600'
                   : clinicalStatus === 'vigilar'
@@ -169,8 +169,8 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
                   : 'bg-emerald-600'
               }`}
             />
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <h2 className="text-base font-bold text-slate-900">
                   {patient.fullName}
                 </h2>
@@ -179,7 +179,7 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
                 </span>
                 <span className="text-xs text-slate-500 font-mono tabular-nums">DNI {patient.dni}</span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
                 Ubicación: <strong className="text-slate-800 font-medium">{currentSector?.name}</strong> •{' '}
                 <strong className="text-blue-700 font-mono">{currentBed?.name}</strong> • Ingreso:{' '}
                 <span className="font-mono tabular-nums">{patient.admissionDate}</span>
@@ -324,11 +324,11 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
         </div>
 
         {/* Tab Contents */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1 min-h-0">
           {/* TAB 1: CLINICAL */}
           {activeTab === 'clinical' && (
             <div className="space-y-4 text-xs">
-              <div className="flex justify-between items-center">
+              <div className="flex flex-wrap justify-between items-center gap-2">
                 <span className="font-bold text-sm text-slate-900">
                   Resumen Clínico, Diagnósticos & Tratamiento Farmacológico
                 </span>

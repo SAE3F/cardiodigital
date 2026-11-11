@@ -186,38 +186,38 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
   const avgD2BTime = countD2BValid > 0 ? Math.round(totalD2BMinutes / countD2BValid) : 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-slate-900/50 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-lg max-w-5xl w-full border border-slate-300 shadow-xl overflow-hidden my-6 max-h-[92vh] flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-slate-900/50 backdrop-blur-xs">
+      <div className="bg-white rounded-none sm:rounded-lg max-w-5xl w-full border-0 sm:border sm:border-slate-300 shadow-xl overflow-hidden sm:my-6 h-[100dvh] sm:h-auto sm:max-h-[92vh] flex flex-col">
         {/* Header */}
-        <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="p-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200">
+        <div className="px-4 py-3 sm:px-5 sm:py-3.5 bg-slate-50 border-b border-slate-200 flex items-start sm:items-center justify-between gap-2 shrink-0">
+          <div className="flex items-start sm:items-center gap-2.5 min-w-0 flex-1">
+            <div className="p-1.5 rounded-md bg-blue-50 text-blue-700 border border-blue-200 shrink-0 mt-0.5 sm:mt-0">
               <BarChart3 className="w-4 h-4" />
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h2 className="text-sm font-semibold text-slate-900">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <h2 className="text-sm font-semibold text-slate-900 leading-snug">
                   Centro de Inteligencia Clínica & Calidad Asistencial
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium">
+                <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-medium shrink-0">
                   Auditoría Hospitalaria
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 leading-snug mt-0.5">
                 Permanencia, reinternaciones, infecciones nosocomiales (IACS), FRCV y protocolo puerta-balón
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-700 hover:bg-slate-200 p-1 rounded transition-colors"
+            className="text-slate-400 hover:text-slate-700 hover:bg-slate-200 p-1.5 rounded transition-colors shrink-0"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5 sm:w-4 sm:h-4" />
           </button>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 px-5 bg-white shrink-0 text-xs font-medium overflow-x-auto scrollbar-thin">
+        <div className="flex border-b border-slate-200 px-3 sm:px-5 bg-white shrink-0 text-xs font-medium overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab('frcv')}
             className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
@@ -364,7 +364,7 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
         </div>
 
         {/* Body Content */}
-        <div className="p-5 space-y-5 overflow-y-auto flex-1 text-xs">
+        <div className="p-4 sm:p-5 space-y-5 overflow-y-auto flex-1 min-h-0 text-xs">
 
           {/* TAB 1: FACTORES DE RIESGO CARDIOVASCULAR (FRCV) */}
           {activeTab === 'frcv' && (
