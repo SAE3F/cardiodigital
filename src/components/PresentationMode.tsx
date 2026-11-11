@@ -37,11 +37,13 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
 
   const [conductText, setConductText] = useState('');
   const [isSaved, setIsSaved] = useState(false);
+  const [isMobileEcgOpen, setIsMobileEcgOpen] = useState(false);
 
   useEffect(() => {
     if (currentPatient) {
       setConductText(currentPatient.pendingConduct || '');
       setIsSaved(false);
+      setIsMobileEcgOpen(false);
     }
   }, [currentIndex, currentPatient]);
 
@@ -102,24 +104,32 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
   return (
     <div className="fixed inset-0 z-50 bg-slate-100 text-slate-900 flex flex-col overflow-hidden select-none">
       {/* Top Projector Header */}
-      <header className="bg-white border-b border-slate-200 px-6 py-2.5 flex items-center justify-between shrink-0 shadow-2xs">
-        <div className="flex items-center gap-4">
+      <header className="bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 shrink-0 shadow-2xs">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-700" />
+            <span className="w-2.5 h-2.5 rounded-full bg-blue-700 shrink-0" />
             <h1 className="text-sm font-bold text-slate-900 tracking-wide uppercase">
-              Pase de Guardia Médico
+              Pase TV
             </h1>
           </div>
-          <span className="text-xs px-2.5 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-            {currentSector?.name}
+          <span className="text-xs px-2 py-0.5 rounded font-semibold bg-slate-100 text-slate-700 border border-slate-200">
+            {currentSector?.shortName || currentSector?.name}
           </span>
           <span className="font-mono text-xs text-slate-500 font-medium tabular-nums">
-            Paciente {currentIndex + 1} de {sortedPatients.length}
+            {currentIndex + 1} / {sortedPatients.length}
           </span>
         </div>
 
-        {/* Quick patient jumper */}
-        <div className="flex items-center gap-2">
+        {/* Quick patient jumper & Mobile ECG Button */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <button
+            onClick={() => setIsMobileEcgOpen(true)}
+            className="lg:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold shadow-2xs transition-colors"
+          >
+            <Activity className="w-3.5 h-3.5" />
+            <span>Ver Electro ({currentPatient.ecgs.length})</span>
+          </button>
+
           <div className="hidden md:flex items-center gap-1 overflow-x-auto max-w-xl">
             {sortedPatients.map((p, idx) => {
               const bed = config.beds.find(b => b.id === p.bedId);
@@ -150,9 +160,9 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
       </header>
 
       {/* Main Presentation Body */}
-      <main className="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-4 p-4 lg:p-5">
-        {/* LEFT COLUMN: Medical Summary, Diagnoses, Medications & Conduct (5 cols) */}
-        <div className="lg:col-span-5 bg-white rounded-lg border border-slate-200 p-5 flex flex-col justify-between overflow-y-auto shadow-2xs">
+      <main className="flex-1 min-h-0 overflow-y-auto lg:overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4 p-2 sm:p-4 lg:p-5">
+        {/* LEFT COLUMN (Full width on mobile/tablet, 5 cols on desktop): Medical Summary, Diagnoses, Medications & Conduct */}
+        <div className="lg:col-span-5 bg-white rounded-lg border border-slate-200 p-3.5 sm:p-5 flex flex-col justify-between lg:overflow-y-auto shadow-2xs">
           <div className="space-y-4">
             {/* Patient Header Box */}
             <div className="flex items-start justify-between border-b border-slate-200 pb-3">
@@ -322,7 +332,7 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
               <span className="text-[11px] font-bold tracking-wider text-slate-700 uppercase block mb-1.5">
                 Evolución de Guardia
               </span>
-              <div className="text-xs text-slate-700 bg-slate-50/70 p-3 rounded-md border border-slate-200 whitespace-pre-line leading-relaxed max-h-28 overflow-y-auto">
+              <div className="text-xs text-slate-700 bg-slate-50/70 p-3 rounded-md border border-slate-200 whitespace-pre-line leading-relaxed lg:max-h-28 lg:overflow-y-auto">
                 {currentPatient.evolutionNotes}
               </div>
             </div>
@@ -385,8 +395,8 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Big High-Res ECG Viewer (7 cols) */}
-        <div className="lg:col-span-7 bg-white rounded-lg border border-slate-200 p-5 flex flex-col justify-between overflow-hidden shadow-2xs">
+        {/* RIGHT COLUMN: Big High-Res ECG Viewer (Desktop >= 1024px) */}
+        <div className="hidden lg:flex lg:col-span-7 bg-white rounded-lg border border-slate-200 p-5 flex-col justify-between overflow-hidden shadow-2xs">
           <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
             <div className="flex items-center gap-2">
               <Activity className="w-4 h-4 text-blue-700" />
@@ -405,8 +415,37 @@ export const PresentationMode: React.FC<PresentationModeProps> = ({ onClose }) =
         </div>
       </main>
 
+      {/* Mobile / Tablet On-Demand ECG Overlay Modal */}
+      {isMobileEcgOpen && (
+        <div className="lg:hidden fixed inset-0 z-60 bg-white flex flex-col h-[100dvh]">
+          <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2 shrink-0">
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4 text-blue-700 shrink-0" />
+                <h3 className="text-sm font-bold text-slate-900 truncate">
+                  Electrocardiograma • {currentBed?.name}
+                </h3>
+              </div>
+              <p className="text-[11px] text-slate-500 truncate mt-0.5">
+                {currentPatient.fullName} ({currentPatient.ecgs.length} {currentPatient.ecgs.length === 1 ? 'trazo' : 'trazos'})
+              </p>
+            </div>
+            <button
+              onClick={() => setIsMobileEcgOpen(false)}
+              className="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold flex items-center gap-1 shrink-0"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span>Cerrar ECG</span>
+            </button>
+          </div>
+          <div className="flex-1 min-h-0 p-3 overflow-y-auto flex flex-col">
+            <ECGViewer ecgs={currentPatient.ecgs} />
+          </div>
+        </div>
+      )}
+
       {/* Bottom Keyboard Navigation Bar */}
-      <footer className="bg-white border-t border-slate-200 px-6 py-2 flex items-center justify-between text-xs shrink-0 shadow-2xs">
+      <footer className="bg-white border-t border-slate-200 px-3 sm:px-6 py-2 flex items-center justify-between text-xs shrink-0 shadow-2xs">
         <div className="hidden sm:flex items-center gap-4 text-slate-500 text-[11px] font-medium">
           <span>
             Navegar: <kbd className="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-700 font-mono">←</kbd>{' '}
