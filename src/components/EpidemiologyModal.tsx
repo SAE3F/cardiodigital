@@ -216,30 +216,30 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
           </button>
         </div>
 
-        {/* Tab Navigation */}
-        <div className="flex border-b border-slate-200 px-3 sm:px-5 bg-white shrink-0 text-xs font-medium overflow-x-auto no-scrollbar">
+        {/* Tab Navigation - Wrapped cleanly on mobile (zero horizontal scroll) */}
+        <div className="flex flex-wrap sm:flex-nowrap gap-1.5 sm:gap-0 border-b border-slate-200 px-3 py-2 sm:px-5 sm:py-0 bg-slate-50/70 sm:bg-white shrink-0 text-xs font-medium">
           <button
             onClick={() => setActiveTab('frcv')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'frcv'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Heart className="w-3.5 h-3.5" />
-            <span>Factores de Riesgo (FRCV)</span>
+            <Heart className="w-3.5 h-3.5 shrink-0" />
+            <span>FRCV</span>
           </button>
 
           <button
             onClick={() => setActiveTab('stay')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'stay'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Clock className="w-3.5 h-3.5" />
-            <span>Tiempo de Permanencia (Estancia)</span>
+            <Clock className="w-3.5 h-3.5 shrink-0" />
+            <span>Permanencia</span>
             {prolongedStayCount + criticalStayCount > 0 && (
               <span className="px-1.5 py-0.2 rounded font-mono text-[10px] bg-rose-50 text-rose-800 border border-rose-200">
                 {prolongedStayCount + criticalStayCount}
@@ -249,14 +249,14 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
 
           <button
             onClick={() => setActiveTab('readmissions')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'readmissions'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span>Reinternaciones & Frecuencia</span>
+            <RotateCcw className="w-3.5 h-3.5 shrink-0" />
+            <span>Reinternaciones</span>
             {readmission30DaysPatients.length > 0 && (
               <span className="px-1.5 py-0.2 rounded font-mono text-[10px] bg-rose-50 text-rose-800 border border-rose-200">
                 {readmission30DaysPatients.length}
@@ -266,13 +266,13 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
 
           <button
             onClick={() => setActiveTab('infections')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'infections'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Biohazard className="w-3.5 h-3.5" />
+            <Biohazard className="w-3.5 h-3.5 shrink-0" />
             <span>Infecciones (IACS)</span>
             {infectionPatients.length > 0 && (
               <span className="px-1.5 py-0.2 rounded font-mono text-[10px] bg-amber-50 text-amber-800 border border-amber-200">
@@ -283,14 +283,14 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
 
           <button
             onClick={() => setActiveTab('reperfusion')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'reperfusion'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Zap className="w-3.5 h-3.5" />
-            <span>Hemodinamia & Puerta-Balón</span>
+            <Zap className="w-3.5 h-3.5 shrink-0" />
+            <span>Puerta-Balón</span>
             {reperfusionCases.length > 0 && (
               <span className="px-1.5 py-0.2 rounded font-mono text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200">
                 {adherenceRate}%
@@ -328,7 +328,7 @@ export const EpidemiologyModal: React.FC<EpidemiologyModalProps> = ({ onClose })
             </div>
 
             {/* Sector filter */}
-            <div className="flex items-center gap-1 overflow-x-auto text-xs">
+            <div className="flex flex-wrap items-center gap-1.5 text-xs">
               <button
                 onClick={() => setSectorFilter('all')}
                 className={`px-2.5 py-1 rounded-md font-medium transition-colors ${

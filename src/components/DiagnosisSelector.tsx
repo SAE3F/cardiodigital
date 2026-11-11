@@ -70,8 +70,8 @@ export const DiagnosisSelector: React.FC<DiagnosisSelectorProps> = ({
         </form>
       </div>
 
-      {/* Category Pills Slider */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] scrollbar-thin">
+      {/* Category Pills */}
+      <div className="flex flex-wrap items-center gap-1.5 pb-1 text-[11px]">
         <button
           type="button"
           onClick={() => setSelectedCategory('all')}

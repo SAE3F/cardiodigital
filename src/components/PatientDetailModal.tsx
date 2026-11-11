@@ -257,68 +257,68 @@ export const PatientDetailModal: React.FC<PatientDetailModalProps> = ({
           </div>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-slate-200 px-5 bg-slate-50/50 shrink-0 text-xs font-medium overflow-x-auto">
+        {/* Navigation Tabs - Wrapped cleanly on mobile (zero horizontal scroll) */}
+        <div className="flex flex-wrap sm:flex-nowrap gap-1.5 sm:gap-0 border-b border-slate-200 px-3 py-2 sm:px-5 sm:py-0 bg-slate-50/70 shrink-0 text-xs font-medium">
           <button
             onClick={() => setActiveTab('clinical')}
-            className={`py-2.5 px-3.5 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3.5 flex items-center gap-1.5 transition-colors ${
               activeTab === 'clinical'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold shadow-2xs sm:shadow-none'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-500 sm:hover:text-slate-800 sm:hover:bg-transparent'
             }`}
           >
-            <FileText className="w-3.5 h-3.5" />
+            <FileText className="w-3.5 h-3.5 shrink-0" />
             <span>Pase Clínico & Fármacos</span>
           </button>
 
           <button
             onClick={() => setActiveTab('ecg')}
-            className={`py-2.5 px-3.5 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3.5 flex items-center gap-1.5 transition-colors ${
               activeTab === 'ecg'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold shadow-2xs sm:shadow-none'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-500 sm:hover:text-slate-800 sm:hover:bg-transparent'
             }`}
           >
-            <Activity className="w-3.5 h-3.5" />
+            <Activity className="w-3.5 h-3.5 shrink-0" />
             <span>Electros ({patient.ecgs.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('labs')}
-            className={`py-2.5 px-3.5 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3.5 flex items-center gap-1.5 transition-colors ${
               activeTab === 'labs'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold shadow-2xs sm:shadow-none'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-500 sm:hover:text-slate-800 sm:hover:bg-transparent'
             }`}
           >
-            <FlaskConical className="w-3.5 h-3.5" />
-            <span>Laboratorios Clave</span>
+            <FlaskConical className="w-3.5 h-3.5 shrink-0" />
+            <span>Laboratorios</span>
           </button>
 
           <button
             onClick={() => setActiveTab('tasks')}
-            className={`py-2.5 px-3.5 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3.5 flex items-center gap-1.5 transition-colors ${
               activeTab === 'tasks'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold shadow-2xs sm:shadow-none'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-500 sm:hover:text-slate-800 sm:hover:bg-transparent'
             }`}
           >
-            <CheckSquare className="w-3.5 h-3.5" />
+            <CheckSquare className="w-3.5 h-3.5 shrink-0" />
             <span>Pendientes ({patient.tasks.filter(t => !t.done).length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('quality')}
-            className={`py-2.5 px-3.5 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3.5 flex items-center gap-1.5 transition-colors ${
               activeTab === 'quality'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-500 hover:text-slate-800'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold shadow-2xs sm:shadow-none'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-500 sm:hover:text-slate-800 sm:hover:bg-transparent'
             }`}
           >
-            <Clock className="w-3.5 h-3.5" />
+            <Clock className="w-3.5 h-3.5 shrink-0" />
             <span>Estancia & Calidad</span>
             {(hospitalInfection.hasInfection || isReadmissionWithin30Days) && (
-              <span className="w-1.5 h-1.5 rounded-full bg-rose-600" />
+              <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
             )}
           </button>
         </div>

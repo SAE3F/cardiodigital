@@ -444,79 +444,79 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
           </div>
         </div>
 
-        {/* NAVIGATION TABS */}
-        <div className="flex items-center gap-1 px-3 sm:px-5 border-b border-slate-200 bg-white overflow-x-auto text-xs font-medium no-scrollbar shrink-0">
+        {/* NAVIGATION TABS - Wrapped cleanly on mobile (zero horizontal scroll) */}
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:gap-1 px-3 py-2 sm:px-5 sm:py-0 border-b border-slate-200 bg-slate-50/70 sm:bg-white text-xs font-medium shrink-0">
           <button
             onClick={() => setActiveTab('calculators')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'calculators'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Calculator className="w-3.5 h-3.5" />
+            <Calculator className="w-3.5 h-3.5 shrink-0" />
             <span>Calculadoras ({calculators.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('algorithms')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'algorithms'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <GitFork className="w-3.5 h-3.5" />
-            <span>Algoritmos SAC ({ALGORITMOS.length})</span>
+            <GitFork className="w-3.5 h-3.5 shrink-0" />
+            <span>Algoritmos ({ALGORITMOS.length})</span>
           </button>
 
           {/* TAB: EVIDENCIA NACIONAL SAC & FAC */}
           <button
             onClick={() => setActiveTab('national_guidelines')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'national_guidelines'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Building2 className="w-3.5 h-3.5" />
-            <span>Evidencia Nacional (SAC & FAC)</span>
+            <Building2 className="w-3.5 h-3.5 shrink-0" />
+            <span>SAC & FAC</span>
           </button>
 
           {/* TAB: OPEN EVIDENCE INTERNACIONAL */}
           <button
             onClick={() => setActiveTab('openevidence')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'openevidence'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <Globe className="w-3.5 h-3.5" />
-            <span>Evidencia Internacional (OpenEvidence)</span>
+            <Globe className="w-3.5 h-3.5 shrink-0" />
+            <span>OpenEvidence</span>
           </button>
 
           <button
             onClick={() => setActiveTab('anticoagulation')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'anticoagulation'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <ArrowRightLeft className="w-3.5 h-3.5" />
+            <ArrowRightLeft className="w-3.5 h-3.5 shrink-0" />
             <span>Anticoagulación</span>
           </button>
 
           <button
             onClick={() => setActiveTab('interactions')}
-            className={`py-2.5 px-3 border-b-2 flex items-center gap-1.5 transition-colors shrink-0 ${
+            className={`flex-auto sm:flex-initial justify-center rounded-md sm:rounded-none border sm:border-0 sm:border-b-2 py-1.5 px-2.5 sm:py-2.5 sm:px-3 flex items-center gap-1.5 transition-colors ${
               activeTab === 'interactions'
-                ? 'border-blue-700 text-blue-700 font-semibold'
-                : 'border-transparent text-slate-600 hover:text-slate-900'
+                ? 'bg-blue-700 text-white border-blue-700 sm:bg-transparent sm:border-blue-700 sm:text-blue-700 font-semibold'
+                : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-100 sm:bg-transparent sm:border-transparent sm:text-slate-600 sm:hover:text-slate-900 sm:hover:bg-transparent'
             }`}
           >
-            <AlertTriangle className="w-3.5 h-3.5" />
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
             <span>Interacciones</span>
           </button>
         </div>
@@ -544,7 +544,7 @@ export const ClinicalToolsModal: React.FC<ClinicalToolsModalProps> = ({
                 </div>
 
                 {/* Categories pills */}
-                <div className="flex gap-1 overflow-x-auto pb-1 text-[11px] font-medium no-scrollbar">
+                <div className="flex flex-wrap gap-1.5 pb-1 text-[11px] font-medium">
                   {calcCategories.map(cat => (
                     <button
                       key={cat}
