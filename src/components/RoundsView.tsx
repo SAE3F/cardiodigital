@@ -25,9 +25,19 @@ export const RoundsView: React.FC<RoundsViewProps> = ({
   onScanEcg,
   onInitiateTransfer
 }) => {
-  const { config, patients, addTask, toggleTask, updatePatient } = useCardio();
+  const { config, patients, activeSectorId, setActiveSectorId, addTask, toggleTask } = useCardio();
   const [quickTaskPatientId, setQuickTaskPatientId] = useState<string | null>(null);
   const [quickTaskText, setQuickTaskText] = useState('');
+
+  const activeSector = config.sectors.find(s => s.id === activeSectorId);
+
+  const filteredPatients = patients
+    .filter(p => activeSectorId === 'all' || p.sectorId === activeSectorId)
+    .sort((a, b) => {
+      const idxA = config.beds.findIndex(bed => bed.id === a.bedId);
+      const idxB = config.beds.findIndex(bed => bed.id === b.bedId);
+      return (idxA === -1 ? 9999 : idxA) - (idxB === -1 ? 9999 : idxB);
+    });
 
   const handleAddQuickTask = (patientId: string) => {
     if (!quickTaskText.trim()) return;
@@ -37,25 +47,50 @@ export const RoundsView: React.FC<RoundsViewProps> = ({
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-4 pb-20">
+    <div className="max-w-2xl mx-auto space-y-3.5 sm:space-y-4 pb-20 px-1 sm:px-0">
       {/* Top Header Banner */}
-      <div className="bg-white p-4 rounded-lg border border-slate-200 shadow-2xs">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-bold text-slate-900">Modo Recorrida Médica</h2>
-            <p className="text-xs text-slate-500">
+      <div className="bg-white p-3.5 sm:p-4 rounded-lg border border-slate-200 shadow-2xs">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h2 className="text-base font-bold text-slate-900">Modo Recorrida Médica</h2>
+              <span className="text-[11px] font-semibold px-2 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200">
+                {activeSector ? activeSector.name : 'Todas las salas'}
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 mt-0.5">
               Control de pendientes, registro rápido a pie de cama y fotos de ECG
             </p>
           </div>
-          <span className="font-mono text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 border border-slate-200 rounded-md tabular-nums">
-            {patients.length} Pacientes
+          <span className="font-mono text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 border border-slate-200 rounded-md tabular-nums shrink-0">
+            {filteredPatients.length} {filteredPatients.length === 1 ? 'Paciente' : 'Pacientes'}
           </span>
         </div>
       </div>
 
+      {/* Empty State if active sector has 0 patients */}
+      {filteredPatients.length === 0 && (
+        <div className="bg-white rounded-lg border border-slate-200 p-6 text-center space-y-2.5 shadow-2xs">
+          <p className="text-sm font-semibold text-slate-800">
+            No hay pacientes internados en {activeSector ? activeSector.name : 'este sector'}
+          </p>
+          <p className="text-xs text-slate-500">
+            Seleccioná otra sala arriba o volvé a ver todos los sectores.
+          </p>
+          {activeSectorId !== 'all' && (
+            <button
+              onClick={() => setActiveSectorId('all')}
+              className="px-3.5 py-1.5 rounded-md bg-blue-700 hover:bg-blue-800 text-white text-xs font-medium transition-colors"
+            >
+              Ver todas las salas ({patients.length})
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Patient Cards in Order of Beds */}
-      <div className="space-y-4">
-        {patients.map(patient => {
+      <div className="space-y-3.5 sm:space-y-4">
+        {filteredPatients.map(patient => {
           const bed = config.beds.find(b => b.id === patient.bedId);
           const room = config.rooms.find(r => r.id === patient.roomId);
           const sector = config.sectors.find(s => s.id === patient.sectorId);
