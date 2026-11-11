@@ -177,9 +177,9 @@ export const BedCard: React.FC<BedCardProps> = ({
     >
       {/* Top Header: Bed name, Sex badge, Clinical Status */}
       <div>
-        <div className="flex items-center justify-between gap-1 mb-2">
+        <div className="flex flex-wrap items-center justify-between gap-1.5 mb-2">
           <div className="flex items-center gap-1.5">
-            <GripHorizontal className="w-3.5 h-3.5 text-slate-400 opacity-60 group-hover:opacity-100" />
+            <GripHorizontal className="hidden sm:block w-3.5 h-3.5 text-slate-400 opacity-60 group-hover:opacity-100" />
             <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 px-2 py-0.5 rounded border border-slate-200">
               {bed.name}
             </span>
@@ -197,8 +197,8 @@ export const BedCard: React.FC<BedCardProps> = ({
 
         {/* Patient Name & Days */}
         <div className="cursor-pointer" onClick={() => onSelectPatient(patient.id)}>
-          <div className="flex items-baseline justify-between">
-            <h3 className="font-bold text-sm text-slate-900 hover:text-blue-700 transition-colors line-clamp-1">
+          <div className="flex items-baseline justify-between gap-1">
+            <h3 className="font-bold text-base sm:text-sm text-slate-900 hover:text-blue-700 transition-colors line-clamp-1">
               {patient.fullName}
             </h3>
             <span className={`font-mono text-[10px] font-bold px-1.5 py-0.5 rounded ml-1 shrink-0 tabular-nums ${

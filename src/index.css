@@ -57,3 +57,41 @@ body {
     linear-gradient(to bottom, rgba(239, 68, 68, 0.1) 1px, transparent 1px);
   background-size: 25px 25px, 25px 25px, 5px 5px, 5px 5px;
 }
+
+/* Mobile typography boost (< 640px): larger, crisp clinical readability without altering desktop density */
+@media (max-width: 639px) {
+  html {
+    font-size: 17px;
+  }
+
+  .text-\[9px\],
+  .text-\[10px\] {
+    font-size: 0.765rem; /* ~13px */
+    line-height: 1.15rem;
+  }
+
+  .text-\[11px\] {
+    font-size: 0.825rem; /* ~14px */
+    line-height: 1.25rem;
+  }
+
+  .text-xs {
+    font-size: 0.88rem; /* ~15px */
+    line-height: 1.3rem;
+  }
+
+  .text-sm {
+    font-size: 0.96rem; /* ~16.3px */
+    line-height: 1.4rem;
+  }
+
+  .text-base {
+    font-size: 1.06rem; /* ~18px */
+    line-height: 1.5rem;
+  }
+
+  .text-lg {
+    font-size: 1.18rem; /* ~20px */
+    line-height: 1.6rem;
+  }
+}

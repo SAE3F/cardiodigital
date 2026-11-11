@@ -67,7 +67,7 @@ export const RoundsView: React.FC<RoundsViewProps> = ({
               className="bg-white rounded-lg border border-slate-200 p-4 shadow-2xs hover:shadow-xs transition-all"
             >
               {/* Card Header: Bed, Sector, Gender, Status */}
-              <div className="flex items-center justify-between pb-2 border-b border-slate-100 text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100 text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-slate-900 text-white">
                     {bed?.name}

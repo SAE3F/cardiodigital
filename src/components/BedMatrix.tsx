@@ -173,9 +173,9 @@ export const BedMatrix: React.FC<BedMatrixProps> = ({
                     className="bg-slate-50/60 rounded-md p-3.5 border border-slate-200"
                   >
                     {/* Room Header bar */}
-                    <div className="flex items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-200 text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-200 text-xs">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-slate-800 text-sm">
+                        <span className="font-bold text-slate-800 text-base sm:text-sm">
                           {room.name}
                         </span>
                         <span className="font-mono text-slate-500 text-[11px] tabular-nums">

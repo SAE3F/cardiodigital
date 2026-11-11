@@ -70,7 +70,7 @@ const CardioAppContent: React.FC = () => {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6 pb-24 sm:pb-6">
         {activeView === 'floor' && (
           <>
             {/* Desktop / tablet shows floor plan */}
@@ -130,42 +130,42 @@ const CardioAppContent: React.FC = () => {
       </div>
 
       {/* Mobile Bottom Navigation Bar: Camas, Recorrida, Herramientas, Pase TV */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex items-center justify-around text-[10px] font-medium shadow-lg">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-2 flex items-center justify-around text-[11px] font-medium shadow-lg">
         <button
           onClick={() => setActiveView('map')}
-          className={`flex flex-col items-center gap-1 transition-colors ${
+          className={`flex flex-col items-center gap-0.5 transition-colors ${
             activeView === 'map' || activeView === 'floor' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
-          <LayoutGrid className="w-4 h-4 stroke-[2]" />
+          <LayoutGrid className="w-5 h-5 stroke-[2]" />
           <span>Camas</span>
         </button>
 
         <button
           onClick={() => setActiveView('rounds')}
-          className={`flex flex-col items-center gap-1 transition-colors ${
+          className={`flex flex-col items-center gap-0.5 transition-colors ${
             activeView === 'rounds' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
-          <Smartphone className="w-4 h-4 stroke-[1.75]" />
+          <Smartphone className="w-5 h-5 stroke-[1.75]" />
           <span>Recorrida</span>
         </button>
 
         <button
           onClick={() => setIsToolsHubOpen(true)}
-          className="flex flex-col items-center gap-1 transition-colors text-slate-700 hover:text-blue-700 font-semibold"
+          className="flex flex-col items-center gap-0.5 transition-colors text-slate-700 hover:text-blue-700 font-semibold"
         >
-          <Stethoscope className="w-4 h-4 stroke-[2] text-blue-700" />
+          <Stethoscope className="w-5 h-5 stroke-[2] text-blue-700" />
           <span className="text-blue-800">Herramientas</span>
         </button>
 
         <button
           onClick={() => setActiveView('presentation')}
-          className={`flex flex-col items-center gap-1 transition-colors ${
+          className={`flex flex-col items-center gap-0.5 transition-colors ${
             activeView === 'presentation' ? 'text-blue-700 font-bold' : 'text-slate-500'
           }`}
         >
-          <Tv className="w-4 h-4 stroke-[1.75]" />
+          <Tv className="w-5 h-5 stroke-[1.75]" />
           <span>Pase TV</span>
         </button>
       </nav>
