@@ -57,7 +57,7 @@ export const BedCard: React.FC<BedCardProps> = ({
     if (isolationBlock.isBlocked) {
       return (
         <div
-          className={`border border-amber-300 border-l-4 border-l-amber-500 rounded-lg p-3.5 flex flex-col justify-between min-h-[190px] transition-all bg-amber-50/50 ${
+          className={`border border-amber-300 border-l-4 border-l-amber-500 rounded-lg p-3 sm:p-3.5 flex flex-col justify-between min-h-[140px] sm:min-h-[190px] transition-all bg-amber-50/50 ${
             isDragTarget ? 'ring-2 ring-rose-500' : ''
           }`}
         >
@@ -94,7 +94,7 @@ export const BedCard: React.FC<BedCardProps> = ({
         onDragOver={(e) => onDragOver?.(e, bed.id)}
         onDragLeave={(e) => onDragLeave?.(e, bed.id)}
         onDrop={(e) => onDrop?.(e, bed.id)}
-        className={`group border rounded-lg p-3.5 flex flex-col justify-between min-h-[190px] transition-all bg-white ${
+        className={`group border rounded-lg p-3 sm:p-3.5 flex flex-col justify-between min-h-[135px] sm:min-h-[190px] transition-all bg-white ${
           isDragTarget
             ? canDropHere
               ? 'border-emerald-500 bg-emerald-50/50 ring-2 ring-emerald-500/20'
@@ -171,7 +171,7 @@ export const BedCard: React.FC<BedCardProps> = ({
       draggable
       onDragStart={(e) => onDragStart?.(e, patient.id)}
       onDragEnd={onDragEnd}
-      className={`relative bg-white rounded-lg p-3.5 shadow-2xs hover:shadow-xs border border-slate-200 ${statusStyles.borderL} flex flex-col justify-between min-h-[220px] transition-all cursor-grab active:cursor-grabbing group ${
+      className={`relative bg-white rounded-lg p-3 sm:p-3.5 shadow-2xs hover:shadow-xs border border-slate-200 ${statusStyles.borderL} flex flex-col justify-between min-h-0 sm:min-h-[220px] transition-all cursor-grab active:cursor-grabbing group ${
         isDraggingThis ? 'opacity-40 scale-95 border-dashed border-blue-400' : ''
       }`}
     >

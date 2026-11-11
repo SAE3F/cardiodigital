@@ -119,10 +119,10 @@ export const BedMatrix: React.FC<BedMatrixProps> = ({
         return (
           <section
             key={sector.id}
-            className="bg-white p-4 sm:p-5 rounded-lg border border-slate-200 shadow-2xs transition-colors"
+            className="bg-white px-2 py-2.5 sm:p-5 rounded-md sm:rounded-lg border border-slate-200 shadow-2xs transition-colors"
           >
             {/* Sector Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-3 border-b border-slate-100">
+            <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 mb-3.5 sm:mb-5 pb-2.5 sm:pb-3 border-b border-slate-100">
               <div className="flex items-center gap-3">
                 <div
                   className={`w-2.5 h-7 rounded-xs ${
@@ -159,7 +159,7 @@ export const BedMatrix: React.FC<BedMatrixProps> = ({
             </div>
 
             {/* Rooms and Beds Grid */}
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-5">
               {sectorRooms.map(room => {
                 const roomBeds = config.beds.filter(b => b.roomId === room.id);
                 const roomGender = room.isGenderRestricted
@@ -170,10 +170,10 @@ export const BedMatrix: React.FC<BedMatrixProps> = ({
                 return (
                   <div
                     key={room.id}
-                    className="bg-slate-50/60 rounded-md p-3.5 border border-slate-200"
+                    className="bg-transparent sm:bg-slate-50/60 rounded-md p-0 sm:p-3.5 border-0 sm:border sm:border-slate-200"
                   >
                     {/* Room Header bar */}
-                    <div className="flex flex-wrap items-center justify-between gap-2 mb-3 pb-2 border-b border-slate-200 text-xs">
+                    <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5 sm:mb-3 pb-1.5 sm:pb-2 border-b border-slate-200 text-xs">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-slate-800 text-base sm:text-sm">
                           {room.name}
